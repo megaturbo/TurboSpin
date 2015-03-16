@@ -1,0 +1,9 @@
+Uncertainties:
+
+- What angle measures does the client want?
+- What does the client want to see mathematically?
+- 
+
+GUI:
+
+- look at local picture
