@@ -19,17 +19,17 @@ public class UseRotationMatrix
 	public static void main()
 		{
 		Vector<Double> xAxis = new Vector<Double>();
-		xAxis.add((double)1);
+		xAxis.add((double)2);
 		xAxis.add((double)0);
 		xAxis.add((double)0);
 		Vector<Double> yAxis = new Vector<Double>();
 		yAxis.add((double)0);
-		yAxis.add((double)1);
+		yAxis.add((double)2);
 		yAxis.add((double)0);
 		Vector<Double> zAxis = new Vector<Double>();
 		zAxis.add((double)0);
 		zAxis.add((double)0);
-		zAxis.add((double)1);
+		zAxis.add((double)2);
 
 		RotationMatrix identity = new RotationMatrix();
 		RotationMatrix xAxisRotation = new RotationMatrix(90,xAxis);
