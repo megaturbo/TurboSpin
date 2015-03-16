@@ -1,5 +1,5 @@
 
-package ch.hearc.turbospin.prototype1;
+package ch.hearc.turbospin.prototype1.quaternion;
 
 public class UsePrototype1
 	{
