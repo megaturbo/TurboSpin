@@ -11,6 +11,10 @@ local.properties
 .settings/
 .loadpath
 
+#eclipse workspace
+.metadata/
+.recommenders/
+
 # Eclipse Core
 .project
 
