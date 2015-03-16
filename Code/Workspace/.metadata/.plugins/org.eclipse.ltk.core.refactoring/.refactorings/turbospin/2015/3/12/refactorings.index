@@ -1,2 +1,10 @@
 1426518536543	Delete element
 1426518633235	Delete element
+1426519132011	Rename package 'ch.hearc.ch.prototype1'
+1426519252700	Rename type 'quaternion'
+1426519672082	Rename local variable 'v'
+1426519725145	Rename method 'setVector'
+1426523026603	Rename local variable 'p'
+1426529519663	Rename local variable 'norm'
+1426529532689	Rename local variable 'v'
+1426529542254	Rename local variable 'alpha'

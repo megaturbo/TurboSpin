@@ -1,7 +1,5 @@
 
-package ch.hearc.ch.prototype1;
-
-
+package ch.hearc.turbospin.prototype1;
 
 public class UsePrototype1
 	{
@@ -25,4 +23,3 @@ public class UsePrototype1
 	\*------------------------------------------------------------------*/
 
 	}
-
