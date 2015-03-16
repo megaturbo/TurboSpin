@@ -1,0 +1,12 @@
+Points chaud:
+
+
+- Utilisation des quaternions
+	- creer ou utiliser?
+	- creer classes rotations matricielle
+	- et quaternions
+- interface graphique
+	- 3D Java
+- questions a Kola:
+	- qu'es-ce que vous voulez voir?
+	- 
