@@ -1,5 +1,5 @@
 
-package ch.hearc.ch.prototype1;
+package ch.hearc.turbospin.prototype1.matrix;
 
 import java.util.Vector;
 
