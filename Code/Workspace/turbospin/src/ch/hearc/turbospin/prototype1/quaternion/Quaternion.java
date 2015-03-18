@@ -1,7 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
-import java.util.Vector;
+import ch.hearc.turbospin.prototype1.Vector3D;
 
 public class Quaternion
 	{
@@ -17,7 +17,7 @@ public class Quaternion
 		this.k = k;
 		}
 
-	public Quaternion(double r, Vector<Double> v)
+	public Quaternion(double r, Vector3D v)
 		{
 		this.r = r;
 		setVector(v);
@@ -35,14 +35,12 @@ public class Quaternion
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	public static Quaternion createRotationQuaternion(double theta, Vector<Double> axisVector)
+	public static Quaternion createRotationQuaternion(double theta, Vector3D axisVector)
 		{
-		double axisVectorNorm = Math.sqrt(axisVector.get(0) * axisVector.get(0) + axisVector.get(1) * axisVector.get(1) + axisVector.get(2) * axisVector.get(2));
-		Vector<Double> unitVector = new Vector<Double>();
-		unitVector.add(axisVector.get(0) * Math.sin(1.0 / 2.0 * theta) / axisVectorNorm);
-		unitVector.add(axisVector.get(1) * Math.sin(1.0 / 2.0 * theta) / axisVectorNorm);
-		unitVector.add(axisVector.get(2) * Math.sin(1.0 / 2.0 * theta) / axisVectorNorm);
-		return new Quaternion(Math.cos(1.0 / 2.0 * theta), unitVector);
+		Vector3D copy = new Vector3D(axisVector);
+		copy.normalize();
+		copy.multiply(Math.sin(theta / 2.0));
+		return new Quaternion(Math.cos(theta / 2.0), copy);
 		}
 
 	@Override
@@ -96,6 +94,23 @@ public class Quaternion
 		return conjugate().divide(Math.pow(this.norm(), 2));
 		}
 
+	public boolean isEqualTo(Quaternion h, double epsilon)
+		{
+
+		//DEBUG
+		//		System.out.println(Math.abs(r - h.r) + " " + (Math.abs(r - h.r) < epsilon));
+		//		System.out.println(Math.abs(i - h.i) + " " + (Math.abs(i - h.i) < epsilon));
+		//		System.out.println(Math.abs(j - h.j) + " " + (Math.abs(j - h.j) < epsilon));
+		//		System.out.println(Math.abs(k - h.k) + " " + (Math.abs(k - h.k) < epsilon));
+
+		return Math.abs(r - h.r) < epsilon && Math.abs(i - h.i) < epsilon && Math.abs(j - h.j) < epsilon && Math.abs(k - h.k) < epsilon;
+		}
+
+	public boolean isEqualTo(Quaternion h)
+		{
+		return this.isEqualTo(h, 1E-5);
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
@@ -126,10 +141,9 @@ public class Quaternion
 		this.k = k;
 		}
 
-	public void setVector(Vector<Double> im) throws IllegalArgumentException
+	public void setVector(Vector3D im)
 		{
-		if (im.size() != 3) { throw new IllegalArgumentException("Method setVector in class Quaternion: expected a vector in R3."); }
-		setIJK(im.get(0), im.get(1), im.get(2));
+		setIJK(im.getA(), im.getB(), im.getC());
 		}
 
 	/*------------------------------*\
@@ -155,13 +169,9 @@ public class Quaternion
 		return r;
 		}
 
-	public Vector<Double> getVector()
+	public Vector3D getVector()
 		{
-		Vector<Double> output = new Vector<Double>();
-		output.add(i);
-		output.add(j);
-		output.add(k);
-		return output;
+		return new Vector3D(i, j, k);
 		}
 
 	/*------------------------------------------------------------------*\
