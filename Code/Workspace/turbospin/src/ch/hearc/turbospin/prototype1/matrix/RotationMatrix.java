@@ -21,17 +21,17 @@ public class RotationMatrix
 			createOriginRotationMatrix();
 		}
 
-	public RotationMatrix(double inputangle, Vector<Double> unit)
+	public RotationMatrix(double inputAngle, Vector<Double> unit)
 		{
 		this.vectorUnit = new Vector<Double>(unit);
-		this.angle = inputangle;
+		this.angle = inputAngle;
 		createOriginRotationMatrix();
 		}
 
-	public RotationMatrix(double inputangle, Line axis)
+	public RotationMatrix(double inputAngle, Line3D axis)
 		{
-		this.axis = new Line(axis);
-		this.angle = inputangle;
+		this.axis = new Line3D(axis);
+		this.angle = inputAngle;
 		createSkewRotationMatrix();
 		}
 
@@ -57,7 +57,7 @@ public class RotationMatrix
 		return tab;
 		}
 
-	public Vector<Double> rotate(Vector<Double> point, double angle, Vector<Double> axis)
+	public Point3D rotate(Point3D point)
 		{
 
 		return null;
@@ -98,22 +98,27 @@ public class RotationMatrix
 		vectorUnit.set(1, vectorUnit.get(1) / norm);
 		vectorUnit.set(2, vectorUnit.get(2) / norm);
 
+		//setting vectorUnit's coordinates to (u,v,w)
+		double u = vectorUnit.get(0);
+		double v = vectorUnit.get(1);
+		double w = vectorUnit.get(2);
+
 		matrixRotation = new double[4][4];
 
 		//creating the rotation matrix
-		matrixRotation[0][0] = Math.cos(angle) + (Math.pow(vectorUnit.get(0), 2) * (1 - Math.cos(angle)));
-		matrixRotation[0][1] = vectorUnit.get(0) * vectorUnit.get(1) * (1 - Math.cos(angle)) - vectorUnit.get(2) * Math.sin(angle);
-		matrixRotation[0][2] = vectorUnit.get(0) * vectorUnit.get(2) * (1 - Math.cos(angle)) + vectorUnit.get(1) * Math.sin(angle);
+		matrixRotation[0][0] = Math.cos(angle) + (Math.pow(u, 2) * (1 - Math.cos(angle)));
+		matrixRotation[0][1] = u * v * (1 - Math.cos(angle)) - w * Math.sin(angle);
+		matrixRotation[0][2] = u * w * (1 - Math.cos(angle)) + v * Math.sin(angle);
 		matrixRotation[0][3] = 0;
 
-		matrixRotation[1][0] = vectorUnit.get(0) * vectorUnit.get(1) * (1 - Math.cos(angle)) + vectorUnit.get(2) * Math.sin(angle);
-		matrixRotation[1][1] = Math.cos(angle) + (Math.pow(vectorUnit.get(1), 2) * (1 - Math.cos(angle)));
-		matrixRotation[1][2] = vectorUnit.get(1) * vectorUnit.get(2) * (1 - Math.cos(angle)) - vectorUnit.get(0) * Math.sin(angle);
+		matrixRotation[1][0] = u * v * (1 - Math.cos(angle)) + w * Math.sin(angle);
+		matrixRotation[1][1] = Math.cos(angle) + (Math.pow(v, 2) * (1 - Math.cos(angle)));
+		matrixRotation[1][2] = v * w * (1 - Math.cos(angle)) - u * Math.sin(angle);
 		matrixRotation[1][3] = 0;
 
-		matrixRotation[2][0] = vectorUnit.get(2) * vectorUnit.get(0) * (1 - Math.cos(angle)) - vectorUnit.get(1) * Math.sin(angle);
-		matrixRotation[2][1] = vectorUnit.get(2) * vectorUnit.get(1) * (1 - Math.cos(angle)) + vectorUnit.get(0) * Math.sin(angle);
-		matrixRotation[2][2] = Math.cos(angle) + (Math.pow(vectorUnit.get(2), 2) * (1 - Math.cos(angle)));
+		matrixRotation[2][0] = w * u * (1 - Math.cos(angle)) - v * Math.sin(angle);
+		matrixRotation[2][1] = w * v * (1 - Math.cos(angle)) + u * Math.sin(angle);
+		matrixRotation[2][2] = Math.cos(angle) + (Math.pow(w, 2) * (1 - Math.cos(angle)));
 		matrixRotation[2][3] = 0;
 
 		matrixRotation[3][0] = 0;
@@ -176,7 +181,7 @@ public class RotationMatrix
 	// Tool
 	private double[][] matrixRotation;
 
-	private Line axis;
+	private Line3D axis;
 	private double angle;
 	private Vector<Double> vectorUnit;
 	}

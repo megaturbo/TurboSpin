@@ -3,32 +3,32 @@ package ch.hearc.turbospin.prototype1.matrix;
 
 import java.util.Vector;
 
-public class Line
+public class Line3D
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-	public Line()
+	public Line3D()
 		{
 		this.pointPrimary = new Point3D();
 		this.vectorDirection = new Vector<Double>();
 		}
 
-	public Line(Line src)
+	public Line3D(Line3D src)
 		{
 		this.pointPrimary = new Point3D(src.pointPrimary);
 		this.vectorDirection = new Vector<Double>(src.vectorDirection);
 		}
 
-	public Line(Point3D srcPointA, Point3D srcPointB)
+	public Line3D(Point3D srcPointA, Point3D srcPointB)
 		{
 		this.pointPrimary = new Point3D(srcPointA);
 		this.pointSecondary = new Point3D(srcPointB);
 		this.vectorDirection = createDirectionVector();
 		}
 
-	public Line(Point3D srcPoint, Vector<Double> srcVectorDirection)
+	public Line3D(Point3D srcPoint, Vector<Double> srcVectorDirection)
 		{
 		this.pointPrimary = new Point3D(srcPoint);
 		this.vectorDirection = new Vector<Double>(srcVectorDirection);
