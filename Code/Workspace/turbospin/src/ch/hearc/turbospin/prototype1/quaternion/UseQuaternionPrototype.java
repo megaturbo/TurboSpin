@@ -28,9 +28,16 @@ public class UseQuaternionPrototype
 		System.out.println("Rotation quaternion q: " + q);
 		System.out.println("Point before rotation p : " + p.getVector());
 		System.out.println();
-		Quaternion rotP = q.multiply(p).multiply(q.conjugate());
 
-		System.out.println("Point after rotation p': " + rotP.getVector());
+		Quaternion qI = new Quaternion(q);
+		qI.conjugate();
+
+		p.multiplyLeft(q);
+		p.multiplyRight(qI);
+
+		//		Quaternion rotP = q.multiply(p).multiply(q.conjugate());
+
+				System.out.println("Point after rotation p': " + p.getVector());
 		}
 
 	/*------------------------------------------------------------------*\

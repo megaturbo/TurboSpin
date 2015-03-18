@@ -17,6 +17,14 @@ public class Quaternion
 		this.k = k;
 		}
 
+	public Quaternion(Quaternion h)
+		{
+		this.r = h.r;
+		this.i = h.i;
+		this.j = h.j;
+		this.k = h.k;
+		}
+
 	public Quaternion(double r, Vector3D v)
 		{
 		this.r = r;
@@ -37,10 +45,10 @@ public class Quaternion
 
 	public static Quaternion createRotationQuaternion(double theta, Vector3D axisVector)
 		{
-		Vector3D copy = new Vector3D(axisVector);
-		copy.normalize();
-		copy.multiply(Math.sin(theta / 2.0));
-		return new Quaternion(Math.cos(theta / 2.0), copy);
+		Vector3D tmp = new Vector3D(axisVector);
+		tmp.normalize();
+		tmp.multiply(Math.sin(theta / 2.0));
+		return new Quaternion(Math.cos(theta / 2.0), tmp);
 		}
 
 	@Override
@@ -59,24 +67,41 @@ public class Quaternion
 		return sb.toString();
 		}
 
-	public Quaternion add(Quaternion h)
+	public void add(Quaternion h)
 		{
-		return new Quaternion(r + h.r, i + h.i, j + h.j, k + h.k);
+		r += h.r;
+		i += h.i;
+		j += h.j;
+		k += h.k;
 		}
 
-	public Quaternion multiply(Quaternion h)
+	public void multiplyRight(Quaternion h)
 		{
-		Quaternion output = new Quaternion();
-		output.setReal(r * h.r - i * h.i - j * h.j - k * h.k);
-		output.setI(r * h.i + i * h.r + j * h.k - k * h.j);
-		output.setJ(r * h.j - i * h.k + j * h.r + k * h.i);
-		output.setK(r * h.k + i * h.j - j * h.i + k * h.r);
-		return output;
+		double rtmp = r * h.r - i * h.i - j * h.j - k * h.k;
+		double itmp = r * h.i + i * h.r + j * h.k - k * h.j;
+		double jtmp = r * h.j - i * h.k + j * h.r + k * h.i;
+		double ktmp = r * h.k + i * h.j - j * h.i + k * h.r;
+
+		this.setReal(rtmp);
+		this.setIJK(itmp, jtmp, ktmp);
 		}
 
-	public Quaternion divide(double n)
+	public void multiplyLeft(Quaternion h)
 		{
-		return new Quaternion(r / n, i / n, j / n, k / n);
+		Quaternion tmp = new Quaternion(h);
+		tmp.multiplyRight(this);
+		this.r = tmp.r;
+		this.i = tmp.i;
+		this.j = tmp.j;
+		this.k = tmp.k;
+		}
+
+	public void divide(double n)
+		{
+		r /= n;
+		i /= n;
+		j /= n;
+		k /= n;
 		}
 
 	public Double norm()
@@ -84,14 +109,17 @@ public class Quaternion
 		return Math.sqrt(r * r + i * i + j * j + k * k);
 		}
 
-	public Quaternion conjugate()
+	public void conjugate()
 		{
-		return new Quaternion(r, -i, -j, -k);
+		i *= -1.0;
+		j *= -1.0;
+		k *= -1.0;
 		}
 
-	public Quaternion inverse()
+	public void inverse()
 		{
-		return conjugate().divide(Math.pow(this.norm(), 2));
+		conjugate();
+		divide(Math.pow(this.norm(), 2));
 		}
 
 	public boolean isEqualTo(Quaternion h, double epsilon)
