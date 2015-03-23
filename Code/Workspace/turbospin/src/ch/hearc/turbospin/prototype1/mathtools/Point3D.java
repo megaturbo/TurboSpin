@@ -1,5 +1,5 @@
 
-package ch.hearc.turbospin.prototype1.matrix;
+package ch.hearc.turbospin.prototype1.mathtools;
 
 
 
