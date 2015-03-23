@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.hearc.turbospin.prototype1.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
 public class TestQuaternion

@@ -3,6 +3,9 @@ package ch.hearc.turbospin.prototype1.matrix;
 
 import java.util.Vector;
 
+import ch.hearc.turbospin.prototype1.mathtools.Line3D;
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
+
 public class RotationMatrix
 	{
 
