@@ -1,7 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-import ch.hearc.turbospin.prototype1.EnvironmentObject;
 
 public class Vector3D extends EnvironmentObject
 	{

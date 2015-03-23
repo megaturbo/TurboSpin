@@ -1,5 +1,5 @@
 
-package ch.hearc.turbospin.prototype1;
+package ch.hearc.turbospin.prototype1.mathtools;
 
 public abstract class EnvironmentObject
 	{

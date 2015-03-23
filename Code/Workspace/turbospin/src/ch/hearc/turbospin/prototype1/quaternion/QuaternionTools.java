@@ -1,7 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
-import ch.hearc.turbospin.prototype1.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 final public class QuaternionTools
 	{
@@ -36,6 +36,7 @@ final public class QuaternionTools
 
 		Quaternion rotInverse = new Quaternion(rot);
 		rotInverse.conjugate();
+
 		p.multiplyLeft(rot);
 		p.multiplyRight(rotInverse);
 
