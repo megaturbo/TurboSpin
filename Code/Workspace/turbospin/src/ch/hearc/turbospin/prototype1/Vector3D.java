@@ -98,6 +98,18 @@ public class Vector3D extends EnvironmentObject
 		this.c = c;
 		}
 
+	public void set(double a, double b, double c)
+		{
+		this.a = a;
+		this.b = b;
+		this.c = c;
+		}
+
+	public void set(Vector3D v)
+		{
+		set(v.a, v.b, v.c);
+		}
+
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/

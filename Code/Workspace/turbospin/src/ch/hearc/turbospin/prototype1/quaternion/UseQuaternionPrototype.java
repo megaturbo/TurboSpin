@@ -20,7 +20,7 @@ public class UseQuaternionPrototype
 		Double alpha = Math.PI / 3;
 		Vector3D v = new Vector3D(1.0, 0.0, 0.0);
 
-		Quaternion q = Quaternion.createRotationQuaternion(alpha, v);
+		Quaternion q = QuaternionTools.createRotationQuaternion(alpha, v);
 
 		Vector3D vp = new Vector3D(1.0, 1.0, 1.0);
 
@@ -37,7 +37,7 @@ public class UseQuaternionPrototype
 
 		//		Quaternion rotP = q.multiply(p).multiply(q.conjugate());
 
-				System.out.println("Point after rotation p': " + p.getVector());
+		System.out.println("Point after rotation p': " + p.getVector());
 		}
 
 	/*------------------------------------------------------------------*\

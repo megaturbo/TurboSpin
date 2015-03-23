@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import ch.hearc.turbospin.prototype1.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
+import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 
 public class TestQuaternion
 	{
@@ -41,21 +42,16 @@ public class TestQuaternion
 	public void testRotation()
 		{
 		Double alpha = Math.PI / 2;
-		Vector3D v = new Vector3D(3.0, -7.0, 5.0);
-
-		Quaternion q = Quaternion.createRotationQuaternion(alpha, v);
+		Vector3D axis = new Vector3D(3.0, -7.0, 5.0);
 
 		Vector3D vp = new Vector3D(2.0, 4.0, 5.0);
 
-		Quaternion p2Empirique = new Quaternion(0.0, vp);
-
-		Quaternion qI = new Quaternion(q);
-		qI.conjugate();
-
-		p2Empirique.multiplyLeft(q);
-		p2Empirique.multiplyRight(qI);
+		QuaternionTools.rotation(vp, alpha, axis);
 
 		Quaternion p2Theorique = new Quaternion(0.0, -5.9286, -0.801833, 3.03459);
+		Quaternion p2Empirique = new Quaternion(0.0, vp);
+
+		System.out.println(p2Empirique);
 
 		Assert.assertTrue(p2Empirique.isEqualTo(p2Theorique));
 

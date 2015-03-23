@@ -43,14 +43,6 @@ public class Quaternion
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	public static Quaternion createRotationQuaternion(double theta, Vector3D axisVector)
-		{
-		Vector3D tmp = new Vector3D(axisVector);
-		tmp.normalize();
-		tmp.multiply(Math.sin(theta / 2.0));
-		return new Quaternion(Math.cos(theta / 2.0), tmp);
-		}
-
 	@Override
 	public String toString()
 		{
