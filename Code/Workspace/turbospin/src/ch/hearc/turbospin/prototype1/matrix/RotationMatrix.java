@@ -3,7 +3,6 @@ package ch.hearc.turbospin.prototype1.matrix;
 
 import java.util.Vector;
 
-import ch.hearc.turbospin.prototype1.mathtools.Line3D;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 
 public class RotationMatrix
@@ -19,9 +18,9 @@ public class RotationMatrix
 
 	public RotationMatrix(RotationMatrix src)
 		{
-			this.angle = src.angle;
-			this.vectorUnit = new Vector<Double>(src.vectorUnit);
-			createOriginRotationMatrix();
+		this.angle = src.angle;
+		this.vectorUnit = new Vector<Double>(src.vectorUnit);
+		createOriginRotationMatrix();
 		}
 
 	public RotationMatrix(double inputAngle, Vector<Double> unit)
@@ -30,15 +29,7 @@ public class RotationMatrix
 		this.angle = inputAngle;
 		createOriginRotationMatrix();
 		}
-
-	public RotationMatrix(double inputAngle, Line3D axis)
-		{
-		this.axis = new Line3D(axis);
-		this.angle = inputAngle;
-		createSkewRotationMatrix();
-		}
-
-
+	//TODO: euler angle matrix
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
@@ -135,6 +126,7 @@ public class RotationMatrix
 		return Math.sqrt(Math.pow(vectorUnit.get(0), 2) + Math.pow(vectorUnit.get(1), 2) + Math.pow(vectorUnit.get(2), 2));
 		}
 
+	/*
 	private void createSkewRotationMatrix()
 		{
 		//normalize axis vector
@@ -177,14 +169,13 @@ public class RotationMatrix
 		matrixRotation[3][1] = 0;
 		matrixRotation[3][2] = 0;
 		matrixRotation[3][3] = 1;
-		}
+		}*/
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 	// Tool
 	private double[][] matrixRotation;
 
-	private Line3D axis;
 	private double angle;
 	private Vector<Double> vectorUnit;
 	}

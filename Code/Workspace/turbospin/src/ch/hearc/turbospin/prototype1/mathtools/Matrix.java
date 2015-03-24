@@ -23,11 +23,15 @@ public class Matrix
 	public Matrix(int M)
 		{
 		matrix = new double[M][M];
+		this.columns = M;
+		this.rows = M;
 		}
 
 	public Matrix(double[][] tab)
 		{
 		this.matrix = tab;
+		this.columns = tab.length;
+		this.rows = tab[0].length;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -35,7 +39,7 @@ public class Matrix
 	\*------------------------------------------------------------------*/
 	public Matrix add(Matrix toAdd)
 		{
-		if ((matrix.length == toAdd.getColumns()) && (matrix[0].length == toAdd.getRows()))
+		if ((matrix.length == toAdd.columns) && (matrix[0].length == toAdd.rows))
 			{
 			for(int i = 0; i < toAdd.getColumns(); i++)
 				{
@@ -71,26 +75,68 @@ public class Matrix
 		return new Matrix(matrix);
 		}
 
+	//DO NOT EVER IN YOUR LIFE EVER TOUCH THIS FUNCTION OR THE SUBMATRIX FUNCTION THAT NO ONE BUT GAB UNDERSTANDS
+	//DEAL WITH IT
 	public double determinant()
 		{
-			return null;
+		if (columns == 1 || rows == 1)
+			{
+			return this.getValue(0, 0);
+			}
+		else
+			{
+			int determinant = 0;
+			for(int i = 0; i < columns; i++)
+				{
+				determinant += ((i % 2 == 0) ? 1 : -1) * this.getValue(0, i) * this.subMatrix(0, i).determinant();
+				}
+			return determinant;
+			}
+
+		}
+
+	private Matrix subMatrix(int row, int column)
+		{
+
+		Matrix subMatrix = new Matrix(columns - 1, rows - 1);
+
+		int subIndex = 0;
+
+		int smRows = subMatrix.getRows();
+		int smCols = subMatrix.getColumns();
+
+		//i dunno whwat the fuck Gab did but he iterates in one dimension on a 2D object. goodluck understanding
+		for(int i = 0; i < rows * columns; i++)
+			{
+			if (!(i / rows == row || i % columns == column))
+				{
+				subMatrix.setValue(subIndex / smCols, subIndex % smRows, this.getValue(i / rows, i % columns));
+				subIndex++;
+				}
+			}
+
+		return subMatrix;
 		}
 
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
+	public void setValue(int i, int j, double value)
+		{
+		matrix[i][j] = value;
+		}
 
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
 	public int getColumns()
 		{
-		return matrix.length;
+		return columns;
 		}
 
 	public int getRows()
 		{
-		return matrix[0].length;
+		return rows;
 		}
 
 	public double getValue(int i, int j)
