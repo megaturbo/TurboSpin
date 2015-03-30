@@ -48,26 +48,35 @@ public class Vector3D extends EnvironmentObject
 		return Math.sqrt(a * a + b * b + c * c);
 		}
 
-	public void normalize()
+	public Vector3D normalize()
 		{
 		double norm = norm();
-		a /= norm;
-		b /= norm;
-		c /= norm;
+		//changes this, not implemented
+//		a /= norm;
+//		b /= norm;
+//		c /= norm;
+		//no change to this
+		return new Vector3D(a / norm, b / norm, c / norm);
 		}
 
-	public void add(Vector3D v)
+	public Vector3D add(Vector3D v)
 		{
-		a += v.a;
-		b += v.b;
-		c += v.c;
+		//changes this, not implemented
+//		a += v.a;
+//		b += v.b;
+//		c += v.c;
+		//no change to this
+		return new Vector3D(a + v.a, b + v.b, c + v.c);
 		}
 
-	public void multiply(double x)
+	public Vector3D multiply(double x)
 		{
-		a *= x;
-		b *= x;
-		c *= x;
+		//changes this, not implemented
+//		a *= x;
+//		b *= x;
+//		c *= x;
+		//no change to this
+		return new Vector3D(a * x, b * x, c * x);
 		}
 
 	public double scalarProduct(Vector3D v)
