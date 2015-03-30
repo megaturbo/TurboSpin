@@ -79,43 +79,26 @@ public class Matrix
 	//DEAL WITH IT
 	public double determinant()
 		{
-		if (columns == 1 || rows == 1)
+		if (columns != rows)
 			{
-			return this.getValue(0, 0);
+			return 0;
 			}
 		else
 			{
-			int determinant = 0;
-			for(int i = 0; i < columns; i++)
+			if (columns == 1 || rows == 1)
 				{
-				determinant += ((i % 2 == 0) ? 1 : -1) * this.getValue(0, i) * this.subMatrix(0, i).determinant();
+				return this.getValue(0, 0);
 				}
-			return determinant;
-			}
-
-		}
-
-	private Matrix subMatrix(int row, int column)
-		{
-
-		Matrix subMatrix = new Matrix(columns - 1, rows - 1);
-
-		int subIndex = 0;
-
-		int smRows = subMatrix.getRows();
-		int smCols = subMatrix.getColumns();
-
-		//i dunno whwat the fuck Gab did but he iterates in one dimension on a 2D object. goodluck understanding
-		for(int i = 0; i < rows * columns; i++)
-			{
-			if (!(i / rows == row || i % columns == column))
+			else
 				{
-				subMatrix.setValue(subIndex / smCols, subIndex % smRows, this.getValue(i / rows, i % columns));
-				subIndex++;
+				int determinant = 0;
+				for(int i = 0; i < columns; i++)
+					{
+					determinant += ((i % 2 == 0) ? 1 : -1) * this.getValue(0, i) * this.subMatrix(0, i).determinant();
+					}
+				return determinant;
 				}
 			}
-
-		return subMatrix;
 		}
 
 	/*------------------------------*\
@@ -147,6 +130,28 @@ public class Matrix
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+	private Matrix subMatrix(int row, int column)
+		{
+
+		Matrix subMatrix = new Matrix(columns - 1, rows - 1);
+
+		int subIndex = 0;
+
+		int smRows = subMatrix.getRows();
+		int smCols = subMatrix.getColumns();
+
+		//i dunno whwat the fuck Gab did but he iterates in one dimension on a 2D object. goodluck understanding
+		for(int i = 0; i < rows * columns; i++)
+			{
+			if (!(i / rows == row || i % columns == column))
+				{
+				subMatrix.setValue(subIndex / smCols, subIndex % smRows, this.getValue(i / rows, i % columns));
+				subIndex++;
+				}
+			}
+
+		return subMatrix;
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
