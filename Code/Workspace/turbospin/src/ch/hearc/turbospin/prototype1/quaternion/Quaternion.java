@@ -59,41 +59,53 @@ public class Quaternion
 		return sb.toString();
 		}
 
-	public void add(Quaternion h)
+	public Quaternion add(Quaternion h)
 		{
-		r += h.r;
-		i += h.i;
-		j += h.j;
-		k += h.k;
+		//changes this, not implemented
+		//		r += h.r;
+		//		i += h.i;
+		//		j += h.j;
+		//		k += h.k;
+
+		//no change to this
+		return new Quaternion(r + h.r, i + h.i, j + h.j, k + h.k);
 		}
 
-	public void multiplyRight(Quaternion h)
+	public Quaternion multiplyRight(Quaternion h)
 		{
 		double rtmp = r * h.r - i * h.i - j * h.j - k * h.k;
 		double itmp = r * h.i + i * h.r + j * h.k - k * h.j;
 		double jtmp = r * h.j - i * h.k + j * h.r + k * h.i;
 		double ktmp = r * h.k + i * h.j - j * h.i + k * h.r;
 
-		this.setReal(rtmp);
-		this.setIJK(itmp, jtmp, ktmp);
+		//changes this, not implemented
+		//		this.setReal(rtmp);
+		//		this.setIJK(itmp, jtmp, ktmp);
+		//no change to this
+		return new Quaternion(rtmp, itmp, jtmp, ktmp);
 		}
 
-	public void multiplyLeft(Quaternion h)
+	public Quaternion multiplyLeft(Quaternion h)
 		{
 		Quaternion tmp = new Quaternion(h);
-		tmp.multiplyRight(this);
-		this.r = tmp.r;
-		this.i = tmp.i;
-		this.j = tmp.j;
-		this.k = tmp.k;
+		//no change to this
+		return tmp.multiplyRight(this);
+		//changes this, not implemented
+		//		this.r = tmp.r;
+		//		this.i = tmp.i;
+		//		this.j = tmp.j;
+		//		this.k = tmp.k;
 		}
 
-	public void divide(double n)
+	public Quaternion divide(double n)
 		{
-		r /= n;
-		i /= n;
-		j /= n;
-		k /= n;
+		//changes this, not implemented
+		//		r /= n;
+		//		i /= n;
+		//		j /= n;
+		//		k /= n;
+		//no change to this
+		return new Quaternion(r / n, i / n, j / n, k / n);
 		}
 
 	public Double norm()
@@ -101,17 +113,19 @@ public class Quaternion
 		return Math.sqrt(r * r + i * i + j * j + k * k);
 		}
 
-	public void conjugate()
+	public Quaternion conjugate()
 		{
-		i *= -1.0;
-		j *= -1.0;
-		k *= -1.0;
+		//changes this, not implemented
+		//		i *= -1.0;
+		//		j *= -1.0;
+		//		k *= -1.0;
+		//no change to this
+		return new Quaternion(r, -i, -j, -k);
 		}
 
-	public void inverse()
+	public Quaternion inverse()
 		{
-		conjugate();
-		divide(Math.pow(this.norm(), 2));
+		return this.conjugate().divide(Math.pow(this.norm(), 2));
 		}
 
 	public boolean isEqualTo(Quaternion h, double epsilon)
