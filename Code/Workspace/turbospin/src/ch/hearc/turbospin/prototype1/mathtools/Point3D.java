@@ -1,8 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-
-
 public class Point3D
 	{
 
