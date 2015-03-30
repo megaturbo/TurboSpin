@@ -19,9 +19,7 @@ final public class QuaternionTools
 	 */
 	public static Quaternion createRotationQuaternion(double theta, Vector3D axisVector)
 		{
-		Vector3D tmp = new Vector3D(axisVector);
-		tmp.normalize();
-		tmp.multiply(Math.sin(theta / 2.0));
+		Vector3D tmp = axisVector.normalize().multiply(Math.sin(theta / 2.0));
 		return new Quaternion(Math.cos(theta / 2.0), tmp);
 		}
 
@@ -30,17 +28,15 @@ final public class QuaternionTools
 	 * @param vp
 	 * @param rot
 	 */
-	public static void rotation(Vector3D vp, Quaternion rot)
+	public static Vector3D rotation(Vector3D vp, Quaternion rot)
 		{
 		Quaternion p = new Quaternion(0.0, vp);
 
-		Quaternion rotInverse = new Quaternion(rot);
-		rotInverse.conjugate();
+		Quaternion rotConj = rot.conjugate();
 
-		p.multiplyLeft(rot);
-		p.multiplyRight(rotInverse);
+		p = p.multiplyLeft(rot).multiplyRight(rotConj);
 
-		vp.set(p.getVector());
+		return p.getVector();
 		}
 
 	/**
@@ -49,9 +45,9 @@ final public class QuaternionTools
 	 * @param theta
 	 * @param axisVector
 	 */
-	public static void rotation(Vector3D vp, double theta, Vector3D axisVector)
+	public static Vector3D rotation(Vector3D vp, double theta, Vector3D axisVector)
 		{
 		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
-		rotation(vp, q);
+		return rotation(vp, q);
 		}
 	}

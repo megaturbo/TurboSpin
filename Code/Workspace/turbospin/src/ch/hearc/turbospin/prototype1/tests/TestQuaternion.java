@@ -31,11 +31,11 @@ public class TestQuaternion
 		Quaternion q = new Quaternion(1.0, 2.0, 3.0, 4.0);
 		Quaternion p = new Quaternion(5.0, 6.0, 7.0, 8.0);
 
-		q.multiplyRight(p);
+		Quaternion qEmpirique = q.multiplyRight(p);
 
 		Quaternion qTheorique = new Quaternion(-60.0, 12.0, 30.0, 24.0);
 
-		Assert.assertTrue(q.isEqualTo(qTheorique));
+		Assert.assertTrue(qEmpirique.isEqualTo(qTheorique));
 		}
 
 	@Test
@@ -44,9 +44,9 @@ public class TestQuaternion
 		Double alpha = Math.PI / 2;
 		Vector3D axis = new Vector3D(3.0, -7.0, 5.0);
 
-		Vector3D vp = new Vector3D(2.0, 4.0, 5.0);
+		Vector3D v = new Vector3D(2.0, 4.0, 5.0);
 
-		QuaternionTools.rotation(vp, alpha, axis);
+		Vector3D vp = QuaternionTools.rotation(v, alpha, axis);
 
 		Quaternion p2Theorique = new Quaternion(0.0, -5.9286, -0.801833, 3.03459);
 		Quaternion p2Empirique = new Quaternion(0.0, vp);
