@@ -45,7 +45,6 @@ public class TestQuaternion
 		Vector3D axis = new Vector3D(3.0, -7.0, 5.0);
 
 		Vector3D v = new Vector3D(2.0, 4.0, 5.0);
-
 		Vector3D vp = QuaternionTools.rotation(v, alpha, axis);
 
 		Quaternion p2Theorique = new Quaternion(0.0, -5.9286, -0.801833, 3.03459);
