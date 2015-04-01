@@ -25,12 +25,12 @@ final public class QuaternionTools
 
 	/**
 	 * Rotates the given point by the given quaternion
-	 * @param vp
+	 * @param pointVector
 	 * @param rot
 	 */
-	public static Vector3D rotation(Vector3D vp, Quaternion rot)
+	public static Vector3D rotation(Vector3D pointVector, Quaternion rot)
 		{
-		Quaternion p = new Quaternion(0.0, vp);
+		Quaternion p = new Quaternion(0.0, pointVector);
 
 		Quaternion rotConj = rot.conjugate();
 
@@ -41,13 +41,13 @@ final public class QuaternionTools
 
 	/**
 	 * Rotates the given point around the given axis by angle theta
-	 * @param vp
+	 * @param pointVector
 	 * @param theta
 	 * @param axisVector
 	 */
-	public static Vector3D rotation(Vector3D vp, double theta, Vector3D axisVector)
+	public static Vector3D rotation(Vector3D pointVector, double theta, Vector3D axisVector)
 		{
 		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
-		return rotation(vp, q);
+		return rotation(pointVector, q);
 		}
 	}
