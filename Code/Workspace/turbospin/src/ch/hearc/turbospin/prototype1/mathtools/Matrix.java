@@ -75,8 +75,6 @@ public class Matrix
 		return new Matrix(matrix);
 		}
 
-	//DO NOT EVER IN YOUR LIFE EVER TOUCH THIS FUNCTION OR THE SUBMATRIX FUNCTION THAT NO ONE BUT GAB UNDERSTANDS
-	//DEAL WITH IT
 	public double determinant()
 		{
 		if (columns != rows)
@@ -140,7 +138,6 @@ public class Matrix
 		int smRows = subMatrix.getRows();
 		int smCols = subMatrix.getColumns();
 
-		//i dunno whwat the fuck Gab did but he iterates in one dimension on a 2D object. goodluck understanding
 		for(int i = 0; i < rows * columns; i++)
 			{
 			if (!(i / rows == row || i % columns == column))
