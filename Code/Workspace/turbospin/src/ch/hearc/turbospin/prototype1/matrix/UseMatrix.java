@@ -1,5 +1,7 @@
 
-package ch.hearc.turbospin.prototype1.mathtools;
+package ch.hearc.turbospin.prototype1.matrix;
+
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 
 public class UseMatrix
 	{
