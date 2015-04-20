@@ -1,6 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 final public class QuaternionTools
@@ -24,13 +25,13 @@ final public class QuaternionTools
 		}
 
 	/**
-	 * Rotates the given point by the given quaternion
-	 * @param pointVector
+	 * Rotates the given vector by the given quaternion
+	 * @param vector
 	 * @param rot
 	 */
-	public static Vector3D rotation(Vector3D pointVector, Quaternion rot)
+	public static Vector3D rotation(Vector3D vector, Quaternion rot)
 		{
-		Quaternion p = new Quaternion(0.0, pointVector);
+		Quaternion p = new Quaternion(0.0, vector);
 
 		Quaternion rotConj = rot.conjugate();
 
@@ -40,14 +41,37 @@ final public class QuaternionTools
 		}
 
 	/**
+	 * Rotates the given point by the given quaternion
+	 * @param point
+	 * @param rot
+	 */
+	public static Point3D rotation(Point3D point, Quaternion rot)
+		{
+		Vector3D output = rotation(new Vector3D(point.getX(), point.getY(), point.getZ()), rot);
+		return new Point3D(output.getA(), output.getB(), output.getC());
+		}
+
+	/**
 	 * Rotates the given point around the given axis by angle theta
 	 * @param pointVector
 	 * @param theta
 	 * @param axisVector
 	 */
-	public static Vector3D rotation(Vector3D pointVector, double theta, Vector3D axisVector)
+	public static Point3D rotation(Point3D point, double theta, Vector3D axisVector)
 		{
 		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
-		return rotation(pointVector, q);
+		return rotation(point, q);
+		}
+
+	/**
+	 * Rotates the given vector around the given axis by angle theta
+	 * @param pointVector
+	 * @param theta
+	 * @param axisVector
+	 */
+	public static Vector3D rotation(Vector3D vector, double theta, Vector3D axisVector)
+		{
+		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
+		return rotation(vector, q);
 		}
 	}
