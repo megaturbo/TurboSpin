@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
+
 public class JPanelView extends JPanel
 	{
 
@@ -13,8 +15,9 @@ public class JPanelView extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelView()
+	public JPanelView(TurboCanvas canvas)
 		{
+		this.canvas = canvas;
 		geometry();
 		control();
 		appearance();
@@ -39,7 +42,7 @@ public class JPanelView extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		panel3D = new JPanel3D();
+		panel3D = new JPanel3D(canvas);
 		panelMain2D = new JPanelMain2D();
 			// Layout : Specification
 			{
@@ -64,7 +67,6 @@ public class JPanelView extends JPanel
 		// rien
 		setBorder(BorderFactory.createTitledBorder("View"));
 		}
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
@@ -73,4 +75,5 @@ public class JPanelView extends JPanel
 
 	JPanel3D panel3D;
 	JPanelMain2D panelMain2D;
+	TurboCanvas canvas;
 	}

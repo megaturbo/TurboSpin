@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
+import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
 
 public class JPanel3D extends JPanel
 	{
@@ -18,8 +20,9 @@ public class JPanel3D extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanel3D()
+	public JPanel3D(TurboCanvas canvas)
 		{
+		this.canvas = canvas;
 		geometry();
 		control();
 		appearance();
@@ -44,7 +47,6 @@ public class JPanel3D extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration());
 			// Layout : Specification
 			{
 			BorderLayout borderLayout = new BorderLayout();
@@ -55,7 +57,7 @@ public class JPanel3D extends JPanel
 			}
 
 		// JComponent : add
-		add(turboCanvas);
+		add(canvas);
 		}
 
 	private void control()
@@ -69,11 +71,11 @@ public class JPanel3D extends JPanel
 		this.setBackground(Color.GREEN);
 		setBorder(BorderFactory.createTitledBorder("3D"));
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	TurboCanvas turboCanvas;
+	TurboCanvas canvas;
 	}

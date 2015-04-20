@@ -7,9 +7,13 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
+import com.sun.j3d.utils.universe.SimpleUniverse;
+
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelHandling;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelView;
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JFrameMain extends JFrame
 	{
@@ -44,9 +48,10 @@ public class JFrameMain extends JFrame
 
 	private void geometry()
 		{
+		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration());
 		// JComponent : Instanciation
-		panelHandling = new JPanelHandling();
-		panelView = new JPanelView();
+		panelHandling = new JPanelHandling(turboCanvas);
+		panelView = new JPanelView(turboCanvas);
 		panelRotationInfo = new JPanelRotationInfo();
 			// Layout : Specification
 			{
@@ -76,7 +81,6 @@ public class JFrameMain extends JFrame
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
@@ -85,4 +89,6 @@ public class JFrameMain extends JFrame
 	JPanelHandling panelHandling;
 	JPanelView panelView;
 	JPanelRotationInfo panelRotationInfo;
+	
+	private TurboCanvas turboCanvas;
 	}

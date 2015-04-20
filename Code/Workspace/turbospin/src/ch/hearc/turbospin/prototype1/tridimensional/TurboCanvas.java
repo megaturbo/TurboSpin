@@ -42,6 +42,7 @@ public class TurboCanvas extends Canvas3D {
 		// Capability to read/write a Transform
 	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    viewGroup.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 	    
 	    branchGroup.addChild(viewGroup);
 	    
@@ -74,7 +75,7 @@ public class TurboCanvas extends Canvas3D {
 	 * @param color
 	 */
 	public void addVector(Vector3D v, Color3f color){
-		addVector(new Vector3D(0, 0, 0), v, color);
+		addVector(new Vector3D(), v, color);
 	}
 	
 	/**
@@ -85,6 +86,7 @@ public class TurboCanvas extends Canvas3D {
 	 */
 	public void addVector(Vector3D v0, Vector3D v1, Color3f color) {
 
+		BranchGroup tempGroup = new BranchGroup();
 		Group lineGroup = new Group();
 
 		// LineArray
@@ -105,6 +107,7 @@ public class TurboCanvas extends Canvas3D {
 		elements.add(lineGroup);
 		lineGroup.addChild(plShape);
 
-		viewGroup.addChild(lineGroup);
+		tempGroup.addChild(lineGroup);
+		viewGroup.addChild(tempGroup);
 	}
 }
