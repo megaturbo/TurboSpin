@@ -1,71 +1,93 @@
-
 package ch.hearc.turbospin.prototype1.tridimensional;
 
 import java.awt.GraphicsConfiguration;
 
 import javax.media.j3d.Appearance;
+import javax.media.j3d.Background;
+import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.GeometryArray;
+import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineArray;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.vecmath.Point3f;
+import javax.vecmath.Color3f;
+import javax.vecmath.Point3d;
 
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+
+import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
-import ch.hearc.turbospin.prototype1.mathtools.Line3D;
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+public class TurboCanvas extends Canvas3D {
 
-public class TurboCanvas extends Canvas3D
-	{
+	BranchGroup branchGroup = new BranchGroup();
+	TransformGroup viewGroup = new TransformGroup();
 
-	BranchGroup contents = new BranchGroup();
-	Appearance app = new Appearance();
-
-	public TurboCanvas(GraphicsConfiguration arg0)
-		{
+	public TurboCanvas(GraphicsConfiguration arg0) {
 		super(arg0);
 
 		SimpleUniverse universe = new SimpleUniverse(this);
 		universe.getViewingPlatform().setNominalViewingTransform();
 
-		contents.addChild(new ColorCube(0.3));
+		setBackgroundColor(TurboColors.WHITE);
+		createAxisSystem();
+		addVector(new Vector3D(0, 1, 0), new Vector3D(0.5, 0, 0), TurboColors.PINK);
+		
+		// Capability to read/write a Transform
+	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
-		addAxis(new Line3D());
+	    branchGroup.addChild(viewGroup);
+	    
+	    // Mouse rotation rotates the view
+		MouseRotate myMouseRotate = new MouseRotate();
+		myMouseRotate.setTransformGroup(viewGroup);
+		myMouseRotate.setSchedulingBounds(new BoundingSphere());
+		branchGroup.addChild(myMouseRotate);
 
-		universe.addBranchGraph(contents);
-		}
+		// add the branch to the universe
+		universe.addBranchGraph(branchGroup);
+	}
 
-	public void addAxis(Line3D axis)
-		{
+	private void setBackgroundColor(Color3f color) {
+		Background background = new Background(color);
+		BoundingSphere sphere = new BoundingSphere(new Point3d(0, 0, 0), 100000);
+		background.setApplicationBounds(sphere);
+		branchGroup.addChild(background);
+	}
+
+	private void createAxisSystem() {
+		Vector3D origin = new Vector3D(0, 0, 0);
+		addVector(origin, new Vector3D(1, 0, 0), TurboColors.RED);
+		addVector(origin, new Vector3D(0, 1, 0), TurboColors.GREEN);
+		addVector(origin, new Vector3D(0, 0, 1), TurboColors.BLUE);
+	}
+
+	public void addVector(Vector3D v0, Vector3D v1, Color3f color) {
 
 		Group lineGroup = new Group();
-		//TODO Add the Line3D to the branch group
-		// Nothing is working of the code below
-		Vector3D axisDirection = axis.getVectorDirection();
 
-		Point3f[] plaPts = new Point3f[2];
-		plaPts[0] = new Point3f(-0.9f, -0.7f, 0.0f);
-		plaPts[1] = new Point3f(-0.5f, 0.7f, 0.0f);
-		LineArray pla = new LineArray(2, GeometryArray.COORDINATES);
+		// LineArray
+		Point3d[] plaPts = new Point3d[2];
+		plaPts[0] = new Point3d(v0.getA(), v0.getB(), v0.getC());
+		plaPts[1] = new Point3d(v1.getA(), v1.getB(), v1.getC());
+		LineArray pla = new LineArray(2, LineArray.COORDINATES);
 		pla.setCoordinates(0, plaPts);
-		Shape3D plShape = new Shape3D(pla, app);
+
+		// Color
+		Appearance appearance = new Appearance();
+		ColoringAttributes ca = new ColoringAttributes(color, 0);
+		appearance.setColoringAttributes(ca);
+
+		// Shape
+		Shape3D plShape = new Shape3D(pla, appearance);
+
 		lineGroup.addChild(plShape);
 
-		TransformGroup objScale = new TransformGroup();
-		Transform3D scaleTrans = new Transform3D();
-		objScale.setTransform(scaleTrans);
-		contents.addChild(objScale);
-
-		TransformGroup objTrans = new TransformGroup();
-		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-
-		objScale.addChild(objTrans);
-		objTrans.addChild(lineGroup);
-		}
+		viewGroup.addChild(lineGroup);
 	}
+}
