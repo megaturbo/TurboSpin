@@ -5,16 +5,19 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs/Java3D/1.5.2/lib/ext/j3dcore.jar">
 		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/thomas.roulin/Documents/_HE-ARC/020-Niveau-2/Projet%20P2/Projet%20Java/TurboSpin/Code/Workspace/turbospin/doc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="turbospin/libs/Java3D/1.5.2/bin"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/Java3D/1.5.2/lib/ext/j3dutils.jar">
 		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/thomas.roulin/Documents/_HE-ARC/020-Niveau-2/Projet%20P2/Projet%20Java/TurboSpin/Code/Workspace/turbospin/doc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="turbospin/libs/Java3D/1.5.2/bin"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/Java3D/1.5.2/lib/ext/vecmath.jar">
 		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/thomas.roulin/Documents/_HE-ARC/020-Niveau-2/Projet%20P2/Projet%20Java/TurboSpin/Code/Workspace/turbospin/doc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="turbospin/libs/Java3D/1.5.2/bin"/>
 		</attributes>
 	</classpathentry>

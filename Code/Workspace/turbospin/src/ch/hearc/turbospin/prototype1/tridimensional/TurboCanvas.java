@@ -1,6 +1,8 @@
 package ch.hearc.turbospin.prototype1.tridimensional;
 
+import java.awt.Font;
 import java.awt.GraphicsConfiguration;
+import java.util.ArrayList;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
@@ -10,8 +12,8 @@ import javax.media.j3d.Canvas3D;
 import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineArray;
+import javax.media.j3d.Node;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
@@ -19,13 +21,14 @@ import javax.vecmath.Point3d;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
-import com.sun.j3d.utils.geometry.ColorCube;
+import com.sun.j3d.utils.geometry.Text2D;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class TurboCanvas extends Canvas3D {
 
 	BranchGroup branchGroup = new BranchGroup();
 	TransformGroup viewGroup = new TransformGroup();
+	ArrayList<Node> elements = new ArrayList<Node>();
 
 	public TurboCanvas(GraphicsConfiguration arg0) {
 		super(arg0);
@@ -36,11 +39,10 @@ public class TurboCanvas extends Canvas3D {
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
 		addVector(new Vector3D(0, 1, 0), new Vector3D(0.5, 0, 0), TurboColors.PINK);
-		
 		// Capability to read/write a Transform
 	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    viewGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-
+	    
 	    branchGroup.addChild(viewGroup);
 	    
 	    // Mouse rotation rotates the view
@@ -61,12 +63,26 @@ public class TurboCanvas extends Canvas3D {
 	}
 
 	private void createAxisSystem() {
-		Vector3D origin = new Vector3D(0, 0, 0);
-		addVector(origin, new Vector3D(1, 0, 0), TurboColors.RED);
-		addVector(origin, new Vector3D(0, 1, 0), TurboColors.GREEN);
-		addVector(origin, new Vector3D(0, 0, 1), TurboColors.BLUE);
+		addVector(new Vector3D(1, 0, 0), TurboColors.RED);
+		addVector(new Vector3D(0, 1, 0), TurboColors.GREEN);
+		addVector(new Vector3D(0, 0, 1), TurboColors.BLUE);
 	}
 
+	/**
+	 * Add a vector starting at origin
+	 * @param v End location
+	 * @param color
+	 */
+	public void addVector(Vector3D v, Color3f color){
+		addVector(new Vector3D(0, 0, 0), v, color);
+	}
+	
+	/**
+	 * Add a vector with start location and end location
+	 * @param v0 Start location
+	 * @param v1 End location
+	 * @param color
+	 */
 	public void addVector(Vector3D v0, Vector3D v1, Color3f color) {
 
 		Group lineGroup = new Group();
@@ -86,6 +102,7 @@ public class TurboCanvas extends Canvas3D {
 		// Shape
 		Shape3D plShape = new Shape3D(pla, appearance);
 
+		elements.add(lineGroup);
 		lineGroup.addChild(plShape);
 
 		viewGroup.addChild(lineGroup);
