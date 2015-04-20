@@ -1,7 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-import java.util.Vector;
 
 public class Line3D
 	{
@@ -12,26 +11,25 @@ public class Line3D
 	public Line3D()
 		{
 		this.pointPrimary = new Point3D();
-		this.vectorDirection = new Vector<Double>();
+		this.vectorDirection = new Vector3D();
 		}
 
 	public Line3D(Line3D src)
 		{
 		this.pointPrimary = new Point3D(src.pointPrimary);
-		this.vectorDirection = new Vector<Double>(src.vectorDirection);
+		this.vectorDirection = new Vector3D(src.vectorDirection);
 		}
 
 	public Line3D(Point3D srcPointA, Point3D srcPointB)
 		{
 		this.pointPrimary = new Point3D(srcPointA);
-		this.pointSecondary = new Point3D(srcPointB);
-		this.vectorDirection = createDirectionVector();
+		this.vectorDirection = createDirectionVector(srcPointB);
 		}
 
-	public Line3D(Point3D srcPoint, Vector<Double> srcVectorDirection)
+	public Line3D(Point3D srcPoint, Vector3D srcVectorDirection)
 		{
 		this.pointPrimary = new Point3D(srcPoint);
-		this.vectorDirection = new Vector<Double>(srcVectorDirection);
+		this.vectorDirection = new Vector3D(srcVectorDirection);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -42,39 +40,39 @@ public class Line3D
 	|*				Set				*|
 	\*------------------------------*/
 
-	public void setVectorDirection(Vector<Double> vectorDirection)
+	public void setVectorDirection(Vector3D vectorDirection)
 		{
-		this.vectorDirection = vectorDirection;
+		this.vectorDirection = new Vector3D(vectorDirection);
 		}
 
 	public void setPointPrimary(Point3D pointPrimary)
 		{
-		this.pointPrimary = pointPrimary;
+		this.pointPrimary = new Point3D(pointPrimary);
 		}
 
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
-	public Vector<Double> getVectorDirection()
+	public Vector3D getVectorDirection()
 		{
-		return this.vectorDirection;
+		return new Vector3D(this.vectorDirection);
 		}
 
 	public Point3D getPointPrimary()
 		{
-		return this.pointPrimary;
+		return new Point3D(this.pointPrimary);
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private Vector<Double> createDirectionVector()
+	private Vector3D createDirectionVector(Point3D src)
 		{
-		vectorDirection = new Vector<Double>();
-		vectorDirection.add(pointSecondary.getX() - pointPrimary.getX());
-		vectorDirection.add(pointSecondary.getY() - pointPrimary.getY());
-		vectorDirection.add(pointSecondary.getZ() - pointPrimary.getZ());
+		vectorDirection = new Vector3D();
+		vectorDirection.setA(src.getX() - pointPrimary.getX());
+		vectorDirection.setB(src.getY() - pointPrimary.getY());
+		vectorDirection.setC(src.getZ() - pointPrimary.getZ());
 		return vectorDirection;
 		}
 
@@ -82,8 +80,7 @@ public class Line3D
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 	//tools
-	private Vector<Double> vectorDirection;
+	private Vector3D vectorDirection;
 
 	private Point3D pointPrimary;
-	private Point3D pointSecondary;
 	}
