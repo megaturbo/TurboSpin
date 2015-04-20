@@ -6,8 +6,10 @@ import java.util.Vector;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Group;
 import javax.media.j3d.LineArray;
 import javax.media.j3d.Shape3D;
+import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3f;
 
@@ -28,6 +30,8 @@ public class TurboCanvas extends Canvas3D {
 		universe.getViewingPlatform().setNominalViewingTransform();
 
 		contents.addChild(new ColorCube(0.3));
+		
+		addAxis(new Line3D());
 
 		universe.addBranchGraph(contents);
 	}
@@ -35,6 +39,8 @@ public class TurboCanvas extends Canvas3D {
 	
 	public void addAxis(Line3D axis)
 	{
+
+	    Group lineGroup = new Group();
 		//TODO Add the Line3D to the branch group
 		// Nothing is working of the code below
 		Vector<Double> axisDirection = axis.getVectorDirection();
@@ -45,12 +51,19 @@ public class TurboCanvas extends Canvas3D {
 	    LineArray pla = new LineArray(2, LineArray.COORDINATES);
 	    pla.setCoordinates(0, plaPts);
 	    Shape3D plShape = new Shape3D(pla, app);
+	    lineGroup.addChild(plShape);
+	    
+
+	    TransformGroup objScale = new TransformGroup();
+	    Transform3D scaleTrans = new Transform3D();
+	    objScale.setTransform(scaleTrans);
+	    contents.addChild(objScale);
 	    
 	    TransformGroup objTrans = new TransformGroup();
 	    objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    objTrans.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
-	    contents.addChild(objTrans);
-		
+	    objScale.addChild(objTrans);
+	    objTrans.addChild(lineGroup);
 	}
 }
