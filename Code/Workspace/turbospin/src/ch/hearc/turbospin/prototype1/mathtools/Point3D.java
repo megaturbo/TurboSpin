@@ -8,30 +8,54 @@ public class Point3D
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 	public Point3D()
-	{
-		this(0,0,0);
-	}
+		{
+		this(0, 0, 0);
+		}
 
 	public Point3D(double x, double y, double z)
-	{
+		{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
+		}
 
 	public Point3D(Point3D src)
-	{
-		this(src.x,src.y,src.z);
-	}
+		{
+		this(src.x, src.y, src.z);
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
+	@Override
+	public String toString()
+		{
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		sb.append(x);
+		sb.append(", ");
+		sb.append(y);
+		sb.append(", ");
+		sb.append(z);
+		sb.append("]");
+		return sb.toString();
+		}
+
 	public void translate(double deltaX, double deltaY, double deltaZ)
-	{
-		x+=deltaX;
-		y+=deltaY;
-		z+=deltaZ;
-	}
+		{
+		x += deltaX;
+		y += deltaY;
+		z += deltaZ;
+		}
+
+	public void translate(Vector3D delta)
+		{
+		x += delta.getA();
+		y += delta.getB();
+		z += delta.getC();
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
@@ -49,6 +73,7 @@ public class Point3D
 		{
 		this.z = z;
 		}
+
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
@@ -66,6 +91,7 @@ public class Point3D
 		{
 		return this.z;
 		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -78,4 +104,3 @@ public class Point3D
 	private double y;
 	private double z;
 	}
-
