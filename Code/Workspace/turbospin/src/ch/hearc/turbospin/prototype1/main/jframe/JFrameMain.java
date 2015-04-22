@@ -48,21 +48,19 @@ public class JFrameMain extends JFrame
 
 	private void geometry()
 		{
+		// Instantiate canvas
 		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration());
-		// JComponent : Instanciation
+		
+		// Instantiate components
 		panelHandling = new JPanelHandling(turboCanvas);
 		panelView = new JPanelView(turboCanvas);
 		panelRotationInfo = new JPanelRotationInfo();
-			// Layout : Specification
-			{
-			BorderLayout borderLayout = new BorderLayout();
-			setLayout(borderLayout);
+		
+		// Layout specifications
+		BorderLayout borderLayout = new BorderLayout();
+		setLayout(borderLayout);
 
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
-			}
-
-		// JComponent : add
+		// Adding components
 		add(panelHandling, BorderLayout.WEST);
 		add(panelView, BorderLayout.CENTER);
 		add(panelRotationInfo, BorderLayout.SOUTH);
@@ -86,9 +84,8 @@ public class JFrameMain extends JFrame
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	JPanelHandling panelHandling;
-	JPanelView panelView;
-	JPanelRotationInfo panelRotationInfo;
-	
+	private JPanelHandling panelHandling;
+	private JPanelView panelView;
+	private JPanelRotationInfo panelRotationInfo;
 	private TurboCanvas turboCanvas;
 	}
