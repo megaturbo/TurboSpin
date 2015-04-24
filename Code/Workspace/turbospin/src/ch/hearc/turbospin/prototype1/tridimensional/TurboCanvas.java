@@ -32,21 +32,37 @@ public class TurboCanvas extends Canvas3D
 	{
 
 	BranchGroup mainBG = new BranchGroup();
+	BranchGroup vectorsBG = new BranchGroup();
 	TransformGroup mainTG = new TransformGroup();
-	ArrayList<Node> elements = new ArrayList<Node>();
+	ArrayList<Group> elements = new ArrayList<Group>();
+
+	SimpleUniverse universe;
 
 	public TurboCanvas(GraphicsConfiguration arg0)
 		{
 		super(arg0);
 
 		// Universe
-		SimpleUniverse universe = new SimpleUniverse(this);
+		universe = new SimpleUniverse(this);
 		universe.getViewingPlatform().setNominalViewingTransform();
 
 		// Capability to read/write a Transform
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
+		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
+		//idontknowwhatimdoing
+		mainTG.setCapability(BranchGroup.ALLOW_DETACH);
+		mainBG.setCapability(BranchGroup.ALLOW_DETACH);
+		mainBG.setCapability(Node.ALLOW_BOUNDS_READ);
+		mainBG.setCapability(Node.ALLOW_BOUNDS_WRITE);
+		mainBG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
+		mainBG.setCapability(Group.ALLOW_CHILDREN_WRITE);
+		vectorsBG.setCapability(BranchGroup.ALLOW_DETACH);
+		vectorsBG.setCapability(Node.ALLOW_BOUNDS_READ);
+		vectorsBG.setCapability(Node.ALLOW_BOUNDS_WRITE);
+		vectorsBG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
+		vectorsBG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
@@ -60,9 +76,9 @@ public class TurboCanvas extends Canvas3D
 
 		// add the branch to the universe
 		mainBG.addChild(mainTG);
-
+		mainTG.addChild(vectorsBG);
 		// Faster rendering
-		mainBG.compile();
+//				mainBG.compile(); //this makes everything crash, for some reason
 
 		universe.addBranchGraph(mainBG);
 		}
@@ -148,18 +164,28 @@ public class TurboCanvas extends Canvas3D
 		// Shape
 		Shape3D plShape = new Shape3D(pointLineArray, appearance);
 
-		elements.add(lineGroup);
+//		elements.add(lineGroup);
 		lineGroup.addChild(plShape);
 
 		tempGroup.addChild(lineGroup);
-		mainTG.addChild(tempGroup);
+//		mainTG.addChild(tempGroup);
+		vectorsBG.addChild(tempGroup);
 		}
 
 	public void clear()
 		{
-		mainTG.removeAllChildren();
-		mainBG.removeAllChildren();
-		elements.clear();
+		vectorsBG.detach();
+		vectorsBG.removeAllChildren();
+		mainTG.addChild(vectorsBG);
 		createAxisSystem();
+		//		mainTG.removeAllChildren();
+		//		mainBG.removeChild(elements.get(1));
+
+		//		setBackgroundColor(TurboColors.WHITE);
+		//		createAxisSystem();
+		//		createMouseNavigation();
+		//		mainBG.addChild(mainTG);
+
+		//		universe.addBranchGraph(mainBG);
 		}
 	}
