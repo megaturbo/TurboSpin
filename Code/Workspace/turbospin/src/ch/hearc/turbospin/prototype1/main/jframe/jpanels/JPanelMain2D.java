@@ -1,14 +1,17 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 public class JPanelMain2D extends JPanel
 	{
@@ -17,87 +20,59 @@ public class JPanelMain2D extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelMain2D()
+	public JPanelMain2D(List<Vector3D> vectors)
 		{
-		geometry();
+		geometry(vectors);
 		control();
 		appearance();
-		//		resize2DPanels();
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void geometry()
+	private void geometry(List<Vector3D> vectors)
 		{
 		// JComponent : Instanciation
-		panelIJ = new JPanel2D();
-		panelJK = new JPanel2D();
-		panelKI = new JPanel2D();
-		//			// Layout : Specification
-		//			{
-		//			BorderLayout borderLayout = new BorderLayout();
-		//			setLayout(borderLayout);
-		//			// flowlayout.setHgap(20);
-		//			// flowlayout.setVgap(20);
-		//			}
-		//
-		//		// JComponent : add
-		//		add(panelIJ, BorderLayout.NORTH);
-		//		add(panelJK, BorderLayout.CENTER);
-		//		add(panelKI, BorderLayout.SOUTH);
+		Map<Character, Vector3D> axes = new HashMap<Character, Vector3D>();
+		axes.put('i', new Vector3D(1, 0, 0));
+		axes.put('j', new Vector3D(0, 1, 0));
+		axes.put('k', new Vector3D(0, 0, 1));
+		panelIJ = new JPanel2D(vectors, 'i', 'j', axes);
+		panelJK = new JPanel2D(vectors, 'j', 'k', axes);
+		panelKI = new JPanel2D(vectors, 'k', 'i', axes);
 
+		// Layout : Specification
 		GridLayout gridLayout = new GridLayout(0, 1);
 		setLayout(gridLayout);
 
-		add(panelIJ);
-		add(panelJK);
-		add(panelKI);
+		//Creating intermediary panels so that the JPanel2Ds don't step on the borders
+		JPanel pan1 = new JPanel();
+		JPanel pan2 = new JPanel();
+		JPanel pan3 = new JPanel();
+		pan1.setBorder(BorderFactory.createTitledBorder("ij"));
+		pan2.setBorder(BorderFactory.createTitledBorder("jk"));
+		pan3.setBorder(BorderFactory.createTitledBorder("ki"));
+		pan1.setLayout(new BorderLayout());
+		pan2.setLayout(new BorderLayout());
+		pan3.setLayout(new BorderLayout());
+		add(pan1);
+		add(pan2);
+		add(pan3);
 
-		//		boxV = Box.createVerticalBox();
-
-		//		boxV.add(Box.createVerticalStrut(10));
-		//		boxV.add(panelIJ);
-		//		boxV.add(Box.createVerticalStrut(10));
-		//		boxV.add(panelJK);
-		//		boxV.add(Box.createVerticalStrut(10));
-		//		boxV.add(panelKI);
-		//		boxV.add(Box.createVerticalStrut(10));
-
-		//		add(boxV);
+		// JComponent : add
+		pan1.add(panelIJ, BorderLayout.CENTER);
+		pan2.add(panelJK, BorderLayout.CENTER);
+		pan3.add(panelKI, BorderLayout.CENTER);
 		}
 
 	private void control()
 		{
 		// rien
-		addComponentListener(new ComponentAdapter()
-			{
-
-				@Override
-				public void componentResized(ComponentEvent e)
-					{
-					resize2DPanels();
-					}
-
-			});
-		}
-
-	private void resize2DPanels()
-		{
-		panelIJ.setPreferredSize(new Dimension(panelIJ.getHeight(), panelIJ.getHeight()));
 		}
 
 	private void appearance()

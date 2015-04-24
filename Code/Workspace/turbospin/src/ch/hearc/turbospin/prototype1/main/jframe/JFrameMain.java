@@ -3,8 +3,9 @@ package ch.hearc.turbospin.prototype1.main.jframe;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -34,14 +35,6 @@ public class JFrameMain extends JFrame
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -50,12 +43,13 @@ public class JFrameMain extends JFrame
 		{
 		// Instantiate canvas
 		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration());
-		
+
 		// Instantiate components
-		panelHandling = new JPanelHandling(turboCanvas);
-		panelView = new JPanelView(turboCanvas);
+		List<Vector3D> vectors = new ArrayList<Vector3D>();
+		panelView = new JPanelView(turboCanvas, vectors);
+		panelHandling = new JPanelHandling(turboCanvas, vectors, panelView);
 		panelRotationInfo = new JPanelRotationInfo();
-		
+
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
@@ -64,8 +58,6 @@ public class JFrameMain extends JFrame
 		add(panelHandling, BorderLayout.WEST);
 		add(panelView, BorderLayout.CENTER);
 		add(panelRotationInfo, BorderLayout.SOUTH);
-
-		panelView.setBorder(BorderFactory.createTitledBorder("View"));
 		}
 
 	private void control()
@@ -79,6 +71,7 @@ public class JFrameMain extends JFrame
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/

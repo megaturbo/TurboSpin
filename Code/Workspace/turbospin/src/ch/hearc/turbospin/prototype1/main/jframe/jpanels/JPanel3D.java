@@ -3,15 +3,12 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import com.sun.j3d.utils.universe.SimpleUniverse;
-
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
-import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
 
 public class JPanel3D extends JPanel
 	{
@@ -32,14 +29,6 @@ public class JPanel3D extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
-
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -47,16 +36,13 @@ public class JPanel3D extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-			// Layout : Specification
-			{
-			BorderLayout borderLayout = new BorderLayout();
-			setLayout(borderLayout);
+		// Layout : Specification
 
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
+		BorderLayout borderLayout = new BorderLayout();
+		setLayout(borderLayout);
 
 		// JComponent : add
+		canvas.setMinimumSize(new Dimension(0, 0));
 		add(canvas);
 		}
 
@@ -67,11 +53,11 @@ public class JPanel3D extends JPanel
 
 	private void appearance()
 		{
-		// rien¨
+		// rien
 		this.setBackground(Color.GREEN);
 		setBorder(BorderFactory.createTitledBorder("3D"));
 		}
-	
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
