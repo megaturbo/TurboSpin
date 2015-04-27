@@ -91,22 +91,6 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
-					//TODO : better this shit
-					//					Vector3D axis = new Vector3D(1, 0, 0);
-					//					List<Vector3D> tmp = new ArrayList<Vector3D>();
-					//					for(Vector3D vector:vectors)
-					//						{
-					//						vector = QuaternionTools.rotation(vector, Math.PI / 3, axis);
-					//						tmp.add(new Vector3D(vector));
-					//						}
-					//					vectors.clear();
-					//					canvas.clear();
-					//					for(int i = 0; i < tmp.size(); i++)
-					//						{
-					//						vectors.add(tmp.get(i));
-					//						canvas.addVector(tmp.get(i), TurboColors.PINK);
-					//						}
-
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
