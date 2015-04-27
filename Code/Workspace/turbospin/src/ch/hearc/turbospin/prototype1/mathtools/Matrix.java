@@ -39,7 +39,7 @@ public class Matrix
 	\*------------------------------------------------------------------*/
 	public Matrix add(Matrix toAdd)
 		{
-		if ((matrix.length == toAdd.columns) && (matrix[0].length == toAdd.rows))
+		if ((this.columns == toAdd.columns) && (this.rows == toAdd.rows))
 			{
 			for(int i = 0; i < toAdd.getColumns(); i++)
 				{
@@ -51,16 +51,41 @@ public class Matrix
 			return new Matrix(matrix);
 			}
 		else
-			{//for now returning the input Matrix
-				//TODO: use Exceptions to handle this
+			{// for now returning the input Matrix
+			// TODO: use Exceptions to handle this
 			return toAdd;
 			}
 		}
 
 	public Matrix times(Matrix toMultiply)
 		{
-		//TODO
-		return null;
+		if (this.columns != toMultiply.rows) { return toMultiply; }
+		Matrix product = new Matrix(this.columns, toMultiply.rows);
+
+		for(int i = 0; i < this.columns; i++)
+			{
+			for(int j = 0; j < toMultiply.rows; j++)
+				{
+				for(int k = 0; k < this.rows; i++)
+					{
+					product.setValue(i, j, this.getValue(i, k)*toMultiply.getValue(k, j));
+					}
+				}
+			}
+		// for now returning the input Matrix
+		// TODO: use Exceptions to handle this
+		return product;
+		}
+	public Vector3D times(Vector3D toMultiply)
+		{
+		if (this.columns != 3&&this.rows!=3) { return toMultiply; }
+		Vector3D product = new Vector3D();
+
+		product.setA(toMultiply.getA()*(this.matrix[0][0])+toMultiply.getB()*(this.matrix[1][0])+ toMultiply.getC()*(this.matrix[2][0]));
+		product.setB(toMultiply.getA()*(this.matrix[0][1])+toMultiply.getB()*(this.matrix[1][1])+ toMultiply.getC()*(this.matrix[2][1]));
+		product.setC(toMultiply.getA()*(this.matrix[0][2])+toMultiply.getB()*(this.matrix[1][2])+ toMultiply.getC()*(this.matrix[2][2]));
+
+		return product;
 		}
 
 	public Matrix times(double scalar)
