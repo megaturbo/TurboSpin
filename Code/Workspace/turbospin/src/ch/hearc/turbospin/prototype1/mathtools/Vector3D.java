@@ -40,14 +40,9 @@ public class Vector3D extends Shape3D
 
 		this.setAppearance(appearance);
 
-		//vector geometry
-		Point3d[] pointLineArrayPoints = new Point3d[2];
-		pointLineArrayPoints[0] = new Point3d(0, 0, 0);
-		pointLineArrayPoints[1] = new Point3d(a, b, c);
-		LineArray pointLineArray = new LineArray(2, GeometryArray.COORDINATES);
-		pointLineArray.setCoordinates(0, pointLineArrayPoints);
+		setCapability(Shape3D.ALLOW_GEOMETRY_WRITE);
 
-		this.setGeometry(pointLineArray);
+		setGeometry();
 		}
 
 	public Vector3D(Vector3D v)
@@ -130,17 +125,22 @@ public class Vector3D extends Shape3D
 
 	public void setA(double a)
 		{
-		this.a = a;
+		set(a, b, c);
 		}
 
 	public void setB(double b)
 		{
-		this.b = b;
+		set(a, b, c);
 		}
 
 	public void setC(double c)
 		{
-		this.c = c;
+		set(a, b, c);
+		}
+
+	public void set(Vector3D v)
+		{
+		set(v.a, v.b, v.c);
 		}
 
 	public void set(double a, double b, double c)
@@ -148,11 +148,7 @@ public class Vector3D extends Shape3D
 		this.a = a;
 		this.b = b;
 		this.c = c;
-		}
-
-	public void set(Vector3D v)
-		{
-		set(v.a, v.b, v.c);
+		setGeometry();
 		}
 
 	/*------------------------------*\
@@ -174,9 +170,28 @@ public class Vector3D extends Shape3D
 		return this.c;
 		}
 
+	public Color3f getColor()
+		{
+		Color3f output = new Color3f();
+		this.getAppearance().getColoringAttributes().getColor(output);
+		return output;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+
+	private void setGeometry()
+		{
+		//vector geometry
+		Point3d[] pointLineArrayPoints = new Point3d[2];
+		pointLineArrayPoints[0] = new Point3d(0, 0, 0);
+		pointLineArrayPoints[1] = new Point3d(a, b, c);
+		LineArray pointLineArray = new LineArray(2, GeometryArray.COORDINATES);
+		pointLineArray.setCoordinates(0, pointLineArrayPoints);
+
+		this.setGeometry(pointLineArray);
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

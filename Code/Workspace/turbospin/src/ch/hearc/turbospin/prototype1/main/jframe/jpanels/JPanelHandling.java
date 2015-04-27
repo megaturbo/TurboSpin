@@ -111,7 +111,8 @@ public class JPanelHandling extends JPanel {
 		});
 	}
 
-	private void appearance() {
+	private void appearance()
+		{
 		this.setBackground(Color.CYAN);
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 	}

@@ -2,7 +2,7 @@
 package ch.hearc.turbospin.prototype1.tridimensional;
 
 import java.awt.GraphicsConfiguration;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
@@ -27,13 +27,17 @@ public class TurboCanvas extends Canvas3D
 	BranchGroup mainBG = new BranchGroup();
 	BranchGroup vectorsBG = new BranchGroup();
 	TransformGroup mainTG = new TransformGroup();
-	ArrayList<Group> elements = new ArrayList<Group>();
+	//	ArrayList<Group> elements = new ArrayList<Group>();
+
+	List<Vector3D> vectors;
 
 	SimpleUniverse universe;
 
-	public TurboCanvas(GraphicsConfiguration arg0)
+	public TurboCanvas(GraphicsConfiguration arg0, List<Vector3D> vectors)
 		{
 		super(arg0);
+
+		this.vectors = vectors;
 
 		// Universe
 		universe = new SimpleUniverse(this);
@@ -170,11 +174,28 @@ public class TurboCanvas extends Canvas3D
 		mainTG.addChild(vectorsBG);
 		}
 
+	/**
+	 * Removes all vectors from the scene
+	 */
 	public void clear()
 		{
 		vectorsBG.detach();
 		vectorsBG.removeAllChildren();
 		mainTG.addChild(vectorsBG);
+		createAxisSystem();
+		}
+
+	/**
+	 * redraws vectors, useful if they have been changed
+	 */
+	public void refresh()
+		{
+		vectorsBG.detach();
+		vectorsBG.removeAllChildren();
+		for(Vector3D vector:vectors)
+			{
+			addVector(vector);
+			}
 		createAxisSystem();
 		}
 	}
