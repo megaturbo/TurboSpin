@@ -12,9 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
-import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
-import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
 
@@ -108,11 +108,20 @@ public class JPanelHandling extends JPanel
 					//						vectors.add(tmp.get(i));
 					//						canvas.addVector(tmp.get(i), TurboColors.PINK);
 					//						}
+
+					//vQuaternion
+					//					Vector3D axis = new Vector3D(1, 0, 0);
+					//					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+					//					for(Vector3D vector:vectors)
+					//						{
+					//						vector.set(QuaternionTools.rotation(vector, rotation));
+					//						}
+
 					Vector3D axis = new Vector3D(1, 0, 0);
-					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+					Matrix rotation = MatrixTools.createRotationMatrix(Math.PI / 3, 0, 0);
 					for(Vector3D vector:vectors)
 						{
-						vector.set(QuaternionTools.rotation(vector, rotation));
+						vector.set(MatrixTools.rotate(vector, rotation));
 						}
 					canvas.refresh();
 					panelView.repaint();
