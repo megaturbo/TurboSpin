@@ -44,7 +44,7 @@ public class TurboCanvas extends Canvas3D
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-//		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		//		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
@@ -58,10 +58,10 @@ public class TurboCanvas extends Canvas3D
 
 		// add the branch to the universe
 		mainBG.addChild(mainTG);
-//		mainTG.addChild(vectorsBG);
+		//		mainTG.addChild(vectorsBG);
 
 		// Faster rendering
-//				mainBG.compile(); //this makes everything crash, for some reason
+		//				mainBG.compile(); //this makes everything crash, for some reason
 
 		universe.addBranchGraph(mainBG);
 		}
@@ -99,76 +99,76 @@ public class TurboCanvas extends Canvas3D
 		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE));
 		}
 
-//	public void addText(String text, Color3f color, Vector3D location)
-//		{
-//		BranchGroup bg = new BranchGroup();
-//
-//		}
-/*
-	/**
-	 * Add a vector starting at origin
-	 * @param v End location
-	 * @param color
-	 */ /*
-	public void addVector(Vector3D v, Color3f color)
+	//	public void addText(String text, Color3f color, Vector3D location)
+	//		{
+	//		BranchGroup bg = new BranchGroup();
+	//
+	//		}
+	/*
+		/**
+		 * Add a vector starting at origin
+		 * @param v End location
+		 * @param color
+		 *//*
+		public void addVector(Vector3D v, Color3f color)
 		{
 		addVector(new Vector3D(), v, color);
 		}
 
-	/**
-	 * Add a vector with start location and end location
-	 * @param v0 Start location
-	 * @param v1 End location
-	 * @param color
-	 */ /*
-	public void addVector(Vector3D v0, Vector3D v1, Color3f color)
-		{
+		/**
+		* Add a vector with start location and end location
+		* @param v0 Start location
+		* @param v1 End location
+		* @param color
+		*//*
+			public void addVector(Vector3D v0, Vector3D v1, Color3f color)
+			{
 
-		BranchGroup tempGroup = new BranchGroup();
-		Group lineGroup = new Group();
+			BranchGroup tempGroup = new BranchGroup();
+			Group lineGroup = new Group();
 
-		// LineArray
-		Point3d[] pointLineArrayPoints = new Point3d[2];
-		pointLineArrayPoints[0] = new Point3d(v0.getA(), v0.getB(), v0.getC());
-		pointLineArrayPoints[1] = new Point3d(v1.getA(), v1.getB(), v1.getC());
-		LineArray pointLineArray = new LineArray(2, GeometryArray.COORDINATES);
-		pointLineArray.setCoordinates(0, pointLineArrayPoints);
+			// LineArray
+			Point3d[] pointLineArrayPoints = new Point3d[2];
+			pointLineArrayPoints[0] = new Point3d(v0.getA(), v0.getB(), v0.getC());
+			pointLineArrayPoints[1] = new Point3d(v1.getA(), v1.getB(), v1.getC());
+			LineArray pointLineArray = new LineArray(2, GeometryArray.COORDINATES);
+			pointLineArray.setCoordinates(0, pointLineArrayPoints);
 
-		// Color
-		Appearance appearance = new Appearance();
-		ColoringAttributes ca = new ColoringAttributes(color, 0);
-		appearance.setColoringAttributes(ca);
+			// Color
+			Appearance appearance = new Appearance();
+			ColoringAttributes ca = new ColoringAttributes(color, 0);
+			appearance.setColoringAttributes(ca);
 
-		//Width
-		LineAttributes la = new LineAttributes();
-		la.setLineWidth(3);
-		appearance.setLineAttributes(la);
+			//Width
+			LineAttributes la = new LineAttributes();
+			la.setLineWidth(3);
+			appearance.setLineAttributes(la);
 
-		// Shape
-		Shape3D plShape = new Shape3D(pointLineArray, appearance);
+			// Shape
+			Shape3D plShape = new Shape3D(pointLineArray, appearance);
 
-//		elements.add(lineGroup);
-//		lineGroup.addChild(plShape);
+			//		elements.add(lineGroup);
+			//		lineGroup.addChild(plShape);
 
-		//TESTING
-		lineGroup.addChild(v1);
+			//TESTING
+			lineGroup.addChild(v1);
 
-		tempGroup.addChild(lineGroup);
-//		mainTG.addChild(tempGroup);
-		vectorsBG.addChild(tempGroup);
+			tempGroup.addChild(lineGroup);
+			//		mainTG.addChild(tempGroup);
+			vectorsBG.addChild(tempGroup);
 
-		}
-*/
+			}
+			*/
 	/**
 	 * Add a vector starting at origin
 	 * @param v End location
 	 */
 	public void addVector(Vector3D vector)
-	{
-	vectorsBG.detach();
-	vectorsBG.addChild(vector);
-	mainTG.addChild(vectorsBG);
-	}
+		{
+		vectorsBG.detach();
+		vectorsBG.addChild(vector);
+		mainTG.addChild(vectorsBG);
+		}
 
 	public void clear()
 		{
@@ -176,14 +176,5 @@ public class TurboCanvas extends Canvas3D
 		vectorsBG.removeAllChildren();
 		mainTG.addChild(vectorsBG);
 		createAxisSystem();
-		//		mainTG.removeAllChildren();
-		//		mainBG.removeChild(elements.get(1));
-
-		//		setBackgroundColor(TurboColors.WHITE);
-		//		createAxisSystem();
-		//		createMouseNavigation();
-		//		mainBG.addChild(mainTG);
-
-		//		universe.addBranchGraph(mainBG);
 		}
 	}
