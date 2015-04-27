@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
-import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
 
 public class JPanel2D extends JPanel
 	{
@@ -43,20 +42,20 @@ public class JPanel2D extends JPanel
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setStroke(new BasicStroke(3));
 
-		drawVector(g2d, axes.get('i'), TurboColors.RED.get());
-		drawVector(g2d, axes.get('j'), TurboColors.GREEN.get());
-		drawVector(g2d, axes.get('k'), TurboColors.BLUE.get());
+		drawVector(g2d, axes.get('i'));
+		drawVector(g2d, axes.get('j'));
+		drawVector(g2d, axes.get('k'));
 
 		for(Vector3D vector:vectors)
 			{
 			//projection on the plane
-			drawVector(g2d, vector, TurboColors.PINK.get());
+			drawVector(g2d, vector);
 			}
 		}
 
-	private void drawVector(Graphics2D g2d, Vector3D vector, Color color)
+	private void drawVector(Graphics2D g2d, Vector3D vector)
 		{
-		g2d.setColor(color);
+		g2d.setColor(vector.getColor().get());
 		int x = getWidth() / 2;
 		int y = getHeight() / 2;
 		double yArea = 4.0;

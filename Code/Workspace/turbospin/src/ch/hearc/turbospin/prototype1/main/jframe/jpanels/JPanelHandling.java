@@ -114,6 +114,7 @@ public class JPanelHandling extends JPanel
 						{
 						vector.set(QuaternionTools.rotation(vector, rotation));
 						}
+					canvas.refresh();
 					panelView.repaint();
 					}
 			});

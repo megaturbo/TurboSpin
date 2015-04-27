@@ -41,14 +41,18 @@ public class JFrameMain extends JFrame
 
 	private void geometry()
 		{
+		// Instantiate list
+		List<Vector3D> vectors = new ArrayList<Vector3D>();
+
 		// Instantiate canvas
-		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration());
+		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), vectors);
 
 		// Instantiate components
-		List<Vector3D> vectors = new ArrayList<Vector3D>();
 		panelView = new JPanelView(turboCanvas, vectors);
 		panelHandling = new JPanelHandling(turboCanvas, vectors, panelView);
 		panelRotationInfo = new JPanelRotationInfo();
+
+
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();

@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
 
 public class JPanelMain2D extends JPanel
 	{
@@ -39,9 +40,9 @@ public class JPanelMain2D extends JPanel
 		{
 		// JComponent : Instanciation
 		Map<Character, Vector3D> axes = new HashMap<Character, Vector3D>();
-		axes.put('i', new Vector3D(1, 0, 0));
-		axes.put('j', new Vector3D(0, 1, 0));
-		axes.put('k', new Vector3D(0, 0, 1));
+		axes.put('i', new Vector3D(1, 0, 0, TurboColors.RED));
+		axes.put('j', new Vector3D(0, 1, 0, TurboColors.GREEN));
+		axes.put('k', new Vector3D(0, 0, 1, TurboColors.BLUE));
 		panelIJ = new JPanel2D(vectors, 'i', 'j', axes);
 		panelJK = new JPanel2D(vectors, 'j', 'k', axes);
 		panelKI = new JPanel2D(vectors, 'k', 'i', axes);
