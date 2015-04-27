@@ -8,9 +8,11 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
@@ -39,35 +41,37 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	public void addVector(double a, double b, double c)
+		{
+		Vector3D vector = new Vector3D(a, b, c, TurboColors.PINK);
+		vectors.add(vector);
+		canvas.addVector(vector);
+		panelView.repaint();
+
+		model.addElement(vector.toString());
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-
 	private void geometry()
 		{
-		// JComponent : Instanciation
+		// JComponents
 		buttonAddVector = new JButton("Add vector");
 		spinthisshit = new JButton("Spin by 60° C");
-		vX = new JTextField();
-		vY = new JTextField();
-		vZ = new JTextField();
+		model = new DefaultListModel<String>();
+		listVector = new JList<String>(model);
+		JScrollPane listPane = new JScrollPane(listVector);
 
-			// Layout : Specification
-			{
-			BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-			setLayout(boxLayout);
-
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
+		// Layout
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+		setLayout(boxLayout);
 
 		// JComponent : add
 		add(spinthisshit);
 		add(buttonAddVector);
-		add(vX);
-		add(vY);
-		add(vZ);
 
+		add(listPane);
 		}
 
 	private void control()
@@ -78,13 +82,7 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
-					double a = Double.parseDouble(vX.getText());
-					double b = Double.parseDouble(vY.getText());
-					double c = Double.parseDouble(vZ.getText());
-					Vector3D vector = new Vector3D(a, b, c, TurboColors.PINK);
-					vectors.add(vector);
-					canvas.addVector(vector);
-					panelView.repaint();
+					new JPanelVectorInput(JPanelHandling.this);
 					}
 			});
 		spinthisshit.addActionListener(new ActionListener()
@@ -108,12 +106,23 @@ public class JPanelHandling extends JPanel
 					//						vectors.add(tmp.get(i));
 					//						canvas.addVector(tmp.get(i), TurboColors.PINK);
 					//						}
+
+					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
 					for(Vector3D vector:vectors)
 						{
 						vector.set(QuaternionTools.rotation(vector, rotation));
 						}
+
+					//vMatrix
+					//					Vector3D axis = new Vector3D(1, 0, 0);
+					//					Matrix rotation = MatrixTools.createRotationMatrix(Math.PI / 3, 0, 0);
+					//					for(Vector3D vector:vectors)
+					//						{
+					//						vector.set(MatrixTools.rotate(vector, rotation));
+					//						}
+
 					canvas.refresh();
 					panelView.repaint();
 					}
@@ -122,7 +131,6 @@ public class JPanelHandling extends JPanel
 
 	private void appearance()
 		{
-		// rien
 		this.setBackground(Color.CYAN);
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
@@ -135,7 +143,9 @@ public class JPanelHandling extends JPanel
 	private TurboCanvas view3d;
 	private JButton buttonAddVector;
 	private JButton spinthisshit;
-	private JTextField vX, vY, vZ;
+
+	private JList<String> listVector;
+	private DefaultListModel<String> model;
 
 	private List<Vector3D> vectors;
 	private TurboCanvas canvas;

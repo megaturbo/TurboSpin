@@ -10,29 +10,30 @@ public class Matrix
 
 	public Matrix(Matrix src)
 		{
-		this(src.getColumns(), src.getRows());
-
+		this(src.getRows(), src.getColumns());
+		//TODO copy this shit bro
 		}
 
 	public Matrix(int M, int N)
 		{
 		matrix = new double[M][N];
-		this.columns = M;
-		this.rows = N;
+		this.rows = M;
+		this.columns = N;
 		}
 
 	public Matrix(int M)
 		{
 		matrix = new double[M][M];
-		this.columns = M;
 		this.rows = M;
+		this.columns = M;
 		}
 
 	public Matrix(double[][] tab)
 		{
 		this.matrix = tab;
-		this.columns = tab.length;
-		this.rows = tab[0].length;
+		this.rows = tab.length;
+		this.columns = tab[0].length;
+		//TODO fill the matrix man
 		}
 
 	/*------------------------------------------------------------------*\
@@ -46,7 +47,7 @@ public class Matrix
 				{
 				for(int j = 0; j < toAdd.getRows(); j++)
 					{
-					matrix[i][j] += toAdd.getValue(i, j);
+					matrix[j][i] += toAdd.getValue(j, i);
 					}
 				}
 			return new Matrix(matrix);
@@ -60,26 +61,27 @@ public class Matrix
 
 	public Matrix times(Matrix toMultiply)
 		{
+		// TODO: use Exceptions to handle this
 		if (this.columns != toMultiply.rows) { return toMultiply; }
-		Matrix product = new Matrix(this.columns, toMultiply.rows);
+		Matrix product = new Matrix(this.rows, toMultiply.columns);
 
-		for(int i = 0; i < this.columns; i++)
+		for(int i = 0; i < this.rows; i++)
 			{
 			for(int j = 0; j < toMultiply.rows; j++)
 				{
-				for(int k = 0; k < this.rows; i++)
+				for(int k = 0; k < this.columns; i++)
 					{
 					product.setValue(i, j, this.getValue(i, k)*toMultiply.getValue(k, j));
 					}
 				}
 			}
 		// for now returning the input Matrix
-		// TODO: use Exceptions to handle this
 		return product;
 		}
 	public Vector3D times(Vector3D toMultiply)
 		{
-		if (this.columns != 3&&this.rows!=3) { return toMultiply; }
+		// TODO: use Exceptions to handle this
+		if (this.columns != 3 && this.rows != 3) { return toMultiply; }
 		Vector3D product = new Vector3D();
 
 		product.setA(toMultiply.getA()*(this.matrix[0][0])+toMultiply.getB()*(this.matrix[1][0])+ toMultiply.getC()*(this.matrix[2][0]));
@@ -91,6 +93,7 @@ public class Matrix
 
 	public Matrix times(double scalar)
 		{
+		//TODO be stuff + <b>don't disturb <i>this</i></b>
 		for(int i = 0; i < matrix.length; i++)
 			{
 			for(int j = 0; j < matrix[0].length; j++)
@@ -103,6 +106,7 @@ public class Matrix
 
 	public double determinant()
 		{
+		//TODO exception to face throwing
 		if (columns != rows)
 			{
 			return 0;
@@ -157,7 +161,7 @@ public class Matrix
 	private Matrix subMatrix(int row, int column)
 		{
 
-		Matrix subMatrix = new Matrix(columns - 1, rows - 1);
+		Matrix subMatrix = new Matrix(rows - 1, columns - 1);
 
 		int subIndex = 0;
 
