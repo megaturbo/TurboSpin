@@ -4,7 +4,6 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -14,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
@@ -81,9 +81,9 @@ public class JPanelHandling extends JPanel
 					double a = Double.parseDouble(vX.getText());
 					double b = Double.parseDouble(vY.getText());
 					double c = Double.parseDouble(vZ.getText());
-					Vector3D vector = new Vector3D(a, b, c);
+					Vector3D vector = new Vector3D(a, b, c, TurboColors.PINK);
 					vectors.add(vector);
-					canvas.addVector(vector, TurboColors.PINK);
+					canvas.addVector(vector);
 					panelView.repaint();
 					}
 			});
@@ -94,19 +94,25 @@ public class JPanelHandling extends JPanel
 				public void actionPerformed(ActionEvent arg0)
 					{
 					//TODO : better this shit
+					//					Vector3D axis = new Vector3D(1, 0, 0);
+					//					List<Vector3D> tmp = new ArrayList<Vector3D>();
+					//					for(Vector3D vector:vectors)
+					//						{
+					//						vector = QuaternionTools.rotation(vector, Math.PI / 3, axis);
+					//						tmp.add(new Vector3D(vector));
+					//						}
+					//					vectors.clear();
+					//					canvas.clear();
+					//					for(int i = 0; i < tmp.size(); i++)
+					//						{
+					//						vectors.add(tmp.get(i));
+					//						canvas.addVector(tmp.get(i), TurboColors.PINK);
+					//						}
 					Vector3D axis = new Vector3D(1, 0, 0);
-					List<Vector3D> tmp = new ArrayList<Vector3D>();
+					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
 					for(Vector3D vector:vectors)
 						{
-						vector = QuaternionTools.rotation(vector, Math.PI / 3, axis);
-						tmp.add(new Vector3D(vector));
-						}
-					vectors.clear();
-					canvas.clear();
-					for(int i = 0; i < tmp.size(); i++)
-						{
-						vectors.add(tmp.get(i));
-						canvas.addVector(tmp.get(i), TurboColors.PINK);
+						vector.set(QuaternionTools.rotation(vector, rotation));
 						}
 					panelView.repaint();
 					}

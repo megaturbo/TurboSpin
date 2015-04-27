@@ -4,18 +4,11 @@ package ch.hearc.turbospin.prototype1.tridimensional;
 import java.awt.GraphicsConfiguration;
 import java.util.ArrayList;
 
-import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.ColoringAttributes;
-import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Group;
-import javax.media.j3d.LineArray;
-import javax.media.j3d.LineAttributes;
-import javax.media.j3d.Node;
-import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -46,23 +39,12 @@ public class TurboCanvas extends Canvas3D
 		universe = new SimpleUniverse(this);
 		universe.getViewingPlatform().setNominalViewingTransform();
 
-		// Capability to read/write a Transform
-		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		// Groups capabilities
+		vectorsBG.setCapability(BranchGroup.ALLOW_DETACH);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
-		//idontknowwhatimdoing
-		mainTG.setCapability(BranchGroup.ALLOW_DETACH);
-		mainBG.setCapability(BranchGroup.ALLOW_DETACH);
-		mainBG.setCapability(Node.ALLOW_BOUNDS_READ);
-		mainBG.setCapability(Node.ALLOW_BOUNDS_WRITE);
-		mainBG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
-		mainBG.setCapability(Group.ALLOW_CHILDREN_WRITE);
-		vectorsBG.setCapability(BranchGroup.ALLOW_DETACH);
-		vectorsBG.setCapability(Node.ALLOW_BOUNDS_READ);
-		vectorsBG.setCapability(Node.ALLOW_BOUNDS_WRITE);
-		vectorsBG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
-		vectorsBG.setCapability(Group.ALLOW_CHILDREN_WRITE);
+		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+//		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
@@ -76,7 +58,8 @@ public class TurboCanvas extends Canvas3D
 
 		// add the branch to the universe
 		mainBG.addChild(mainTG);
-		mainTG.addChild(vectorsBG);
+//		mainTG.addChild(vectorsBG);
+
 		// Faster rendering
 //				mainBG.compile(); //this makes everything crash, for some reason
 
@@ -111,22 +94,22 @@ public class TurboCanvas extends Canvas3D
 
 	private void createAxisSystem()
 		{
-		addVector(new Vector3D(1, 0, 0), TurboColors.RED);
-		addVector(new Vector3D(0, 1, 0), TurboColors.GREEN);
-		addVector(new Vector3D(0, 0, 1), TurboColors.BLUE);
+		addVector(new Vector3D(1, 0, 0, TurboColors.RED));
+		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN));
+		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE));
 		}
 
-	public void addText(String text, Color3f color, Vector3D location)
-		{
-		BranchGroup bg = new BranchGroup();
-
-		}
-
+//	public void addText(String text, Color3f color, Vector3D location)
+//		{
+//		BranchGroup bg = new BranchGroup();
+//
+//		}
+/*
 	/**
 	 * Add a vector starting at origin
 	 * @param v End location
 	 * @param color
-	 */
+	 */ /*
 	public void addVector(Vector3D v, Color3f color)
 		{
 		addVector(new Vector3D(), v, color);
@@ -137,7 +120,7 @@ public class TurboCanvas extends Canvas3D
 	 * @param v0 Start location
 	 * @param v1 End location
 	 * @param color
-	 */
+	 */ /*
 	public void addVector(Vector3D v0, Vector3D v1, Color3f color)
 		{
 
@@ -165,12 +148,27 @@ public class TurboCanvas extends Canvas3D
 		Shape3D plShape = new Shape3D(pointLineArray, appearance);
 
 //		elements.add(lineGroup);
-		lineGroup.addChild(plShape);
+//		lineGroup.addChild(plShape);
+
+		//TESTING
+		lineGroup.addChild(v1);
 
 		tempGroup.addChild(lineGroup);
 //		mainTG.addChild(tempGroup);
 		vectorsBG.addChild(tempGroup);
+
 		}
+*/
+	/**
+	 * Add a vector starting at origin
+	 * @param v End location
+	 */
+	public void addVector(Vector3D vector)
+	{
+	vectorsBG.detach();
+	vectorsBG.addChild(vector);
+	mainTG.addChild(vectorsBG);
+	}
 
 	public void clear()
 		{
