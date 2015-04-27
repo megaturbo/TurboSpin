@@ -19,6 +19,7 @@ public class Matrix
 		matrix = new double[M][N];
 		this.rows = M;
 		this.columns = N;
+		init();
 		}
 
 	public Matrix(int M)
@@ -26,6 +27,18 @@ public class Matrix
 		matrix = new double[M][M];
 		this.rows = M;
 		this.columns = M;
+		init();
+		}
+
+	private void init()
+		{
+		for(int i = 0; i < this.rows; i++)
+			{
+			for(int j = 0; j < this.columns; j++)
+				{
+				matrix[i][j] = 0;
+				}
+			}
 		}
 
 	public Matrix(double[][] tab)
@@ -54,7 +67,7 @@ public class Matrix
 			}
 		else
 			{// for now returning the input Matrix
-			// TODO: use Exceptions to handle this
+				// TODO: use Exceptions to handle this
 			return toAdd;
 			}
 		}
@@ -67,26 +80,27 @@ public class Matrix
 
 		for(int i = 0; i < this.rows; i++)
 			{
-			for(int j = 0; j < toMultiply.rows; j++)
+			for(int j = 0; j < toMultiply.columns; j++)
 				{
-				for(int k = 0; k < this.columns; i++)
+				for(int k = 0; k < this.columns; k++)
 					{
-					product.setValue(i, j, this.getValue(i, k)*toMultiply.getValue(k, j));
+					product.matrix[i][j] += matrix[i][k] * toMultiply.matrix[k][j];
 					}
 				}
 			}
 		// for now returning the input Matrix
 		return product;
 		}
+
 	public Vector3D times(Vector3D toMultiply)
 		{
 		// TODO: use Exceptions to handle this
 		if (this.columns != 3 && this.rows != 3) { return toMultiply; }
 		Vector3D product = new Vector3D();
 
-		product.setA(toMultiply.getA()*(this.matrix[0][0])+toMultiply.getB()*(this.matrix[1][0])+ toMultiply.getC()*(this.matrix[2][0]));
-		product.setB(toMultiply.getA()*(this.matrix[0][1])+toMultiply.getB()*(this.matrix[1][1])+ toMultiply.getC()*(this.matrix[2][1]));
-		product.setC(toMultiply.getA()*(this.matrix[0][2])+toMultiply.getB()*(this.matrix[1][2])+ toMultiply.getC()*(this.matrix[2][2]));
+		product.setA(toMultiply.getA() * (this.matrix[0][0]) + toMultiply.getB() * (this.matrix[1][0]) + toMultiply.getC() * (this.matrix[2][0]));
+		product.setB(toMultiply.getA() * (this.matrix[0][1]) + toMultiply.getB() * (this.matrix[1][1]) + toMultiply.getC() * (this.matrix[2][1]));
+		product.setC(toMultiply.getA() * (this.matrix[0][2]) + toMultiply.getB() * (this.matrix[1][2]) + toMultiply.getC() * (this.matrix[2][2]));
 
 		return product;
 		}
