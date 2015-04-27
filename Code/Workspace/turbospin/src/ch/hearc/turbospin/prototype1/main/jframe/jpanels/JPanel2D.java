@@ -99,9 +99,7 @@ public class JPanel2D extends JPanel
 
 	private void appearance()
 		{
-		// rien
 		setBackground(Color.WHITE);
-		//		setBorder(BorderFactory.createTitledBorder(new StringBuilder().append(dim1).append(dim2).toString()));
 		}
 
 	/*------------------------------------------------------------------*\
