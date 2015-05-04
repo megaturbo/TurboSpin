@@ -1,7 +1,7 @@
+
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -15,42 +15,45 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
-import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
-import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
-public class JPanelHandling extends JPanel {
+public class JPanelHandling extends JPanel
+	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Vector3D> vectors,
-			JPanelView panelView) {
+	public JPanelHandling(TurboCanvas canvas, List<Vector3D> vectors, JPanelView panelView)
+		{
 		this.canvas = canvas;
 		this.vectors = vectors;
 		this.panelView = panelView;
 		geometry();
 		control();
 		appearance();
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	public void addVector(Vector3D vector) {
+	public void addVector(Vector3D vector)
+		{
 		vectors.add(vector);
 		canvas.addVector(vector);
 		panelView.repaint();
 		model.addElement(vector);
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-	private void geometry() {
+	private void geometry()
+		{
 		// JComponents
 		buttonAddVector = new JButton("Add vector");
 		spinthisshit = new JButton("Spin by 60° C");
@@ -66,67 +69,58 @@ public class JPanelHandling extends JPanel {
 		add(spinthisshit);
 		add(buttonAddVector);
 		add(listPane);
-	}
+		}
 
-	private void control() {
-		buttonAddVector.addActionListener(new ActionListener() {
+	private void control()
+		{
+		buttonAddVector.addActionListener(new ActionListener()
+			{
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					addVector(JPanelVectorInput.showVectorInput());
-				} catch (NotAVectorException e) {
-					//NOP
-				}
-			}
-		});
-		spinthisshit.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+					{
+					try
+						{
+						addVector(JPanelVectorInput.showVectorInput());
+						}
+					catch (NotAVectorException e)
+						{
+						//NOP
+						}
+					}
+			});
+		spinthisshit.addActionListener(new ActionListener()
+			{
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO : better this shit
-				// Vector3D axis = new Vector3D(1, 0, 0);
-				// List<Vector3D> tmp = new ArrayList<Vector3D>();
-				// for(Vector3D vector:vectors)
-				// {
-				// vector = QuaternionTools.rotation(vector, Math.PI / 3, axis);
-				// tmp.add(new Vector3D(vector));
-				// }
-				// vectors.clear();
-				// canvas.clear();
-				// for(int i = 0; i < tmp.size(); i++)
-				// {
-				// vectors.add(tmp.get(i));
-				// canvas.addVector(tmp.get(i), TurboColors.PINK);
-				// }
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+					{
+					//vQuaternion
+					//					Vector3D axis = new Vector3D(1, 0, 0);
+					//					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+					//					for(Vector3D vector:vectors)
+					//						{
+					//						vector.set(QuaternionTools.rotation(vector, rotation));
+					//						}
 
-				// vQuaternion
-				Vector3D axis = new Vector3D(1, 0, 0);
-				Quaternion rotation = QuaternionTools.createRotationQuaternion(
-						Math.PI / 3, axis);
-				for (Vector3D vector : vectors) {
-					vector.set(QuaternionTools.rotation(vector, rotation));
-				}
+					//vMatrix
+					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
+					for(Vector3D vector:vectors)
+						{
+						vector.set(MatrixTools.rotate(vector, rotation));
+						}
 
-				// vMatrix
-				// Vector3D axis = new Vector3D(1, 0, 0);
-				// Matrix rotation = MatrixTools.createRotationMatrix(Math.PI /
-				// 3, 0, 0);
-				// for(Vector3D vector:vectors)
-				// {
-				// vector.set(MatrixTools.rotate(vector, rotation));
-				// }
+					canvas.refresh();
+					panelView.repaint();
+					}
+			});
+		}
 
-				canvas.refresh();
-				panelView.repaint();
-			}
-		});
-	}
-
-	private void appearance() {
+	private void appearance()
+		{
 		this.setBackground(Color.CYAN);
 		setBorder(BorderFactory.createTitledBorder("Handling"));
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
@@ -144,4 +138,4 @@ public class JPanelHandling extends JPanel {
 	private TurboCanvas canvas;
 	private JPanelView panelView;
 
-}
+	}
