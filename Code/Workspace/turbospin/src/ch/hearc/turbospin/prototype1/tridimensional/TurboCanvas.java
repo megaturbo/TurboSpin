@@ -170,7 +170,11 @@ public class TurboCanvas extends Canvas3D
 	public void addVector(Vector3D vector)
 		{
 		vectorsBG.detach();
+		//adding the vector
 		vectorsBG.addChild(vector);
+
+
+
 		mainTG.addChild(vectorsBG);
 		}
 
