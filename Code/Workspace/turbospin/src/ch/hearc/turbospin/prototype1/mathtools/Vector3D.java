@@ -50,6 +50,11 @@ public class Vector3D extends Shape3D
 		this(v.a, v.b, v.c);
 		}
 
+	public Vector3D(Vector3D v, Color3f color)
+		{
+		this(v.a, v.b, v.c, color);
+		}
+
 	public Vector3D()
 		{
 		this(0, 0, 0);
