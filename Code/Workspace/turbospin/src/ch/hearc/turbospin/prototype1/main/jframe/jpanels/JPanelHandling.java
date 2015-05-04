@@ -44,7 +44,7 @@ public class JPanelHandling extends JPanel {
 		vectors.add(vector);
 		canvas.addVector(vector);
 		panelView.repaint();
-		model.addElement(vector.toString());
+		model.addElement(vector);
 	}
 
 	/*------------------------------------------------------------------*\
@@ -54,8 +54,8 @@ public class JPanelHandling extends JPanel {
 		// JComponents
 		buttonAddVector = new JButton("Add vector");
 		spinthisshit = new JButton("Spin by 60° C");
-		model = new DefaultListModel<String>();
-		listVector = new JList<String>(model);
+		model = new DefaultListModel<Vector3D>();
+		listVector = new JList<Vector3D>(model);
 		JScrollPane listPane = new JScrollPane(listVector);
 
 		// Layout
@@ -137,8 +137,8 @@ public class JPanelHandling extends JPanel {
 	private JButton buttonAddVector;
 	private JButton spinthisshit;
 
-	private JList<String> listVector;
-	private DefaultListModel<String> model;
+	private JList<Vector3D> listVector;
+	private DefaultListModel<Vector3D> model;
 
 	private List<Vector3D> vectors;
 	private TurboCanvas canvas;
