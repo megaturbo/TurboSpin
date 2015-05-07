@@ -19,7 +19,9 @@ import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 
 public class TurboCanvas extends Canvas3D
 	{
@@ -98,9 +100,12 @@ public class TurboCanvas extends Canvas3D
 
 	private void createAxisSystem()
 		{
-		addVector(new Vector3D(1, 0, 0, TurboColors.RED));
-		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN));
-		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE));
+		addVector(new Vector3D(1, 0, 0, TurboColors.RED, 3));
+		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
+		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
+		addVector(new Vector3D(100, 0, 0, TurboColors.RED, 1));
+		addVector(new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
+		addVector(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
 		}
 
 	//	public void addText(String text, Color3f color, Vector3D location)
@@ -167,15 +172,45 @@ public class TurboCanvas extends Canvas3D
 	 * Add a vector starting at origin
 	 * @param v End location
 	 */
-	public void addVector(Vector3D vector)
+	public void addVectorWithTheCubeEffectzor(Vector3D vector)
 		{
 		vectorsBG.detach();
 		//adding the vector
 		vectorsBG.addChild(vector);
 
+		//adding a cube
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.RED, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.RED, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.RED, 1));
 
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.GREEN, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.GREEN, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.GREEN, 1));
+
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLUE, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLUE, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLUE, 1));
 
 		mainTG.addChild(vectorsBG);
+		}
+
+	/**
+	 * Add a vector starting at origin
+	 * @param v End location
+	 */
+	public void addVector(Vector3D vector)
+		{
+		addVectorWithTheCubeEffectzor(vector);
+		//
+		//		vectorsBG.detach();
+		//		//adding the vector
+		//		vectorsBG.addChild(vector);
+		//
+		//
+		//		mainTG.addChild(vectorsBG);
 		}
 
 	/**
@@ -198,7 +233,7 @@ public class TurboCanvas extends Canvas3D
 		vectorsBG.removeAllChildren();
 		for(Vector3D vector:vectors)
 			{
-			addVector(vector);
+			addVectorWithTheCubeEffectzor(vector);
 			}
 		createAxisSystem();
 		}
