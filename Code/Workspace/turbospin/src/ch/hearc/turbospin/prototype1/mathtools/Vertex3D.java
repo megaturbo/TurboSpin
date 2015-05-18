@@ -76,6 +76,11 @@ public class Vertex3D extends Shape3D
 
 	private void setAppearance(Color3f color, int width)
 		{
+		setAppearance(color, width, LinePattern.PATTERN_DASH);
+		}
+
+	private void setAppearance(Color3f color, int width, int linePattern)
+		{
 		//vector appearance
 		Appearance appearance = new Appearance();
 		//color
@@ -83,6 +88,7 @@ public class Vertex3D extends Shape3D
 		//width
 		LineAttributes la = new LineAttributes();
 		la.setLineWidth(width);
+		la.setLinePattern(linePattern);
 		appearance.setLineAttributes(la);
 
 		this.setAppearance(appearance);

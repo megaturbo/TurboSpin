@@ -179,20 +179,23 @@ public class TurboCanvas extends Canvas3D
 		vectorsBG.addChild(vector);
 
 		//adding a cube
+		//colored vertices
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.RED, 1));
-
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.GREEN, 1));
-
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLUE, 1));
+
+		//black vertices
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1));
+
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1));
+
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLACK, 1));
 
 		mainTG.addChild(vectorsBG);
 		}
