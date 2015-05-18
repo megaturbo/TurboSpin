@@ -20,25 +20,16 @@ public class Vector3D extends Shape3D
 	\*------------------------------------------------------------------*/
 	public Vector3D(double a, double b, double c)
 		{
-		this(a, b, c, TurboColors.PINK);
+		this(a, b, c, TurboColors.PINK, 3);
 		}
 
-	public Vector3D(double a, double b, double c, Color3f color)
+	public Vector3D(double a, double b, double c, Color3f color, int width)
 		{
 		this.a = a;
 		this.b = b;
 		this.c = c;
 
-		//vector appearance
-		Appearance appearance = new Appearance();
-		//color
-		appearance.setColoringAttributes(new ColoringAttributes(color, 0));
-		//width
-		LineAttributes la = new LineAttributes();
-		la.setLineWidth(3);
-		appearance.setLineAttributes(la);
-
-		this.setAppearance(appearance);
+		setAppearance(color, width);
 
 		setCapability(Shape3D.ALLOW_GEOMETRY_WRITE);
 
@@ -48,6 +39,11 @@ public class Vector3D extends Shape3D
 	public Vector3D(Vector3D v)
 		{
 		this(v.a, v.b, v.c);
+		}
+
+	public Vector3D(Vector3D v, Color3f color, int width)
+		{
+		this(v.a, v.b, v.c, color, width);
 		}
 
 	public Vector3D()
@@ -191,6 +187,20 @@ public class Vector3D extends Shape3D
 		pointLineArray.setCoordinates(0, pointLineArrayPoints);
 
 		this.setGeometry(pointLineArray);
+		}
+
+	private void setAppearance(Color3f color, int width)
+		{
+		//vector appearance
+		Appearance appearance = new Appearance();
+		//color
+		appearance.setColoringAttributes(new ColoringAttributes(color, 0));
+		//width
+		LineAttributes la = new LineAttributes();
+		la.setLineWidth(width);
+		appearance.setLineAttributes(la);
+
+		this.setAppearance(appearance);
 		}
 
 	/*------------------------------------------------------------------*\
