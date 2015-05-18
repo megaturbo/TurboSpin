@@ -1,7 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
@@ -62,7 +61,6 @@ public class JPanelRotationInfo extends JPanel
 	private void appearance()
 		{
 		// rien
-		this.setBackground(Color.RED);
 		setBorder(BorderFactory.createTitledBorder("Rotation information"));
 		}
 

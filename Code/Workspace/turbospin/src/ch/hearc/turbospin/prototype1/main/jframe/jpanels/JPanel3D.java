@@ -2,7 +2,6 @@
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -54,7 +53,6 @@ public class JPanel3D extends JPanel
 	private void appearance()
 		{
 		// rien
-		this.setBackground(Color.GREEN);
 		setBorder(BorderFactory.createTitledBorder("3D"));
 		}
 

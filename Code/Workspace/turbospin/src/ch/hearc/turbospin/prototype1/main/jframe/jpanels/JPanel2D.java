@@ -5,6 +5,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 
@@ -93,7 +95,45 @@ public class JPanel2D extends JPanel
 
 	private void control()
 		{
-		// rien
+		this.addMouseListener(new MouseAdapter()
+			{
+
+				@Override
+				public void mouseClicked(MouseEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+
+				@Override
+				public void mousePressed(MouseEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+
+				@Override
+				public void mouseReleased(MouseEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+
+				@Override
+				public void mouseEntered(MouseEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+
+				@Override
+				public void mouseExited(MouseEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+
+			});
 		}
 
 	private void appearance()

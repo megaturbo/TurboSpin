@@ -1,7 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -46,7 +45,7 @@ public class JPanelHandling extends JPanel
 		{
 		vectors.add(vector);
 		canvas.refresh();
-		
+
 		panelView.repaint();
 		model.addElement(vector);
 		}
@@ -58,7 +57,7 @@ public class JPanelHandling extends JPanel
 		{
 		// JComponents
 		initComponents();
-		
+
 		JScrollPane listPane = new JScrollPane(listVector);
 
 		// Layout
@@ -75,7 +74,7 @@ public class JPanelHandling extends JPanel
 	private void control()
 		{
 		initListeners();
-		
+
 		buttonRotateVector.addActionListener(new ActionListener()
 			{
 
@@ -84,13 +83,14 @@ public class JPanelHandling extends JPanel
 					{
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
-					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 4, axis);
 					for(Vector3D vector:vectors)
 						{
 						vector.set(QuaternionTools.rotation(vector, rotation));
 						}
 
 					canvas.refresh();
+					panelView.repaint();
 
 					//vMatrix
 					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
@@ -115,48 +115,51 @@ public class JPanelHandling extends JPanel
 					}
 			});
 		}
-	
-	private void initComponents(){
+
+	private void initComponents()
+		{
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
 		buttonRotateVector = new JButton("Rotate by 60° C");
 		model = new DefaultListModel<Vector3D>();
 		listVector = new JList<Vector3D>(model);
-	}
-	
-	private void initListeners(){
-		buttonAddVector.addActionListener(new ActionListener()
-		{
+		}
 
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-				{
-				try
+	private void initListeners()
+		{
+		buttonAddVector.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
 					{
-					addVector(JPanelInputs.showVectorInput());
+					try
+						{
+						addVector(JPanelInputs.showVectorInput());
+						}
+					catch (NotAVectorException e)
+						{
+						//NOP
+						}
 					}
-				catch (NotAVectorException e)
+			});
+
+		buttonAddLine.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
 					{
-					//NOP
+					JPanelInputs.showLineInput();
+
+					//The line above will return a Line3D object
+					//TODO Add it to the view
 					}
-				}
-		});
-		
-		buttonAddLine.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JPanelInputs.showLineInput();
-				
-				//The line above will return a Line3D object
-				//TODO Add it to the view
-			}
-		});
-	}
+			});
+		}
 
 	private void appearance()
 		{
-		this.setBackground(Color.CYAN);
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
 
@@ -165,7 +168,6 @@ public class JPanelHandling extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private TurboCanvas view3d;
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
 	private JButton buttonRotateVector;
