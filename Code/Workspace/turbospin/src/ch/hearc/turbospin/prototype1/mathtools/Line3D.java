@@ -20,12 +20,14 @@ public class Line3D
 		this.vectorDirection = new Vector3D(src.vectorDirection);
 		}
 
+	// 2 points
 	public Line3D(Point3D srcPointA, Point3D srcPointB)
 		{
 		this.pointPrimary = new Point3D(srcPointA);
 		this.vectorDirection = createDirectionVector(srcPointB);
 		}
 
+	// Parametric
 	public Line3D(Point3D srcPoint, Vector3D srcVectorDirection)
 		{
 		this.pointPrimary = new Point3D(srcPoint);

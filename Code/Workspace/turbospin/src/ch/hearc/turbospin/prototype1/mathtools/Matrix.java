@@ -11,7 +11,13 @@ public class Matrix
 	public Matrix(Matrix src)
 		{
 		this(src.getRows(), src.getColumns());
-		//TODO copy this shit bro
+		for(int i = 0; i < rows; i++)
+			{
+			for(int j = 0; j < columns; j++)
+				{
+				matrix[i][j] = src.matrix[i][j];
+				}
+			}
 		}
 
 	public Matrix(int M, int N)
@@ -46,7 +52,14 @@ public class Matrix
 		this.matrix = tab;
 		this.rows = tab.length;
 		this.columns = tab[0].length;
-		//TODO fill the matrix man
+
+		for(int i = 0; i < rows; i++)
+			{
+			for(int j = 0; j < columns; j++)
+				{
+				matrix[i][j] = tab[i][j];
+				}
+			}
 		}
 
 	/*------------------------------------------------------------------*\
@@ -54,7 +67,7 @@ public class Matrix
 	\*------------------------------------------------------------------*/
 	public Matrix add(Matrix toAdd)
 		{
-		if ((this.columns == toAdd.columns) && (this.rows == toAdd.rows))
+		try
 			{
 			for(int i = 0; i < toAdd.getColumns(); i++)
 				{
@@ -65,67 +78,80 @@ public class Matrix
 				}
 			return new Matrix(matrix);
 			}
-		else
-			{// for now returning the input Matrix
-				// TODO: use Exceptions to handle this
-			return toAdd;
+		catch (Exception e)
+			{
+			System.err.println("Not the same sized matrices.");
+			e.printStackTrace();
+			return null;
 			}
 		}
 
 	public Matrix times(Matrix toMultiply)
 		{
-		// TODO: use Exceptions to handle this
-		if (this.columns != toMultiply.rows) { return toMultiply; }
+
 		Matrix product = new Matrix(this.rows, toMultiply.columns);
 
-		for(int i = 0; i < this.rows; i++)
+		try
 			{
-			for(int j = 0; j < toMultiply.columns; j++)
+			for(int i = 0; i < this.rows; i++)
 				{
-				for(int k = 0; k < this.columns; k++)
+				for(int j = 0; j < toMultiply.columns; j++)
 					{
-					product.matrix[i][j] += matrix[i][k] * toMultiply.matrix[k][j];
+					for(int k = 0; k < this.columns; k++)
+						{
+						product.matrix[i][j] += matrix[i][k] * toMultiply.matrix[k][j];
+						}
 					}
 				}
+
+			return product;
 			}
-		// for now returning the input Matrix
-		return product;
+		catch (Exception e)
+			{
+			System.err.println("Matrices incompatible for multiplication. Make sure you have a MxN * NxJ product.");
+			e.printStackTrace();
+			return null;
+			}
 		}
 
 	public Vector3D times(Vector3D toMultiply)
 		{
-		// TODO: use Exceptions to handle this
-		if (this.columns != 3 && this.rows != 3) { return toMultiply; }
+
 		Vector3D product = new Vector3D();
 
-		product.setA(toMultiply.getA() * (this.matrix[0][0]) + toMultiply.getB() * (this.matrix[1][0]) + toMultiply.getC() * (this.matrix[2][0]));
-		product.setB(toMultiply.getA() * (this.matrix[0][1]) + toMultiply.getB() * (this.matrix[1][1]) + toMultiply.getC() * (this.matrix[2][1]));
-		product.setC(toMultiply.getA() * (this.matrix[0][2]) + toMultiply.getB() * (this.matrix[1][2]) + toMultiply.getC() * (this.matrix[2][2]));
+		try
+			{
+			product.setA(toMultiply.getA() * (this.matrix[0][0]) + toMultiply.getB() * (this.matrix[1][0]) + toMultiply.getC() * (this.matrix[2][0]));
+			product.setB(toMultiply.getA() * (this.matrix[0][1]) + toMultiply.getB() * (this.matrix[1][1]) + toMultiply.getC() * (this.matrix[2][1]));
+			product.setC(toMultiply.getA() * (this.matrix[0][2]) + toMultiply.getB() * (this.matrix[1][2]) + toMultiply.getC() * (this.matrix[2][2]));
 
-		return product;
+			return product;
+			}
+		catch (Exception e)
+			{
+			System.err.println("Matrix isn't of size 3x3. Make sure you are using a 3D matrix.");
+			e.printStackTrace();
+			return null;
+			}
 		}
 
 	public Matrix times(double scalar)
 		{
-		//TODO be stuff + <b>don't disturb <i>this</i></b>
-		for(int i = 0; i < matrix.length; i++)
+		Matrix product = new Matrix(rows, columns);
+		for(int i = 0; i < rows; i++)
 			{
-			for(int j = 0; j < matrix[0].length; j++)
+			for(int j = 0; j < columns; j++)
 				{
-				matrix[i][j] *= scalar;
+				product.setValue(i, j, matrix[i][j] * scalar);
 				}
 			}
-		return new Matrix(matrix);
+		return product;
 		}
 
 	public double determinant()
 		{
-		//TODO exception to face throwing
-		if (columns != rows)
-			{
-			return 0;
-			}
-		else
+
+		try
 			{
 			if (columns == 1 || rows == 1)
 				{
@@ -139,7 +165,14 @@ public class Matrix
 					determinant += ((i % 2 == 0) ? 1 : -1) * this.getValue(0, i) * this.subMatrix(0, i).determinant();
 					}
 				return determinant;
+
 				}
+			}
+		catch (Exception e)
+			{
+			System.err.println("This matrix isn't square; no determinant possible.");
+			e.printStackTrace();
+			return 0;
 			}
 		}
 
