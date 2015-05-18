@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.media.j3d.Shape3D;
 import javax.swing.JPanel;
 
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 public class JPanel2D extends JPanel
@@ -56,7 +57,26 @@ public class JPanel2D extends JPanel
 				{
 				drawVector(g2d, (Vector3D)shape);
 				}
+			if (shape instanceof Point3D)
+				{
+				drawPoint(g2d, (Point3D)shape);
+				}
 			}
+		}
+
+	private void drawPoint(Graphics2D g2d, Point3D point)
+		{
+		// TODO Auto-generated method stub
+		g2d.setColor(point.getColor().get());
+		int x = getWidth() / 2;
+		int y = getHeight() / 2;
+		double yArea = 4.0;
+		double xArea = (double)getWidth() / getHeight() * 4.0;
+		double deltaX = getPointValue(point, dim1);
+		double deltaY = getPointValue(point, dim2);
+		x += deltaX / xArea * getWidth();
+		y -= deltaY / yArea * getHeight();
+		g2d.drawArc(x, y, 3, 3, 0, 360);
 		}
 
 	private void drawVector(Graphics2D g2d, Vector3D vector)
@@ -71,6 +91,21 @@ public class JPanel2D extends JPanel
 		x += deltaX / xArea * getWidth();
 		y -= deltaY / yArea * getHeight();
 		g2d.drawLine(getWidth() / 2, getHeight() / 2, x, y);
+		}
+
+	private double getPointValue(Point3D point, char dim)
+		{
+		switch(dim)
+			{
+			case 'i':
+				return point.getX();
+			case 'j':
+				return point.getY();
+			case 'k':
+				return point.getZ();
+			default:
+				return 0;
+			}
 		}
 
 	private double getVectorValue(Vector3D vector, char dim)

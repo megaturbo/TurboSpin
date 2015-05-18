@@ -190,30 +190,9 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-
 					addPoint(JPanelInputs.showPointInput());
-					try
-						{
-						addVector(JPanelInputs.showVectorInput());
-						}
-					catch (NotAVectorException e1)
-						{
-						//NOP
-						}
 					}
-			});
 
-		buttonAddLine.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent arg0)
-					{
-					JPanelInputs.showLineInput();
-
-					//The line above will return a Line3D object
-					//TODO Add it to the view
-					}
 			});
 		}
 
