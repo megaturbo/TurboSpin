@@ -10,6 +10,7 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineAttributes;
+import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -32,15 +33,15 @@ public class TurboCanvas extends Canvas3D
 	TransformGroup mainTG = new TransformGroup();
 	//	ArrayList<Group> elements = new ArrayList<Group>();
 
-	List<Vector3D> vectors;
+	List<Shape3D> shapes;
 
 	SimpleUniverse universe;
 
-	public TurboCanvas(GraphicsConfiguration arg0, List<Vector3D> vectors)
+	public TurboCanvas(GraphicsConfiguration arg0, List<Shape3D> shapes)
 		{
 		super(arg0);
 
-		this.vectors = vectors;
+		this.shapes = shapes;
 
 		// Universe
 		universe = new SimpleUniverse(this);
@@ -189,9 +190,16 @@ public class TurboCanvas extends Canvas3D
 		{
 		vectorsBG.detach();
 		vectorsBG.removeAllChildren();
-		for(Vector3D vector:vectors)
+		for(Shape3D shape:shapes)
 			{
-			addVectorWithTheCubeEffectzor(vector);
+			if (shape instanceof Vector3D)
+				{
+				addVectorWithTheCubeEffectzor((Vector3D)shape);
+				}
+			if (shape instanceof Point3D)
+				{
+				addPoint((Point3D)shape);
+				}
 			}
 		createAxisSystem();
 		}

@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
@@ -21,9 +22,9 @@ public class JPanel2D extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanel2D(List<Vector3D> vectors, char dim1, char dim2, Map<Character, Vector3D> axes)
+	public JPanel2D(List<Shape3D> shapes, char dim1, char dim2, Map<Character, Vector3D> axes)
 		{
-		this.vectors = vectors;
+		this.shapes = shapes;
 		this.dim1 = dim1;
 		this.dim2 = dim2;
 		this.axes = axes;
@@ -48,10 +49,13 @@ public class JPanel2D extends JPanel
 		drawVector(g2d, axes.get('j'));
 		drawVector(g2d, axes.get('k'));
 
-		for(Vector3D vector:vectors)
+		for(Shape3D shape:shapes)
 			{
 			//projection on the plane
-			drawVector(g2d, vector);
+			if (shape instanceof Vector3D)
+				{
+				drawVector(g2d, (Vector3D)shape);
+				}
 			}
 		}
 
@@ -147,7 +151,7 @@ public class JPanel2D extends JPanel
 
 	// Tools
 	private Map<Character, Vector3D> axes;
-	private List<Vector3D> vectors;
+	private List<Shape3D> shapes;
 	private char dim1;
 	private char dim2;
 	}

@@ -1,9 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-<<<<<<< HEAD
-import javax.media.j3d.Shape3D;
-=======
 import javax.media.j3d.Appearance;
 import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.GeometryArray;
@@ -14,7 +11,6 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 
 import ch.hearc.turbospin.prototype1.tridimensional.TurboColors;
->>>>>>> e239bf2d63814351759ab23c5cb2b4b99bd427ff
 
 public class Point3D extends Shape3D
 	{

@@ -29,10 +29,10 @@ public class JPanelHandling extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Vector3D> vectors, JPanelView panelView)
+	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView)
 		{
 		this.canvas = canvas;
-		this.shapes = vectors;
+		this.shapes = shapes;
 		this.panelView = panelView;
 		geometry();
 		control();
@@ -96,20 +96,15 @@ public class JPanelHandling extends JPanel
 					{
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
-<<<<<<< HEAD
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
 					for(Shape3D shape:shapes)
-=======
-					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 4, axis);
-					for(Vector3D vector:vectors)
->>>>>>> e239bf2d63814351759ab23c5cb2b4b99bd427ff
 						{
-						if(shape instanceof Vector3D)
+						if (shape instanceof Vector3D)
 							{
 							Vector3D vector = (Vector3D)shape;
 							vector.set(QuaternionTools.rotation((Vector3D)shape, rotation));
 							}
-						else if(shape instanceof Point3D)
+						else if (shape instanceof Point3D)
 							{
 							Point3D point = (Point3D)shape;
 							Point3D resPoint = QuaternionTools.rotation(point, rotation);
@@ -152,21 +147,15 @@ public class JPanelHandling extends JPanel
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
 		buttonRotateVector = new JButton("Rotate by 60° C");
-<<<<<<< HEAD
 		buttonAddPoint = new JButton("Add points");
 		model = new DefaultListModel<Shape3D>();
 		listVector = new JList<Shape3D>(model);
-=======
-		model = new DefaultListModel<Vector3D>();
-		listVector = new JList<Vector3D>(model);
->>>>>>> e239bf2d63814351759ab23c5cb2b4b99bd427ff
 		}
 
 	private void initListeners()
 		{
 		buttonAddVector.addActionListener(new ActionListener()
 			{
-<<<<<<< HEAD
 
 				@Override
 				public void actionPerformed(ActionEvent arg0)
@@ -184,13 +173,10 @@ public class JPanelHandling extends JPanel
 
 		buttonAddLine.addActionListener(new ActionListener()
 			{
-=======
->>>>>>> e239bf2d63814351759ab23c5cb2b4b99bd427ff
 
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
-<<<<<<< HEAD
 					JPanelInputs.showLineInput();
 
 					//The line above will return a Line3D object
@@ -206,12 +192,11 @@ public class JPanelHandling extends JPanel
 					{
 
 					addPoint(JPanelInputs.showPointInput());
-=======
 					try
 						{
 						addVector(JPanelInputs.showVectorInput());
 						}
-					catch (NotAVectorException e)
+					catch (NotAVectorException e1)
 						{
 						//NOP
 						}
@@ -228,7 +213,6 @@ public class JPanelHandling extends JPanel
 
 					//The line above will return a Line3D object
 					//TODO Add it to the view
->>>>>>> e239bf2d63814351759ab23c5cb2b4b99bd427ff
 					}
 			});
 		}
