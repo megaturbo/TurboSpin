@@ -102,16 +102,12 @@ public class JPanelHandling extends JPanel
 						if (shape instanceof Vector3D)
 							{
 							Vector3D vector = (Vector3D)shape;
-							vector.set(QuaternionTools.rotation((Vector3D)shape, rotation));
+							vector.set(QuaternionTools.rotation(vector, rotation));
 							}
 						else if (shape instanceof Point3D)
 							{
 							Point3D point = (Point3D)shape;
-							Point3D resPoint = QuaternionTools.rotation(point, rotation);
-							point.setX(resPoint.getX());
-							point.setY(resPoint.getY());
-							point.setZ(resPoint.getZ());
-
+							point.set(QuaternionTools.rotation(point, rotation));
 							}
 						}
 
