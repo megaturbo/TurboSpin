@@ -1,5 +1,7 @@
-package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
+package ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -8,7 +10,7 @@ import javax.swing.JTextField;
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
-public class JPanelVectorInput {
+public class JPanelInputs {
 
 	public static Vector3D showVectorInput() throws NotAVectorException{
 		
@@ -42,6 +44,25 @@ public class JPanelVectorInput {
 			return new Vector3D(x, y, z);
 		}else{
 			throw new NotAVectorException("Canceled");
+		}
+	}
+	
+public static Vector3D showLineInput(){
+		
+		JPanel panel = new JPanel();
+		
+		String lineTypes[]  = {"Paramétrique", "A l'aide de 2 points"};
+		JComboBox<String> lineComboBox = new JComboBox<String>(lineTypes);
+
+		panel.add(new JLabel("Comment voulez-vous entrer la droite?"));
+		panel.add(lineComboBox);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Enter Vector coords", JOptionPane.OK_CANCEL_OPTION);
+		
+		if(result == JOptionPane.OK_OPTION) {
+			return null;
+		}else{
+			return null;
 		}
 	}
 
