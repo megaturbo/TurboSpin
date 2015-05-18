@@ -2,7 +2,6 @@
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +81,6 @@ public class JPanelMain2D extends JPanel
 	private void appearance()
 		{
 		// rien
-		this.setBackground(Color.BLUE);
 		setBorder(BorderFactory.createTitledBorder("2D"));
 		}
 

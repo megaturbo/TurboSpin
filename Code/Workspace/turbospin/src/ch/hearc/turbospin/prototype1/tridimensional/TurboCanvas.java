@@ -9,6 +9,7 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Group;
+import javax.media.j3d.LineAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
@@ -108,91 +109,46 @@ public class TurboCanvas extends Canvas3D
 		addVector(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
 		}
 
-	//	public void addText(String text, Color3f color, Vector3D location)
-	//		{
-	//		BranchGroup bg = new BranchGroup();
-	//
-	//		}
-	/*
-		/**
-		 * Add a vector starting at origin
-		 * @param v End location
-		 * @param color
-		 *//*
-		public void addVector(Vector3D v, Color3f color)
-		{
-		addVector(new Vector3D(), v, color);
-		}
-
-		/**
-		* Add a vector with start location and end location
-		* @param v0 Start location
-		* @param v1 End location
-		* @param color
-		*//*
-			public void addVector(Vector3D v0, Vector3D v1, Color3f color)
-			{
-
-			BranchGroup tempGroup = new BranchGroup();
-			Group lineGroup = new Group();
-
-			// LineArray
-			Point3d[] pointLineArrayPoints = new Point3d[2];
-			pointLineArrayPoints[0] = new Point3d(v0.getA(), v0.getB(), v0.getC());
-			pointLineArrayPoints[1] = new Point3d(v1.getA(), v1.getB(), v1.getC());
-			LineArray pointLineArray = new LineArray(2, GeometryArray.COORDINATES);
-			pointLineArray.setCoordinates(0, pointLineArrayPoints);
-
-			// Color
-			Appearance appearance = new Appearance();
-			ColoringAttributes ca = new ColoringAttributes(color, 0);
-			appearance.setColoringAttributes(ca);
-
-			//Width
-			LineAttributes la = new LineAttributes();
-			la.setLineWidth(3);
-			appearance.setLineAttributes(la);
-
-			// Shape
-			Shape3D plShape = new Shape3D(pointLineArray, appearance);
-
-			//		elements.add(lineGroup);
-			//		lineGroup.addChild(plShape);
-
-			//TESTING
-			lineGroup.addChild(v1);
-
-			tempGroup.addChild(lineGroup);
-			//		mainTG.addChild(tempGroup);
-			vectorsBG.addChild(tempGroup);
-
-			}
-			*/
 	/**
-	 * Add a vector starting at origin
+	 * Add a vector starting at origin, with a parallelepiped showing its 3D components
 	 * @param v End location
 	 */
 	public void addVectorWithTheCubeEffectzor(Vector3D vector)
 		{
 		vectorsBG.detach();
+
 		//adding the vector
 		vectorsBG.addChild(vector);
 
 		//adding a cube
+		//colored vertices
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.RED, 1));
-
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.GREEN, 1));
-
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLUE, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLUE, 1));
+
+		//black vertices
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		//black vertices that may be in the axes
+		if (vector.getA() < 0)
+			{
+			vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			}
+		if (vector.getB() < 0)
+			{
+			vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			}
+		if (vector.getC() < 0)
+			{
+			vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			}
 
 		mainTG.addChild(vectorsBG);
 		}
@@ -203,14 +159,16 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void addVector(Vector3D vector)
 		{
-		addVectorWithTheCubeEffectzor(vector);
-		//
-		//		vectorsBG.detach();
-		//		//adding the vector
-		//		vectorsBG.addChild(vector);
-		//
-		//
-		//		mainTG.addChild(vectorsBG);
+		vectorsBG.detach();
+		vectorsBG.addChild(vector);
+		mainTG.addChild(vectorsBG);
+		}
+
+	public void addPoint(Point3D point)
+		{
+		vectorsBG.detach();
+		vectorsBG.addChild(point);
+		mainTG.addChild(vectorsBG);
 		}
 
 	/**
