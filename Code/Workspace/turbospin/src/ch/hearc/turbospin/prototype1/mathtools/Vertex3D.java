@@ -24,6 +24,18 @@ public class Vertex3D extends Shape3D
 		this(A, B, TurboColors.PINK, 3);
 		}
 
+	public Vertex3D(Point3D A, Point3D B, Color3f color, int width, int linePattern)
+		{
+		this.A = new Point3D(A);
+		this.B = new Point3D(B);
+
+		setAppearance(color, width, linePattern);
+
+		setCapability(Shape3D.ALLOW_GEOMETRY_WRITE);
+
+		setGeometry();
+		}
+
 	public Vertex3D(Point3D A, Point3D B, Color3f color, int width)
 		{
 		this.A = new Point3D(A);
@@ -76,7 +88,7 @@ public class Vertex3D extends Shape3D
 
 	private void setAppearance(Color3f color, int width)
 		{
-		setAppearance(color, width, LinePattern.PATTERN_DASH);
+		setAppearance(color, width, LineAttributes.PATTERN_SOLID);
 		}
 
 	private void setAppearance(Color3f color, int width, int linePattern)

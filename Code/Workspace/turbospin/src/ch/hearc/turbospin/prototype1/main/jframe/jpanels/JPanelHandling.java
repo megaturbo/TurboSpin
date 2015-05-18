@@ -1,11 +1,11 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputs;
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
@@ -28,10 +29,10 @@ public class JPanelHandling extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Vector3D> vectors, JPanelView panelView)
+	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView)
 		{
 		this.canvas = canvas;
-		this.vectors = vectors;
+		this.shapes = shapes;
 		this.panelView = panelView;
 		geometry();
 		control();
@@ -44,11 +45,21 @@ public class JPanelHandling extends JPanel
 
 	public void addVector(Vector3D vector)
 		{
-		vectors.add(vector);
+		shapes.add(vector);
 		canvas.refresh();
-		
+
 		panelView.repaint();
 		model.addElement(vector);
+		}
+
+	public void addPoint(Point3D point)
+		{
+		shapes.add(point);
+		canvas.refresh();
+
+		panelView.repaint();
+		model.addElement(point);
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -58,7 +69,7 @@ public class JPanelHandling extends JPanel
 		{
 		// JComponents
 		initComponents();
-		
+
 		JScrollPane listPane = new JScrollPane(listVector);
 
 		// Layout
@@ -69,13 +80,14 @@ public class JPanelHandling extends JPanel
 		add(buttonRotateVector);
 		add(buttonAddVector);
 		add(buttonAddLine);
+		add(buttonAddPoint);
 		add(listPane);
 		}
 
 	private void control()
 		{
 		initListeners();
-		
+
 		buttonRotateVector.addActionListener(new ActionListener()
 			{
 
@@ -85,12 +97,26 @@ public class JPanelHandling extends JPanel
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
-					for(Vector3D vector:vectors)
+					for(Shape3D shape:shapes)
 						{
-						vector.set(QuaternionTools.rotation(vector, rotation));
+						if (shape instanceof Vector3D)
+							{
+							Vector3D vector = (Vector3D)shape;
+							vector.set(QuaternionTools.rotation((Vector3D)shape, rotation));
+							}
+						else if (shape instanceof Point3D)
+							{
+							Point3D point = (Point3D)shape;
+							Point3D resPoint = QuaternionTools.rotation(point, rotation);
+							point.setX(resPoint.getX());
+							point.setY(resPoint.getY());
+							point.setZ(resPoint.getZ());
+
+							}
 						}
 
 					canvas.refresh();
+					panelView.repaint();
 
 					//vMatrix
 					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
@@ -115,48 +141,84 @@ public class JPanelHandling extends JPanel
 					}
 			});
 		}
-	
-	private void initComponents(){
+
+	private void initComponents()
+		{
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
 		buttonRotateVector = new JButton("Rotate by 60° C");
-		model = new DefaultListModel<Vector3D>();
-		listVector = new JList<Vector3D>(model);
-	}
-	
-	private void initListeners(){
-		buttonAddVector.addActionListener(new ActionListener()
-		{
+		buttonAddPoint = new JButton("Add points");
+		model = new DefaultListModel<Shape3D>();
+		listVector = new JList<Shape3D>(model);
+		}
 
-			@Override
-			public void actionPerformed(ActionEvent arg0)
-				{
-				try
+	private void initListeners()
+		{
+		buttonAddVector.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
 					{
-					addVector(JPanelInputs.showVectorInput());
+					try
+						{
+						addVector(JPanelInputs.showVectorInput());
+						}
+					catch (NotAVectorException e)
+						{
+						//NOP
+						}
 					}
-				catch (NotAVectorException e)
+			});
+
+		buttonAddLine.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
 					{
-					//NOP
+					JPanelInputs.showLineInput();
+
+					//The line above will return a Line3D object
+					//TODO Add it to the view
 					}
-				}
-		});
-		
-		buttonAddLine.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JPanelInputs.showLineInput();
-				
-				//The line above will return a Line3D object
-				//TODO Add it to the view
-			}
-		});
-	}
+			});
+
+		buttonAddPoint.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+
+					addPoint(JPanelInputs.showPointInput());
+					try
+						{
+						addVector(JPanelInputs.showVectorInput());
+						}
+					catch (NotAVectorException e1)
+						{
+						//NOP
+						}
+					}
+			});
+
+		buttonAddLine.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+					{
+					JPanelInputs.showLineInput();
+
+					//The line above will return a Line3D object
+					//TODO Add it to the view
+					}
+			});
+		}
 
 	private void appearance()
 		{
-		this.setBackground(Color.CYAN);
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
 
@@ -165,15 +227,15 @@ public class JPanelHandling extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private TurboCanvas view3d;
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
 	private JButton buttonRotateVector;
+	private JButton buttonAddPoint;
 
-	private JList<Vector3D> listVector;
-	private DefaultListModel<Vector3D> model;
+	private JList<Shape3D> listVector;
+	private DefaultListModel<Shape3D> model;
 
-	private List<Vector3D> vectors;
+	private List<Shape3D> shapes;
 	private TurboCanvas canvas;
 	private JPanelView panelView;
 

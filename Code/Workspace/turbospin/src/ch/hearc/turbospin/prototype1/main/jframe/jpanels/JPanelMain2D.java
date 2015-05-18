@@ -2,12 +2,12 @@
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -21,9 +21,9 @@ public class JPanelMain2D extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelMain2D(List<Vector3D> vectors)
+	public JPanelMain2D(List<Shape3D> shapes)
 		{
-		geometry(vectors);
+		geometry(shapes);
 		control();
 		appearance();
 		}
@@ -36,7 +36,7 @@ public class JPanelMain2D extends JPanel
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void geometry(List<Vector3D> vectors)
+	private void geometry(List<Shape3D> shapes)
 		{
 		// JComponent : Instanciation
 		Map<Character, Vector3D> axes = new HashMap<Character, Vector3D>();
@@ -46,9 +46,9 @@ public class JPanelMain2D extends JPanel
 		axes.put('i', new Vector3D(100, 0, 0, TurboColors.RED, 1));
 		axes.put('j', new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
 		axes.put('k', new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
-		panelIJ = new JPanel2D(vectors, 'i', 'j', axes);
-		panelJK = new JPanel2D(vectors, 'j', 'k', axes);
-		panelKI = new JPanel2D(vectors, 'k', 'i', axes);
+		panelIJ = new JPanel2D(shapes, 'i', 'j', axes);
+		panelJK = new JPanel2D(shapes, 'j', 'k', axes);
+		panelKI = new JPanel2D(shapes, 'k', 'i', axes);
 
 		// Layout : Specification
 		GridLayout gridLayout = new GridLayout(0, 1);
@@ -82,7 +82,6 @@ public class JPanelMain2D extends JPanel
 	private void appearance()
 		{
 		// rien
-		this.setBackground(Color.BLUE);
 		setBorder(BorderFactory.createTitledBorder("2D"));
 		}
 

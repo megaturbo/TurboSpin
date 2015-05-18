@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.JFrame;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -13,7 +14,6 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelHandling;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelView;
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JFrameMain extends JFrame
@@ -42,17 +42,15 @@ public class JFrameMain extends JFrame
 	private void geometry()
 		{
 		// Instantiate list
-		List<Vector3D> vectors = new ArrayList<Vector3D>();
+		List<Shape3D> shapes = new ArrayList<Shape3D>();
 
 		// Instantiate canvas
-		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), vectors);
+		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), shapes);
 
 		// Instantiate components
-		panelView = new JPanelView(turboCanvas, vectors);
-		panelHandling = new JPanelHandling(turboCanvas, vectors, panelView);
+		panelView = new JPanelView(turboCanvas, shapes);
+		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView);
 		panelRotationInfo = new JPanelRotationInfo();
-
-
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();

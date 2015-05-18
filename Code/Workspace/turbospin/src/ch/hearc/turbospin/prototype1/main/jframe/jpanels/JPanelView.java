@@ -6,11 +6,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.List;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JPanelView extends JPanel
@@ -20,10 +20,10 @@ public class JPanelView extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelView(TurboCanvas canvas, List<Vector3D> vectors)
+	public JPanelView(TurboCanvas canvas, List<Shape3D> shapes)
 		{
 		this.canvas = canvas;
-		geometry(vectors);
+		geometry(shapes);
 		control();
 		appearance();
 		}
@@ -36,11 +36,11 @@ public class JPanelView extends JPanel
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void geometry(List<Vector3D> vectors)
+	private void geometry(List<Shape3D> shapes)
 		{
 		// JComponent : Instanciation
 		panel3D = new JPanel3D(canvas);
-		panelMain2D = new JPanelMain2D(vectors);
+		panelMain2D = new JPanelMain2D(shapes);
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel3D, panelMain2D);
 
