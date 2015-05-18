@@ -1,7 +1,9 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-public class Point3D
+import javax.media.j3d.Shape3D;
+
+public class Point3D extends Shape3D
 	{
 
 	/*------------------------------------------------------------------*\
