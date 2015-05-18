@@ -40,9 +40,12 @@ public class JPanelMain2D extends JPanel
 		{
 		// JComponent : Instanciation
 		Map<Character, Vector3D> axes = new HashMap<Character, Vector3D>();
-		axes.put('i', new Vector3D(1, 0, 0, TurboColors.RED));
-		axes.put('j', new Vector3D(0, 1, 0, TurboColors.GREEN));
-		axes.put('k', new Vector3D(0, 0, 1, TurboColors.BLUE));
+		axes.put('i', new Vector3D(1, 0, 0, TurboColors.RED, 3));
+		axes.put('j', new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
+		axes.put('k', new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
+		axes.put('i', new Vector3D(100, 0, 0, TurboColors.RED, 1));
+		axes.put('j', new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
+		axes.put('k', new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
 		panelIJ = new JPanel2D(vectors, 'i', 'j', axes);
 		panelJK = new JPanel2D(vectors, 'j', 'k', axes);
 		panelKI = new JPanel2D(vectors, 'k', 'i', axes);
