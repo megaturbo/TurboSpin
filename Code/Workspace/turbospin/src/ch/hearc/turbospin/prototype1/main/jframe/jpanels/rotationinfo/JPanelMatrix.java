@@ -1,27 +1,24 @@
 
-package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
+package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelMatrix;
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelQuaternion;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
-import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
-public class JPanelRotationInfo extends JPanel
+public class JPanelMatrix extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelRotationInfo(Quaternion quaternion, Matrix rotationMatrix)
+	public JPanelMatrix(Matrix matrix)
 		{
-		this.quaternion = quaternion;
-		this.matrix = rotationMatrix;
+		this.matrix = matrix;
 		geometry();
 		control();
 		appearance();
@@ -30,6 +27,13 @@ public class JPanelRotationInfo extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	@Override
+	protected void paintComponent(Graphics g)
+		{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D)g;
+
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -46,9 +50,7 @@ public class JPanelRotationInfo extends JPanel
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			//panelMatrix = new JPanelMatrix(matrix);
-			panelQuaternion = new JPanelQuaternion(quaternion);
-			panelMatrix = new JPanelMatrix(matrix);
+
 			// Layout : Specification
 			{
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
@@ -59,8 +61,7 @@ public class JPanelRotationInfo extends JPanel
 			}
 
 		// JComponent : add
-		add(panelMatrix);
-		add(panelQuaternion);
+
 		}
 
 	private void control()
@@ -71,7 +72,6 @@ public class JPanelRotationInfo extends JPanel
 	private void appearance()
 		{
 		// rien
-		setBorder(BorderFactory.createTitledBorder("Rotation information"));
 		}
 
 	/*------------------------------------------------------------------*\
@@ -79,11 +79,8 @@ public class JPanelRotationInfo extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelMatrix panelMatrix;
-	private JPanelQuaternion panelQuaternion;
 
-	//inputs
-	private Quaternion quaternion;
+	// inputs
 	private Matrix matrix;
 
 	}
