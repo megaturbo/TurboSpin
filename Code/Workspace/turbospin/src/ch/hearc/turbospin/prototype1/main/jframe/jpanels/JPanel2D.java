@@ -190,7 +190,8 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 					centerY += deltaY;
 					break;
 				case 2:
-					yArea *= (1.0 + deltaY / 10.0);
+					//					yArea *= (1.0 + deltaY / 10.0);
+					yArea *= Math.pow(Math.E, deltaY / 10.0);
 					break;
 				default:
 				}
