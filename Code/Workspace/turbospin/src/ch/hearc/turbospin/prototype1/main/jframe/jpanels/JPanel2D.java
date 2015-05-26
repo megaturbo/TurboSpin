@@ -39,8 +39,9 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 		geometry();
 		control();
 		appearance();
-		centerX = getWidth() / 2;
-		centerY = getHeight() / 2;
+		centerX = 2.0;
+		centerY = 2.0;
+		yArea = 4.0;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -82,29 +83,25 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 	private void drawPoint(Graphics2D g2d, Point3D point)
 		{
 		g2d.setColor(point.getColor().get());
-		int x = centerX;
-		int y = centerY;
-		double xArea = (double)getWidth() / getHeight() * yArea;
+		g2d.setStroke(new BasicStroke(3));
 		double deltaX = getPointValue(point, dim1);
 		double deltaY = getPointValue(point, dim2);
-		x += deltaX / xArea * getWidth();
-		y -= deltaY / yArea * getHeight();
-		g2d.setStroke(new BasicStroke(3));
-		g2d.drawArc(x, y, 3, 3, 0, 360);
+		double x = (centerX + deltaX) / xArea * getWidth();
+		double y = (centerY - deltaY) / yArea * getHeight();
+		g2d.drawArc((int)x, (int)y, 3, 3, 0, 360);
 		}
 
 	private void drawVector(Graphics2D g2d, Vector3D vector)
 		{
 		g2d.setColor(vector.getColor().get());
-		int x = centerX;
-		int y = centerY;
-		double xArea = (double)getWidth() / getHeight() * yArea;
+		g2d.setStroke(new BasicStroke(vector.getWidth()));
 		double deltaX = getVectorValue(vector, dim1);
 		double deltaY = getVectorValue(vector, dim2);
-		x += deltaX / xArea * getWidth();
-		y -= deltaY / yArea * getHeight();
-		g2d.setStroke(new BasicStroke(vector.getWidth()));
-		g2d.drawLine(centerX, centerY, x, y);
+		double x1 = centerX * getWidth() / xArea;
+		double y1 = centerY * getHeight() / yArea;
+		double x2 = x1 + deltaX / xArea * getWidth();
+		double y2 = y1 - deltaY / yArea * getHeight();
+		g2d.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
 		}
 
 	private double getPointValue(Point3D point, char dim)
@@ -150,11 +147,11 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 				@Override
 				public void componentResized(ComponentEvent e)
 					{
-					centerX = getWidth() / 2;
-					centerY = getHeight() / 2;
+					xArea = (double)getWidth() / getHeight() * yArea;
+					repaint();
 					}
-
 			});
+
 		this.addMouseListener(new MouseAdapter()
 			{
 
@@ -186,16 +183,17 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 				{
 				case 1:
 				case 3:
-					centerX += deltaX;
-					centerY += deltaY;
+					centerX += (double)deltaX / getWidth() * xArea;
+					centerY += (double)deltaY / getHeight() * yArea;
 					break;
 				case 2:
-					//					yArea *= (1.0 + deltaY / 10.0);
 					yArea *= Math.pow(Math.E, deltaY / 10.0);
+					xArea = (double)getWidth() / getHeight() * yArea;
+					centerX *= Math.pow(Math.E, deltaY / 10.0);
+					centerY *= Math.pow(Math.E, deltaY / 10.0);
 					break;
 				default:
 				}
-
 			this.repaint();
 			}
 
@@ -225,9 +223,10 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 	private char dim2;
 
 	//Drawing attributes and mouse control
-	private int centerX;
-	private int centerY;
-	private double yArea = 4.0;
+	private double centerX;
+	private double centerY;
+	private double yArea;
+	private double xArea;
 	private int mouseX = -1;
 	private int mouseY = -1;
 	private int button;
