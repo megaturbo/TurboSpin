@@ -3,6 +3,7 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
 import java.awt.FlowLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -45,7 +46,7 @@ public class JPanelQuaternion extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		quaternionInfoLabel = new JLabel("Quaternion generated for this rotation:");
+		quaternionInfoLabel = new JLabel("Quaternion generated from this rotation:");
 		quaternionLabel = new JLabel("");
 			// Layout : Specification
 			{
@@ -69,6 +70,7 @@ public class JPanelQuaternion extends JPanel
 	private void appearance()
 		{
 		// rien
+		setBorder(BorderFactory.createTitledBorder("Quaternion"));
 		}
 
 	/*------------------------------------------------------------------*\

@@ -41,6 +41,11 @@ public class JFrameMain extends JFrame
 		panelRotationInfo.refresh(quaternion);
 		}
 
+	public void refresh(Matrix rotation)
+		{
+		panelRotationInfo.refresh(rotation);
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -65,6 +70,8 @@ public class JFrameMain extends JFrame
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
+
+		panelRotationInfo.setPreferredSize(new Dimension(0, 200));
 
 		// Adding components
 		add(panelHandling, BorderLayout.WEST);
