@@ -28,14 +28,9 @@ import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 public class TurboCanvas extends Canvas3D
 	{
 
-	BranchGroup mainBG = new BranchGroup();
-	BranchGroup vectorsBG = new BranchGroup();
-	TransformGroup mainTG = new TransformGroup();
-	//	ArrayList<Group> elements = new ArrayList<Group>();
-
-	List<Shape3D> shapes;
-
-	SimpleUniverse universe;
+	/*------------------------------------------------------------------*\
+	|*							Constructeurs							*|
+	\*------------------------------------------------------------------*/
 
 	public TurboCanvas(GraphicsConfiguration arg0, List<Shape3D> shapes)
 		{
@@ -74,41 +69,9 @@ public class TurboCanvas extends Canvas3D
 		universe.addBranchGraph(mainBG);
 		}
 
-	private void createMouseNavigation()
-		{
-		// Mouse rotation rotates the view
-		MouseRotate mouseRotate = new MouseRotate(mainTG);
-		MouseZoom mouseZoom = new MouseZoom(mainTG);
-		MouseTranslate mouseTranslate = new MouseTranslate(mainTG);
-
-		BoundingSphere bs = new BoundingSphere();
-
-		mouseRotate.setSchedulingBounds(bs);
-		mouseZoom.setSchedulingBounds(bs);
-		mouseTranslate.setSchedulingBounds(bs);
-
-		mainBG.addChild(mouseRotate);
-		mainBG.addChild(mouseZoom);
-		mainBG.addChild(mouseTranslate);
-		}
-
-	private void setBackgroundColor(Color3f color)
-		{
-		Background background = new Background(color);
-		BoundingSphere sphere = new BoundingSphere(new Point3d(0, 0, 0), 100000);
-		background.setApplicationBounds(sphere);
-		mainBG.addChild(background);
-		}
-
-	private void createAxisSystem()
-		{
-		addVector(new Vector3D(1, 0, 0, TurboColors.RED, 3));
-		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
-		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
-		addVector(new Vector3D(100, 0, 0, TurboColors.RED, 1));
-		addVector(new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
-		addVector(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
-		}
+	/*------------------------------------------------------------------*\
+	|*							Methodes Public							*|
+	\*------------------------------------------------------------------*/
 
 	/**
 	 * Add a vector starting at origin, with a parallelepiped showing its 3D components
@@ -203,4 +166,53 @@ public class TurboCanvas extends Canvas3D
 			}
 		createAxisSystem();
 		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
+	private void createMouseNavigation()
+		{
+		// Mouse rotation rotates the view
+		MouseRotate mouseRotate = new MouseRotate(mainTG);
+		MouseZoom mouseZoom = new MouseZoom(mainTG);
+		MouseTranslate mouseTranslate = new MouseTranslate(mainTG);
+
+		BoundingSphere bs = new BoundingSphere();
+
+		mouseRotate.setSchedulingBounds(bs);
+		mouseZoom.setSchedulingBounds(bs);
+		mouseTranslate.setSchedulingBounds(bs);
+
+		mainBG.addChild(mouseRotate);
+		mainBG.addChild(mouseZoom);
+		mainBG.addChild(mouseTranslate);
+		}
+
+	private void setBackgroundColor(Color3f color)
+		{
+		Background background = new Background(color);
+		BoundingSphere sphere = new BoundingSphere(new Point3d(0, 0, 0), 100000);
+		background.setApplicationBounds(sphere);
+		mainBG.addChild(background);
+		}
+
+	private void createAxisSystem()
+		{
+		addVector(new Vector3D(1, 0, 0, TurboColors.RED, 3));
+		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
+		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
+		addVector(new Vector3D(100, 0, 0, TurboColors.RED, 1));
+		addVector(new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
+		addVector(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Attributs Private						*|
+	\*------------------------------------------------------------------*/
+
+	private BranchGroup mainBG = new BranchGroup();
+	private BranchGroup vectorsBG = new BranchGroup();
+	private TransformGroup mainTG = new TransformGroup();
+	private List<Shape3D> shapes;
+	private SimpleUniverse universe;
 	}
