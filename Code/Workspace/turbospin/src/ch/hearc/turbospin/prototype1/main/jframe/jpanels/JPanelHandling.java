@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputs;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
@@ -158,7 +158,7 @@ public class JPanelHandling extends JPanel
 					{
 					try
 						{
-						addVector(JPanelInputs.showVectorInput());
+						addVector(JPanelInputsFactory.showVectorInput());
 						}
 					catch (NotAVectorException e)
 						{
@@ -173,7 +173,7 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
-					JPanelInputs.showLineInput();
+					JPanelInputsFactory.showLineInput();
 
 					//The line above will return a Line3D object
 					//TODO Add it to the view
@@ -186,7 +186,7 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					addPoint(JPanelInputs.showPointInput());
+					addPoint(JPanelInputsFactory.showPointInput());
 					}
 
 			});

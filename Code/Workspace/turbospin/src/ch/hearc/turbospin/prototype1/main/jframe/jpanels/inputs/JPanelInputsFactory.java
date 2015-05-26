@@ -11,7 +11,7 @@ import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
-public class JPanelInputs
+public class JPanelInputsFactory
 	{
 
 	public static Vector3D showVectorInput() throws NotAVectorException
@@ -69,6 +69,7 @@ public class JPanelInputs
 
 		int result = JOptionPane.showConfirmDialog(null, panel, "Enter Vector coords", JOptionPane.OK_CANCEL_OPTION);
 
+		//Pro
 		if (result == JOptionPane.OK_OPTION)
 			{
 			return null;
