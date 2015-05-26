@@ -30,7 +30,10 @@ public class JPanelRotationInfo extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-
+	public void refresh(Quaternion quaternion)
+	{
+		panelQuaternion.refresh(quaternion);
+	}
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/

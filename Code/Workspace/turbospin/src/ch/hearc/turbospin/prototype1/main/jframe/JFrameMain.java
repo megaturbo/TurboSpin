@@ -36,6 +36,10 @@ public class JFrameMain extends JFrame
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	public void refresh(Quaternion quaternion)
+		{
+		panelRotationInfo.refresh(quaternion);
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -55,8 +59,8 @@ public class JFrameMain extends JFrame
 
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
-		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView);
-		panelRotationInfo = new JPanelRotationInfo(infoQuaternion,infoMatrix);
+		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView, this);
+		panelRotationInfo = new JPanelRotationInfo(infoQuaternion, infoMatrix);
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
+import ch.hearc.turbospin.prototype1.main.jframe.JFrameMain;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputs;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
@@ -29,8 +30,9 @@ public class JPanelHandling extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView)
+	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView, JFrameMain jframemain)
 		{
+		this.parent = jframemain;
 		this.canvas = canvas;
 		this.shapes = shapes;
 		this.panelView = panelView;
@@ -97,6 +99,7 @@ public class JPanelHandling extends JPanel
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+					parent.refresh(rotation);
 					for(Shape3D shape:shapes)
 						{
 						if (shape instanceof Vector3D)
@@ -210,6 +213,7 @@ public class JPanelHandling extends JPanel
 	private JList<Shape3D> listVector;
 	private DefaultListModel<Shape3D> model;
 
+	private JFrameMain parent;
 	private List<Shape3D> shapes;
 	private TurboCanvas canvas;
 	private JPanelView panelView;
