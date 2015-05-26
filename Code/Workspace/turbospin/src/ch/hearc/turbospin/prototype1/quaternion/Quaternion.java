@@ -1,8 +1,6 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
-import java.text.DecimalFormat;
-
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 public class Quaternion
@@ -48,16 +46,15 @@ public class Quaternion
 	@Override
 	public String toString()
 		{
-		DecimalFormat df = new DecimalFormat("#.000");
 		StringBuilder sb = new StringBuilder();
 		sb.append("q = [r: ");
-		sb.append(df.format(r));
+		sb.append(String.format("%.3f", r));
 		sb.append(", i: ");
-		sb.append(df.format(i));
+		sb.append(String.format("%.3f", i));
 		sb.append(", j: ");
-		sb.append(df.format(j));
+		sb.append(String.format("%.3f", j));
 		sb.append(", k: ");
-		sb.append(df.format(k));
+		sb.append(String.format("%.3f", k));
 		sb.append("]");
 		return sb.toString();
 		}
