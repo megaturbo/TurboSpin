@@ -59,7 +59,7 @@ public class Vector3D extends Shape3D
 	public String toString()
 		{
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		sb.append("Vector: [");
 		sb.append(a);
 		sb.append(", ");
 		sb.append(b);

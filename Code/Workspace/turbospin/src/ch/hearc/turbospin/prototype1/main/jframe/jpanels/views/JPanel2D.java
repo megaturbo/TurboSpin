@@ -1,5 +1,5 @@
 
-package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
+package ch.hearc.turbospin.prototype1.main.jframe.jpanels.views;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,9 +33,6 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 		this.dim1 = dim1;
 		this.dim2 = dim2;
 		this.axes = axes;
-
-		addMouseMotionListener(this);
-
 		geometry();
 		control();
 		appearance();
@@ -141,6 +138,7 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 
 	private void control()
 		{
+		addMouseMotionListener(this);
 		this.addComponentListener(new ComponentAdapter()
 			{
 

@@ -54,7 +54,7 @@ public class Point3D extends Shape3D
 	public String toString()
 		{
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		sb.append("Point: [");
 		sb.append(x);
 		sb.append(", ");
 		sb.append(y);

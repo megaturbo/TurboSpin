@@ -1,5 +1,5 @@
 
-package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
+package ch.hearc.turbospin.prototype1.main.jframe.jpanels.views;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

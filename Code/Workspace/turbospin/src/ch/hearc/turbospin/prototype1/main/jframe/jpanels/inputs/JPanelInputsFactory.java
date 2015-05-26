@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
+import ch.hearc.turbospin.prototype1.mathtools.Line3D;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
@@ -56,7 +57,7 @@ public class JPanelInputsFactory
 			}
 		}
 
-	public static Vector3D showLineInput()
+	public static Line3D showLineInput()
 		{
 
 		JPanel panel = new JPanel();
@@ -88,7 +89,7 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez inserer un point."));
+		panel.add(new JLabel("Veuillez insérer un point."));
 
 		panel.add(new JLabel("x:"));
 		panel.add(xField);
