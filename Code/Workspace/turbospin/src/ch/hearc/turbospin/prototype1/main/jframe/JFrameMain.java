@@ -14,6 +14,8 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelHandling;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelView;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JFrameMain extends JFrame
@@ -47,10 +49,14 @@ public class JFrameMain extends JFrame
 		// Instantiate canvas
 		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), shapes);
 
+		//Instantiate visualizable quaternion/matrix
+		infoMatrix = new Matrix(3);
+		infoQuaternion = new Quaternion();
+
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
 		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView);
-		panelRotationInfo = new JPanelRotationInfo();
+		panelRotationInfo = new JPanelRotationInfo(infoQuaternion,infoMatrix);
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();
@@ -83,4 +89,8 @@ public class JFrameMain extends JFrame
 	private JPanelView panelView;
 	private JPanelRotationInfo panelRotationInfo;
 	private TurboCanvas turboCanvas;
+
+	// Inputs
+	private Quaternion infoQuaternion;
+	private Matrix infoMatrix;
 	}

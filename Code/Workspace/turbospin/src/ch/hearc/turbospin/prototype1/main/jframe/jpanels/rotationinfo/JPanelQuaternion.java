@@ -1,27 +1,22 @@
-
-package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
+package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
 import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelMatrix;
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelQuaternion;
-import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
-public class JPanelRotationInfo extends JPanel
+public class JPanelQuaternion extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelRotationInfo(Quaternion quaternion, Matrix rotationMatrix)
+	public JPanelQuaternion(Quaternion quaternion)
 		{
 		this.quaternion = quaternion;
-		this.matrix = rotationMatrix;
 		geometry();
 		control();
 		appearance();
@@ -46,9 +41,7 @@ public class JPanelRotationInfo extends JPanel
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			//panelMatrix = new JPanelMatrix(matrix);
-			panelQuaternion = new JPanelQuaternion(quaternion);
-			panelMatrix = new JPanelMatrix(matrix);
+			quaternionLabel = new JLabel("");
 			// Layout : Specification
 			{
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
@@ -59,8 +52,7 @@ public class JPanelRotationInfo extends JPanel
 			}
 
 		// JComponent : add
-		add(panelMatrix);
-		add(panelQuaternion);
+
 		}
 
 	private void control()
@@ -71,7 +63,6 @@ public class JPanelRotationInfo extends JPanel
 	private void appearance()
 		{
 		// rien
-		setBorder(BorderFactory.createTitledBorder("Rotation information"));
 		}
 
 	/*------------------------------------------------------------------*\
@@ -79,11 +70,8 @@ public class JPanelRotationInfo extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelMatrix panelMatrix;
-	private JPanelQuaternion panelQuaternion;
-
-	//inputs
+	private JLabel quaternionLabel;
+	// Inputs
 	private Quaternion quaternion;
-	private Matrix matrix;
 
 	}

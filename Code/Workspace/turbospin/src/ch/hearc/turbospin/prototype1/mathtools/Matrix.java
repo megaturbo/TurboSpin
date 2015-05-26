@@ -36,16 +36,7 @@ public class Matrix
 		init();
 		}
 
-	private void init()
-		{
-		for(int i = 0; i < this.rows; i++)
-			{
-			for(int j = 0; j < this.columns; j++)
-				{
-				matrix[i][j] = 0;
-				}
-			}
-		}
+
 
 	public Matrix(double[][] tab)
 		{
@@ -227,6 +218,16 @@ public class Matrix
 		return subMatrix;
 		}
 
+	private void init()
+		{
+		for(int i = 0; i < this.rows; i++)
+			{
+			for(int j = 0; j < this.columns; j++)
+				{
+				matrix[i][j] = 0;
+				}
+			}
+		}
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
