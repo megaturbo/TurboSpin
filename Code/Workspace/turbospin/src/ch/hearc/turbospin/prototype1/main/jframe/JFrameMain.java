@@ -36,6 +36,7 @@ public class JFrameMain extends JFrame
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -70,7 +71,7 @@ public class JFrameMain extends JFrame
 
 	private void appearance()
 		{
-		setSize(799, 600);
+		setSize(1024, 768);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}

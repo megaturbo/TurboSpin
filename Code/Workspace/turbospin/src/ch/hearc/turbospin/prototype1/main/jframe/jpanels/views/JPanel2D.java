@@ -167,6 +167,7 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 					}
 
 			});
+
 		}
 
 	//Mouse control
