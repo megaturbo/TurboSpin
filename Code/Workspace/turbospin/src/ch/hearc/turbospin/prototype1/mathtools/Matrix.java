@@ -124,6 +124,16 @@ public class Matrix implements RotationTool
 			}
 		}
 
+	public Point3D times(Point3D toMultiply)
+		{
+		Point3D product = new Point3D();
+
+		product.set(toMultiply.getX() * (this.matrix[0][0]) + toMultiply.getY() * (this.matrix[1][0]) + toMultiply.getZ() * (this.matrix[2][0]),
+					toMultiply.getX() * (this.matrix[0][1]) + toMultiply.getY() * (this.matrix[1][1]) + toMultiply.getZ() * (this.matrix[2][1]),
+					toMultiply.getX() * (this.matrix[0][2]) + toMultiply.getY() * (this.matrix[1][2]) + toMultiply.getZ() * (this.matrix[2][2]));
+		return product;
+		}
+
 	public Matrix times(double scalar)
 		{
 		Matrix product = new Matrix(rows, columns);

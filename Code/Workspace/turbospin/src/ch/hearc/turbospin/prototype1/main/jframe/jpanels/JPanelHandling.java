@@ -9,18 +9,22 @@ import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
@@ -85,8 +89,10 @@ public class JPanelHandling extends JPanel
 
 		add(Box.createGlue());
 
+		add(radioButtonMatrix);
+		add(radioButtonQuaternion);
 		add(buttonAddRotation);
-		add(buttonRotateVector);
+		add(buttonRotate);
 		add(listRotationsPane);
 		}
 
@@ -105,10 +111,17 @@ public class JPanelHandling extends JPanel
 		listShapesPane = new JScrollPane(listShapes);
 
 		buttonAddRotation = new JButton("Add rotation");
-		buttonRotateVector = new JButton("Rotate by 60° C");
+		buttonRotate = new JButton("Rotation tests");
 		rotationModel = new DefaultListModel<RotationTool>();
 		listRotation = new JList<RotationTool>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
+
+		buttonGroupRadio = new ButtonGroup();
+		radioButtonMatrix = new JRadioButton("Rotate using matrices");
+		radioButtonMatrix.setSelected(true);
+		radioButtonQuaternion = new JRadioButton("Rotate using quaternions");
+		buttonGroupRadio.add(radioButtonMatrix);
+		buttonGroupRadio.add(radioButtonQuaternion);
 		}
 
 	private void initListeners()
@@ -164,35 +177,31 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		buttonRotateVector.addActionListener(new ActionListener()
+		buttonRotate.addActionListener(new ActionListener()
 			{
 
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
 					//vQuaternion
-					rotateWithQuaternion();
+					if(radioButtonQuaternion.isSelected())
+						{
 
-					//vMatrix
-					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
-					//					Matrix rotation1 = MatrixTools.createRotationRxMatrix(Math.PI / 3);
-					//					Matrix rotation2 = MatrixTools.createRotationRyMatrix(Math.PI / 3);
-					//					Matrix rotation3 = MatrixTools.createRotationRzMatrix(Math.PI / 3);
-					//
-					//					ArrayList<Vector3D> vectorsTmp = new ArrayList<Vector3D>();
-					//					for(Vector3D vector:vectors)
-					//						{
-					//						//						vector.set(MatrixTools.rotate(vector, rotation));
-					//						Vector3D vector1 = MatrixTools.rotate(vector, rotation1);
-					//						Vector3D vector2 = MatrixTools.rotate(vector1, rotation2);
-					//						Vector3D vector3 = MatrixTools.rotate(vector2, rotation3);
-					//						vectorsTmp.add(new Vector3D(vector1, TurboColors.RED));
-					//						vectorsTmp.add(new Vector3D(vector2, TurboColors.GREEN));
-					//						vectorsTmp.add(new Vector3D(vector3, TurboColors.BLUE));
-					//						}
-					//					vectors.addAll(vectorsTmp);
-					//					canvas.refresh();
-					//					panelView.repaint();
+						if(!panelInfo.panelQuaternion.isVisible())
+							{
+							panelInfo.switchPanel();
+							}
+						rotateWithQuaternion();
+						}
+					else if(radioButtonMatrix.isSelected())
+						{
+
+						if(!panelInfo.panelMatrix.isVisible())
+							{
+							panelInfo.switchPanel();
+							}
+						rotateWithMatrix(Math.PI/2, Math.PI, Math.PI);
+						}
 					}
 			});
 		}
@@ -224,6 +233,31 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 		panelView.repaint();
 		}
+	private void rotateWithMatrix(double alpha, double beta, double gamma)
+		{
+		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
+		Matrix rz = MatrixTools.createRotationRzMatrix(alpha);
+		Matrix ry = MatrixTools.createRotationRzMatrix(beta);
+		Matrix rx = MatrixTools.createRotationRzMatrix(gamma);
+
+		panelInfo.refresh(rotation, rz, ry, rx);
+		for(Shape3D shape:shapes)
+			{
+			if (shape instanceof Vector3D)
+				{
+				Vector3D vector = (Vector3D)shape;
+				vector.set(MatrixTools.rotate(vector, rotation));
+				}
+			else if (shape instanceof Point3D)
+				{
+				Point3D point = (Point3D)shape;
+				point.set(MatrixTools.rotate(point, rotation));
+				}
+			}
+
+		canvas.refresh();
+		panelView.repaint();
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
@@ -248,5 +282,8 @@ public class JPanelHandling extends JPanel
 	private DefaultListModel<RotationTool> rotationModel;
 	private JScrollPane listRotationsPane;
 
-	private JButton buttonRotateVector;
+	private JButton buttonRotate;
+	private ButtonGroup buttonGroupRadio;
+	private JRadioButton radioButtonQuaternion;
+	private JRadioButton radioButtonMatrix;
 	}

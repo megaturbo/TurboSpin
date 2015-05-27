@@ -49,11 +49,20 @@ public class JPanelMatrix extends JPanel
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawString("Rotation matrices generated from this rotation:", 10, 30);
 
-		drawRotationMatrix(g2d,matrixRotation, 35, 50);
-		g2d.drawString("=",35+185,105);
-		drawRotationMatrix(g2d,matrixRz, 35+210,50);
-		drawRotationMatrix(g2d,matrixRy, 35+210+195,50);
-		drawRotationMatrix(g2d,matrixRx, 35+210+195+195,50);
+		drawRotationMatrix(g2d,matrixRotation, 35, 60);
+		g2d.drawString("Complete Rotation", 35+30, 50);
+		g2d.drawString("=",35+185,115);
+
+		drawRotationMatrix(g2d,matrixRz, 35+210,60);
+		g2d.drawString("Rotation around Z axis", 35+20+210, 50);
+		g2d.drawString("X", 35+185+202, 115);
+
+		drawRotationMatrix(g2d,matrixRy, 35+210+195,60);
+		g2d.drawString("Rotation around Y axis", 35+20+210+195, 50);
+		g2d.drawString("X", 35+185+202+195, 115);
+
+		drawRotationMatrix(g2d,matrixRx, 35+210+195+195,60);
+		g2d.drawString("Rotation around X axis", 35+20+210+195+195, 50);
 
 		}
 

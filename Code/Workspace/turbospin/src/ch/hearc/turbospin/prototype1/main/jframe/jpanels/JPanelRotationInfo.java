@@ -43,14 +43,14 @@ public class JPanelRotationInfo extends JPanel
 		panelMatrix.refresh(rotation, matrixRz, matrixRy, matrixRx);
 		}
 
-	public void panelSwitch()
+	public void switchPanel()
 		{
 		if (panelQuaternion.isVisible())
 			{
 			panelMatrix.setVisible(true);
 			panelQuaternion.setVisible(false);
 			}
-		else
+		else if(panelMatrix.isVisible())
 			{
 			panelMatrix.setVisible(false);
 			panelQuaternion.setVisible(true);
@@ -106,8 +106,8 @@ public class JPanelRotationInfo extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelMatrix panelMatrix;
-	private JPanelQuaternion panelQuaternion;
+	public JPanelMatrix panelMatrix;
+	public JPanelQuaternion panelQuaternion;
 
 	//inputs
 	private Quaternion quaternion;

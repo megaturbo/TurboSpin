@@ -2,6 +2,7 @@
 package ch.hearc.turbospin.prototype1.matrix;
 
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 final public class MatrixTools
@@ -83,6 +84,10 @@ final public class MatrixTools
 		{
 		return rotationMatrix.times(object);
 		}
+	public static Point3D rotate(Point3D object, Matrix rotationMatrix)
+	{
+	return rotationMatrix.times(object);
+	}
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
