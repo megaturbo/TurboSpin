@@ -18,10 +18,12 @@ public class JPanelRotationInfo extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelRotationInfo(Quaternion quaternion, Matrix rotationMatrix)
+	public JPanelRotationInfo()
 		{
-		this.quaternion = quaternion;
-		this.matrix = rotationMatrix;
+		//Instantiate visualizable quaternion/matrix
+		matrix = new Matrix(3);
+		quaternion = new Quaternion();
+
 		geometry();
 		control();
 		appearance();
@@ -31,9 +33,10 @@ public class JPanelRotationInfo extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 	public void refresh(Quaternion quaternion)
-	{
+		{
 		panelQuaternion.refresh(quaternion);
-	}
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
@@ -48,10 +51,10 @@ public class JPanelRotationInfo extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-			//panelMatrix = new JPanelMatrix(matrix);
-			panelQuaternion = new JPanelQuaternion(quaternion);
-			panelMatrix = new JPanelMatrix(matrix);
+		// JComponent : Instanciation
+		//panelMatrix = new JPanelMatrix(matrix);
+		panelQuaternion = new JPanelQuaternion(quaternion);
+		panelMatrix = new JPanelMatrix(matrix);
 			// Layout : Specification
 			{
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -72,83 +73,42 @@ public class JPanelHandling extends JPanel
 		// JComponents
 		initComponents();
 
-		listShapesPane = new JScrollPane(listShapes);
-
 		// Layout
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(boxLayout);
 
 		// JComponent : add
-		add(buttonRotateVector);
 		add(buttonAddVector);
 		add(buttonAddLine);
 		add(buttonAddPoint);
 		add(listShapesPane);
+
+		add(Box.createGlue());
+
+		add(buttonAddRotation);
+		add(buttonRotateVector);
+		add(listRotationsPane);
 		}
 
 	private void control()
 		{
 		initListeners();
-
-		buttonRotateVector.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent arg0)
-					{
-					//vQuaternion
-					Vector3D axis = new Vector3D(1, 0, 0);
-					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
-					panelInfo.refresh(rotation);
-					for(Shape3D shape:shapes)
-						{
-						if (shape instanceof Vector3D)
-							{
-							Vector3D vector = (Vector3D)shape;
-							vector.set(QuaternionTools.rotation(vector, rotation));
-							}
-						else if (shape instanceof Point3D)
-							{
-							Point3D point = (Point3D)shape;
-							point.set(QuaternionTools.rotation(point, rotation));
-							}
-						}
-
-					canvas.refresh();
-					panelView.repaint();
-
-					//vMatrix
-					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
-					//					Matrix rotation1 = MatrixTools.createRotationRxMatrix(Math.PI / 3);
-					//					Matrix rotation2 = MatrixTools.createRotationRyMatrix(Math.PI / 3);
-					//					Matrix rotation3 = MatrixTools.createRotationRzMatrix(Math.PI / 3);
-					//
-					//					ArrayList<Vector3D> vectorsTmp = new ArrayList<Vector3D>();
-					//					for(Vector3D vector:vectors)
-					//						{
-					//						//						vector.set(MatrixTools.rotate(vector, rotation));
-					//						Vector3D vector1 = MatrixTools.rotate(vector, rotation1);
-					//						Vector3D vector2 = MatrixTools.rotate(vector1, rotation2);
-					//						Vector3D vector3 = MatrixTools.rotate(vector2, rotation3);
-					//						vectorsTmp.add(new Vector3D(vector1, TurboColors.RED));
-					//						vectorsTmp.add(new Vector3D(vector2, TurboColors.GREEN));
-					//						vectorsTmp.add(new Vector3D(vector3, TurboColors.BLUE));
-					//						}
-					//					vectors.addAll(vectorsTmp);
-					//					canvas.refresh();
-					//					panelView.repaint();
-					}
-			});
 		}
 
 	private void initComponents()
 		{
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
-		buttonRotateVector = new JButton("Rotate by 60° C");
 		buttonAddPoint = new JButton("Add points");
 		shapesModel = new DefaultListModel<Shape3D>();
 		listShapes = new JList<Shape3D>(shapesModel);
+		listShapesPane = new JScrollPane(listShapes);
+
+		buttonAddRotation = new JButton("Add rotation");
+		buttonRotateVector = new JButton("Rotate by 60° C");
+		rotationModel = new DefaultListModel<RotationTool>();
+		listRotation = new JList<RotationTool>(rotationModel);
+		listRotationsPane = new JScrollPane(listRotation);
 		}
 
 	private void initListeners()
@@ -191,7 +151,49 @@ public class JPanelHandling extends JPanel
 					{
 					addPoint(JPanelInputsFactory.showPointInput());
 					}
+			});
 
+		buttonAddRotation.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+					{
+					// TODO Auto-generated method stub
+
+					}
+			});
+
+		buttonRotateVector.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+					{
+					//vQuaternion
+					rotateWithQuaternion();
+
+					//vMatrix
+					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
+					//					Matrix rotation1 = MatrixTools.createRotationRxMatrix(Math.PI / 3);
+					//					Matrix rotation2 = MatrixTools.createRotationRyMatrix(Math.PI / 3);
+					//					Matrix rotation3 = MatrixTools.createRotationRzMatrix(Math.PI / 3);
+					//
+					//					ArrayList<Vector3D> vectorsTmp = new ArrayList<Vector3D>();
+					//					for(Vector3D vector:vectors)
+					//						{
+					//						//						vector.set(MatrixTools.rotate(vector, rotation));
+					//						Vector3D vector1 = MatrixTools.rotate(vector, rotation1);
+					//						Vector3D vector2 = MatrixTools.rotate(vector1, rotation2);
+					//						Vector3D vector3 = MatrixTools.rotate(vector2, rotation3);
+					//						vectorsTmp.add(new Vector3D(vector1, TurboColors.RED));
+					//						vectorsTmp.add(new Vector3D(vector2, TurboColors.GREEN));
+					//						vectorsTmp.add(new Vector3D(vector3, TurboColors.BLUE));
+					//						}
+					//					vectors.addAll(vectorsTmp);
+					//					canvas.refresh();
+					//					panelView.repaint();
+					}
 			});
 		}
 
@@ -200,28 +202,51 @@ public class JPanelHandling extends JPanel
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
 
+	private void rotateWithQuaternion()
+		{
+		Vector3D axis = new Vector3D(1, 0, 0);
+		Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+		panelInfo.refresh(rotation);
+		for(Shape3D shape:shapes)
+			{
+			if (shape instanceof Vector3D)
+				{
+				Vector3D vector = (Vector3D)shape;
+				vector.set(QuaternionTools.rotation(vector, rotation));
+				}
+			else if (shape instanceof Point3D)
+				{
+				Point3D point = (Point3D)shape;
+				point.set(QuaternionTools.rotation(point, rotation));
+				}
+			}
+
+		canvas.refresh();
+		panelView.repaint();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
+	private JPanelRotationInfo panelInfo;
+	private TurboCanvas canvas;
+	private JPanelView panelView;
+	private List<Shape3D> shapes;
+	//shapes
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
 	private JButton buttonAddPoint;
-
-	private JButton buttonRotateVector;
-
 	private JList<Shape3D> listShapes;
 	private DefaultListModel<Shape3D> shapesModel;
+	private JScrollPane listShapesPane;
+
+	//rotations
+	private JButton buttonAddRotation;
 	private JList<RotationTool> listRotation;
 	private DefaultListModel<RotationTool> rotationModel;
-
-	private JPanelRotationInfo panelInfo;
-	private List<Shape3D> shapes;
-	private TurboCanvas canvas;
-	private JPanelView panelView;
-
-	private JScrollPane listShapesPane;
 	private JScrollPane listRotationsPane;
 
+	private JButton buttonRotateVector;
 	}

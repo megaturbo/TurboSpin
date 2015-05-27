@@ -48,13 +48,9 @@ public class JFrameMain extends JFrame
 		// Instantiate canvas
 		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), shapes);
 
-		//Instantiate visualizable quaternion/matrix
-		infoMatrix = new Matrix(3);
-		infoQuaternion = new Quaternion();
-
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
-		panelRotationInfo = new JPanelRotationInfo(infoQuaternion, infoMatrix);
+		panelRotationInfo = new JPanelRotationInfo();
 		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView, panelRotationInfo);
 
 		// Layout specifications
