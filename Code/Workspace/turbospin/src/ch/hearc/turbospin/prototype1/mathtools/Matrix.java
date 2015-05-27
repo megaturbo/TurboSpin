@@ -1,7 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-public class Matrix
+public class Matrix implements RotationTool
 	{
 
 	/*------------------------------------------------------------------*\
@@ -35,8 +35,6 @@ public class Matrix
 		this.columns = M;
 		init();
 		}
-
-
 
 	public Matrix(double[][] tab)
 		{
@@ -228,6 +226,7 @@ public class Matrix
 				}
 			}
 		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/

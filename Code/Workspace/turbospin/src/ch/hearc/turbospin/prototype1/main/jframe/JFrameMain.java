@@ -13,7 +13,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelHandling;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelView;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
@@ -36,15 +36,6 @@ public class JFrameMain extends JFrame
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-	public void refresh(Quaternion quaternion)
-		{
-		panelRotationInfo.refresh(quaternion);
-		}
-
-	public void refresh(Matrix rotation)
-		{
-		panelRotationInfo.refresh(rotation);
-		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -64,14 +55,12 @@ public class JFrameMain extends JFrame
 
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
-		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView, this);
 		panelRotationInfo = new JPanelRotationInfo(infoQuaternion, infoMatrix);
+		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView, panelRotationInfo);
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
-
-		panelRotationInfo.setPreferredSize(new Dimension(0, 200));
 
 		// Adding components
 		add(panelHandling, BorderLayout.WEST);
@@ -86,7 +75,7 @@ public class JFrameMain extends JFrame
 
 	private void appearance()
 		{
-		setSize(799, 600);
+		setSize(1024, 768);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}

@@ -15,10 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
-import ch.hearc.turbospin.prototype1.main.jframe.JFrameMain;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
+import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
@@ -32,9 +33,9 @@ public class JPanelHandling extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView, JFrameMain jframemain)
+	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView, JPanelRotationInfo panelInfo)
 		{
-		this.parent = jframemain;
+		this.panelInfo = panelInfo;
 		this.canvas = canvas;
 		this.shapes = shapes;
 		this.panelView = panelView;
@@ -53,7 +54,7 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 
 		panelView.repaint();
-		model.addElement(vector);
+		shapesModel.addElement(vector);
 		}
 
 	public void addPoint(Point3D point)
@@ -62,8 +63,7 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 
 		panelView.repaint();
-		model.addElement(point);
-
+		shapesModel.addElement(point);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -74,7 +74,7 @@ public class JPanelHandling extends JPanel
 		// JComponents
 		initComponents();
 
-		JScrollPane listPane = new JScrollPane(listVector);
+		listShapesPane = new JScrollPane(listShapes);
 
 		// Layout
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -85,7 +85,7 @@ public class JPanelHandling extends JPanel
 		add(buttonAddVector);
 		add(buttonAddLine);
 		add(buttonAddPoint);
-		add(listPane);
+		add(listShapesPane);
 		}
 
 	private void control()
@@ -101,8 +101,15 @@ public class JPanelHandling extends JPanel
 					//vQuaternion
 					Vector3D axis = new Vector3D(1, 0, 0);
 					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
-					Matrix rotationMatrix = MatrixTools.createRotationMatrix(Math.PI/3, 0, 0);
-					parent.refresh(rotationMatrix);
+					Matrix rotationM = MatrixTools.createRotationMatrix(Math.PI/3, 0, 0);
+					Matrix rotationRz = MatrixTools.createRotationRzMatrix(Math.PI/3);
+					Matrix rotationRy = MatrixTools.createRotationRyMatrix(0);
+					Matrix rotationRx = MatrixTools.createRotationRxMatrix(0);
+
+					panelInfo.refresh(rotationM, rotationRz, rotationRy, rotationRx);
+					panelInfo.refresh(rotation);
+
+					panelInfo.panelSwitch();
 
 					for(Shape3D shape:shapes)
 						{
@@ -151,8 +158,8 @@ public class JPanelHandling extends JPanel
 		buttonAddLine = new JButton("Add line");
 		buttonRotateVector = new JButton("Rotate by 60° C");
 		buttonAddPoint = new JButton("Add points");
-		model = new DefaultListModel<Shape3D>();
-		listVector = new JList<Shape3D>(model);
+		shapesModel = new DefaultListModel<Shape3D>();
+		listShapes = new JList<Shape3D>(shapesModel);
 		}
 
 	private void initListeners()
@@ -211,15 +218,21 @@ public class JPanelHandling extends JPanel
 	// Tools
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
-	private JButton buttonRotateVector;
 	private JButton buttonAddPoint;
 
-	private JList<Shape3D> listVector;
-	private DefaultListModel<Shape3D> model;
+	private JButton buttonRotateVector;
 
-	private JFrameMain parent;
+	private JList<Shape3D> listShapes;
+	private DefaultListModel<Shape3D> shapesModel;
+	private JList<RotationTool> listRotation;
+	private DefaultListModel<RotationTool> rotationModel;
+
+	private JPanelRotationInfo panelInfo;
 	private List<Shape3D> shapes;
 	private TurboCanvas canvas;
 	private JPanelView panelView;
+
+	private JScrollPane listShapesPane;
+	private JScrollPane listRotationsPane;
 
 	}

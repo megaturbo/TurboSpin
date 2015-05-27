@@ -1,9 +1,10 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
+import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
-public class Quaternion
+public class Quaternion implements RotationTool
 	{
 
 	/*------------------------------------------------------------------*\

@@ -1,6 +1,8 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -34,20 +36,23 @@ public class JPanelRotationInfo extends JPanel
 		panelQuaternion.refresh(quaternion);
 		}
 
-	public void refresh(Matrix rotation)
+	public void refresh(Matrix rotation, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
 		{
-		panelMatrix.refresh(rotation);
+		panelMatrix.refresh(rotation, matrixRz, matrixRy, matrixRx);
 		}
 
 	public void panelSwitch()
 		{
-		if(panelQuaternion.isVisible())
+		if (panelQuaternion.isVisible())
 			{
 			panelMatrix.setVisible(true);
 			panelQuaternion.setVisible(false);
 			}
-		panelMatrix.setVisible(false);
-		panelQuaternion.setVisible(true);
+		else
+			{
+			panelMatrix.setVisible(false);
+			panelQuaternion.setVisible(true);
+			}
 
 		}
 
@@ -68,7 +73,7 @@ public class JPanelRotationInfo extends JPanel
 		// JComponent : Instanciation
 
 		panelQuaternion = new JPanelQuaternion(quaternion);
-		panelMatrix = new JPanelMatrix(matrix);
+		panelMatrix = new JPanelMatrix(matrix, new Matrix(3), new Matrix(3), new Matrix(3));
 
 		// Layout : Specification
 
@@ -80,6 +85,8 @@ public class JPanelRotationInfo extends JPanel
 
 		// JComponent : add
 		add(panelMatrix);
+		add(panelQuaternion);
+		panelQuaternion.setVisible(false);
 		}
 
 	private void control()
@@ -91,6 +98,7 @@ public class JPanelRotationInfo extends JPanel
 		{
 		// rien
 		setBorder(BorderFactory.createTitledBorder("Rotation information"));
+		setPreferredSize(new Dimension(0, 200));
 		}
 
 	/*------------------------------------------------------------------*\
