@@ -7,15 +7,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
+import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.mathtools.Line3D;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
 public class JPanelInputsFactory
 	{
 
-	public static Vector3D showVectorInput() throws NotAVectorException
+	public static Vector3D showVectorInput() throws UserIsAnIdiotException
 		{
 
 		JPanel panel = new JPanel();
@@ -47,13 +49,13 @@ public class JPanelInputsFactory
 				}
 			catch (NumberFormatException e)
 				{
-				throw new NotAVectorException("Not enough information");
+				throw new UserIsAnIdiotException("Not enough information");
 				}
 			return new Vector3D(x, y, z);
 			}
 		else
 			{
-			throw new NotAVectorException("Canceled");
+			throw new UserIsAnIdiotException("Canceled");
 			}
 		}
 
@@ -81,7 +83,7 @@ public class JPanelInputsFactory
 			}
 		}
 
-	public static Point3D showPointInput()
+	public static Point3D showPointInput() throws UserIsAnIdiotException
 		{
 		JPanel panel = new JPanel();
 
@@ -107,16 +109,109 @@ public class JPanelInputsFactory
 			double y;
 			double z;
 
-			x = Double.parseDouble(xField.getText());
-			y = Double.parseDouble(yField.getText());
-			z = Double.parseDouble(zField.getText());
-
+			try
+				{
+				x = Double.parseDouble(xField.getText());
+				y = Double.parseDouble(yField.getText());
+				z = Double.parseDouble(zField.getText());
+				}
+			catch (NumberFormatException e)
+				{
+				throw new UserIsAnIdiotException("Not enough information");
+				}
 			return new Point3D(x, y, z);
 			}
 		else
 			{
+			throw new UserIsAnIdiotException("Canceled");
+			}
+		}
+
+	public static Quaternion showQuaternionInput() throws UserIsAnIdiotException
+		{
+		JPanel panel = new JPanel();
+
+		JTextField xField = new JTextField(5);
+		JTextField yField = new JTextField(5);
+		JTextField zField = new JTextField(5);
+
+		panel.add(new JLabel("Veuillez insérer un point."));
+
+		panel.add(new JLabel("x:"));
+		panel.add(xField);
+		panel.add(new JLabel("y:"));
+		panel.add(yField);
+		panel.add(new JLabel("z:"));
+		panel.add(zField);
+
+		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnées", JOptionPane.OK_CANCEL_OPTION);
+		yField.requestFocus();
+
+		if (result == JOptionPane.OK_OPTION)
+			{
+			double x;
+			double y;
+			double z;
+
+			try
+				{
+				x = Double.parseDouble(xField.getText());
+				y = Double.parseDouble(yField.getText());
+				z = Double.parseDouble(zField.getText());
+				}
+			catch (NumberFormatException e)
+				{
+				throw new UserIsAnIdiotException("Not enough information");
+				}
 			return null;
 			}
+		else
+			{
+			throw new UserIsAnIdiotException("Canceled");
+			}
+		}
 
+	public static Matrix showMatrixInput() throws UserIsAnIdiotException
+		{
+		JPanel panel = new JPanel();
+
+		JTextField xField = new JTextField(5);
+		JTextField yField = new JTextField(5);
+		JTextField zField = new JTextField(5);
+
+		panel.add(new JLabel("Veuillez insérer un point."));
+
+		panel.add(new JLabel("x:"));
+		panel.add(xField);
+		panel.add(new JLabel("y:"));
+		panel.add(yField);
+		panel.add(new JLabel("z:"));
+		panel.add(zField);
+
+		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnées", JOptionPane.OK_CANCEL_OPTION);
+		yField.requestFocus();
+
+		if (result == JOptionPane.OK_OPTION)
+			{
+			double x;
+			double y;
+			double z;
+
+			try
+				{
+				x = Double.parseDouble(xField.getText());
+				y = Double.parseDouble(yField.getText());
+				z = Double.parseDouble(zField.getText());
+				}
+			catch (NumberFormatException e)
+				{
+				throw new UserIsAnIdiotException("Not enough information");
+				}
+			return null;
+			}
+		else
+			{
+			throw new UserIsAnIdiotException("Canceled");
+			}
 		}
 	}
