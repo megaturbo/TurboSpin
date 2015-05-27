@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
-import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
+import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
@@ -67,6 +67,16 @@ public class JPanelHandling extends JPanel
 
 		panelView.repaint();
 		shapesModel.addElement(point);
+		}
+
+	public void addQuaternion(Quaternion quaternionInput)
+		{
+		rotationModel.addElement(quaternionInput);
+		}
+
+	public void addMatrix(Matrix matrixInput)
+		{
+		rotationModel.addElement(matrixInput);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -130,13 +140,13 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent arg0)
+				public void actionPerformed(ActionEvent a)
 					{
 					try
 						{
 						addVector(JPanelInputsFactory.showVectorInput());
 						}
-					catch (NotAVectorException e)
+					catch (UserIsAnIdiotException e)
 						{
 						//NOP
 						}
@@ -147,7 +157,7 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent arg0)
+				public void actionPerformed(ActionEvent a)
 					{
 					JPanelInputsFactory.showLineInput();
 
@@ -160,9 +170,16 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent e)
+				public void actionPerformed(ActionEvent a)
 					{
-					addPoint(JPanelInputsFactory.showPointInput());
+					try
+						{
+						addPoint(JPanelInputsFactory.showPointInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						//NOP
+						}
 					}
 			});
 
@@ -170,10 +187,30 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent e)
+				public void actionPerformed(ActionEvent a)
 					{
-					// TODO Auto-generated method stub
-
+					if (radioButtonQuaternion.isSelected())
+						{
+						try
+							{
+							addQuaternion(JPanelInputsFactory.showQuaternionInput());
+							}
+						catch (UserIsAnIdiotException e)
+							{
+							//NOP
+							}
+						}
+					else if (radioButtonMatrix.isSelected())
+						{
+						try
+							{
+							addMatrix(JPanelInputsFactory.showMatrixInput());
+							}
+						catch (UserIsAnIdiotException e)
+							{
+							//NOP
+							}
+						}
 					}
 			});
 
@@ -184,25 +221,26 @@ public class JPanelHandling extends JPanel
 				public void actionPerformed(ActionEvent arg0)
 					{
 					//vQuaternion
-					if(radioButtonQuaternion.isSelected())
+					if (radioButtonQuaternion.isSelected())
 						{
 
-						if(!panelInfo.panelQuaternion.isVisible())
+						if (!panelInfo.panelQuaternion.isVisible())
 							{
 							panelInfo.switchPanel();
 							}
 						rotateWithQuaternion();
 						listShapesPane.repaint();
 						}
-					else if(radioButtonMatrix.isSelected())
+					else if (radioButtonMatrix.isSelected())
 						{
 
-						if(!panelInfo.panelMatrix.isVisible())
+						if (!panelInfo.panelMatrix.isVisible())
 							{
 							panelInfo.switchPanel();
 							}
 						rotateWithMatrix(Math.PI/2, Math.PI, Math.PI);
 						listShapesPane.repaint();
+
 						}
 					}
 			});
@@ -235,6 +273,7 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 		panelView.repaint();
 		}
+
 	private void rotateWithMatrix(double alpha, double beta, double gamma)
 		{
 		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
