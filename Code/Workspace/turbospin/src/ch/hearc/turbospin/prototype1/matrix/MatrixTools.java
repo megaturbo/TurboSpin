@@ -20,7 +20,6 @@ final public class MatrixTools
 	\*------------------------------------------------------------------*/
 	public static Matrix createRotationMatrix(double alpha, double beta, double gamma)
 		{
-
 		Matrix rotationRzMatrix = createRotationRzMatrix(alpha);
 		Matrix rotationRyMatrix = createRotationRyMatrix(beta);
 		Matrix rotationRxMatrix = createRotationRxMatrix(gamma);

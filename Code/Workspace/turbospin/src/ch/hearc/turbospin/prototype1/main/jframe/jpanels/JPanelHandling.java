@@ -192,6 +192,7 @@ public class JPanelHandling extends JPanel
 							panelInfo.switchPanel();
 							}
 						rotateWithQuaternion();
+						listShapesPane.repaint();
 						}
 					else if(radioButtonMatrix.isSelected())
 						{
@@ -201,6 +202,7 @@ public class JPanelHandling extends JPanel
 							panelInfo.switchPanel();
 							}
 						rotateWithMatrix(Math.PI/2, Math.PI, Math.PI);
+						listShapesPane.repaint();
 						}
 					}
 			});

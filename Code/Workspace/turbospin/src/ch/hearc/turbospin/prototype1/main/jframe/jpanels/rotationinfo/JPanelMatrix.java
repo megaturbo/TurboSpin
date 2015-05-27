@@ -21,7 +21,6 @@ public class JPanelMatrix extends JPanel
 	public JPanelMatrix(Matrix matrix, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
 		{
 		this.matrixRotation = matrix;
-
 		this.matrixRx = matrixRx;
 		this.matrixRy = matrixRy;
 		this.matrixRz = matrixRz;
@@ -39,6 +38,9 @@ public class JPanelMatrix extends JPanel
 		this.matrixRx = matrixRx;
 		this.matrixRy = matrixRy;
 		this.matrixRz = matrixRz;
+		this.alpha = Math.acos(matrixRz.getValue(0, 0));
+		this.beta = Math.acos(matrixRy.getValue(0, 0));
+		this.gamma  = Math.acos(matrixRx.getValue(1, 1));
 		repaint();
 		}
 
@@ -56,13 +58,16 @@ public class JPanelMatrix extends JPanel
 		drawRotationMatrix(g2d,matrixRz, 35+210,60);
 		g2d.drawString("Rotation around Z axis", 35+20+210, 50);
 		g2d.drawString("X", 35+185+202, 115);
+		g2d.drawString("Rotated by: "+String.format("%.3f",alpha/Math.PI)+" π", 45+20+210, 190);
 
 		drawRotationMatrix(g2d,matrixRy, 35+210+195,60);
 		g2d.drawString("Rotation around Y axis", 35+20+210+195, 50);
 		g2d.drawString("X", 35+185+202+195, 115);
+		g2d.drawString("Rotated by: "+String.format("%.3f",beta/Math.PI)+" π", 45+20+210+195, 190);
 
 		drawRotationMatrix(g2d,matrixRx, 35+210+195+195,60);
 		g2d.drawString("Rotation around X axis", 35+20+210+195+195, 50);
+		g2d.drawString("Rotated by: "+String.format("%.3f",gamma/Math.PI)+" π", 45+20+210+2*195, 190);
 
 		}
 
@@ -142,5 +147,8 @@ public class JPanelMatrix extends JPanel
 	private Matrix matrixRz;
 	private Matrix matrixRy;
 	private Matrix matrixRx;
+	private double alpha;
+	private double beta;
+	private double gamma;
 
 	}

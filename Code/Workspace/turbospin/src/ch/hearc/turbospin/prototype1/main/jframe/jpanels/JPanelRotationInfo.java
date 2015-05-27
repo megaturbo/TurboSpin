@@ -98,7 +98,7 @@ public class JPanelRotationInfo extends JPanel
 		{
 		// rien
 		setBorder(BorderFactory.createTitledBorder("Rotation information"));
-		setPreferredSize(new Dimension(0, 200));
+		setPreferredSize(new Dimension(0, 230));
 		}
 
 	/*------------------------------------------------------------------*\
