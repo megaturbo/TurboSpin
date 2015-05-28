@@ -83,10 +83,11 @@ final public class MatrixTools
 		{
 		return rotationMatrix.times(object);
 		}
+
 	public static Point3D rotate(Point3D object, Matrix rotationMatrix)
-	{
-	return rotationMatrix.times(object);
-	}
+		{
+		return rotationMatrix.times(object);
+		}
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
