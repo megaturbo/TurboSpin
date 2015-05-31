@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
+import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
 import ch.hearc.turbospin.prototype1.mathtools.Line3D;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
@@ -66,7 +67,7 @@ public class JPanelInputsFactory
 
 		JPanel panel = new JPanel();
 
-		String lineTypes[] = { "ParamÃ©trique", "A l'aide de 2 points" };
+		String lineTypes[] = { "Paramètrique", "A l'aide de 2 points" };
 		JComboBox<String> lineComboBox = new JComboBox<String>(lineTypes);
 
 		panel.add(new JLabel("Comment voulez-vous entrer la droite?"));
@@ -93,7 +94,7 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insÃ©rer un point."));
+		panel.add(new JLabel("Veuillez insérer un point."));
 
 		panel.add(new JLabel("x:"));
 		panel.add(xField);
@@ -102,7 +103,7 @@ public class JPanelInputsFactory
 		panel.add(new JLabel("z:"));
 		panel.add(zField);
 
-		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnÃ©es", JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnées", JOptionPane.OK_CANCEL_OPTION);
 		yField.requestFocus();
 
 		if (result == JOptionPane.OK_OPTION)
@@ -138,7 +139,7 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insÃ©rer un angle et un axe de rotation."));
+		panel.add(new JLabel("Veuillez insérer un angle et un axe de rotation."));
 
 		panel.add(new JLabel("Î±:"));
 		panel.add(aField);
@@ -186,13 +187,13 @@ public class JPanelInputsFactory
 		JTextField bField = new JTextField(5);
 		JTextField cField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insÃ©rer 3 angles pour crÃ©er une matrice."));
+		panel.add(new JLabel("Veuillez insérer 3 angles pour créer une matrice."));
 
-		panel.add(new JLabel("Î±:"));
+		panel.add(new JLabel(Hexacodes.ALPHA));
 		panel.add(aField);
-		panel.add(new JLabel("Î²:"));
+		panel.add(new JLabel(Hexacodes.BETA));
 		panel.add(bField);
-		panel.add(new JLabel("Î³:"));
+		panel.add(new JLabel(Hexacodes.GAMMA));
 		panel.add(cField);
 
 		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les angles", JOptionPane.OK_CANCEL_OPTION);
