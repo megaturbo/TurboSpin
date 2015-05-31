@@ -1,5 +1,6 @@
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
@@ -11,7 +12,9 @@ public class JPanelTwoPointsLineInput extends JPanel {
 		pointAInput = new JPanelPointInput();
 		pointBInput = new JPanelPointInput();
 		
+		add(new JLabel("Point de départ: "));
 		add(pointAInput);
+		add(new JLabel("Point d'arrivée: "));
 		add(pointBInput);
 	}
 	

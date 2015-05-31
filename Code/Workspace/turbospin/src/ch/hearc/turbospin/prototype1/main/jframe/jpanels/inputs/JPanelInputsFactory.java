@@ -30,12 +30,14 @@ import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
  * <ul>
  * <li>Vector3D</li>
  * <li>Point3D</li>
+ * <li>Parametric Line</li>
+ * <li>2 points Line</li>
  * </ul>
  * 
  * TODO:
  * <ul>
- * <li>Parametric Line</li>
- * <li>2 points Line</li>
+ * <li>Check Quaternions input</li>
+ * <li>Check Matrix input</li>
  * </ul>
  * 
  * @author thomas.roulin
@@ -45,8 +47,13 @@ public class JPanelInputsFactory {
 
 	public static Vector3D showVector3DInput() throws UserIsAnIdiotException {
 
+		JPanel mainPanel = new JPanel();
 		JPanelVectorInput vectorInput = new JPanelVectorInput();
-		int result = JOptionPane.showConfirmDialog(null, vectorInput,
+		
+		mainPanel.add(new JLabel("Entrez le vecteur: "));
+		mainPanel.add(vectorInput);
+		
+		int result = JOptionPane.showConfirmDialog(null, mainPanel,
 				"Vector input", JOptionPane.OK_CANCEL_OPTION);
 
 		if (result == JOptionPane.OK_OPTION) {
@@ -58,8 +65,13 @@ public class JPanelInputsFactory {
 
 	public static Point3D showPoint3DInput() throws UserIsAnIdiotException {
 
+		JPanel mainPanel = new JPanel();
 		JPanelPointInput pointInput = new JPanelPointInput();
-		int result = JOptionPane.showConfirmDialog(null, pointInput,
+		
+		mainPanel.add(new JLabel("Entrez le point: "));
+		mainPanel.add(pointInput);
+		
+		int result = JOptionPane.showConfirmDialog(null, mainPanel,
 				"Vector input", JOptionPane.OK_CANCEL_OPTION);
 
 		if (result == JOptionPane.OK_OPTION) {
