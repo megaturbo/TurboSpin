@@ -2,6 +2,7 @@
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

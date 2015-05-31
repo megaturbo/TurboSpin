@@ -176,7 +176,7 @@ public class Matrix implements RotationTool
 		}
 	@Override
 	public String toString() {
-		return "I'm a matrix";
+		return "I'm a";
 	}
 
 	/*------------------------------*\

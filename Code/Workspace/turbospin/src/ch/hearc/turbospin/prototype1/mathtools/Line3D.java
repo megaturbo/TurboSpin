@@ -1,8 +1,10 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
+import javax.media.j3d.Shape3D;
 
-public class Line3D
+
+public class Line3D extends Shape3D
 	{
 
 	/*------------------------------------------------------------------*\

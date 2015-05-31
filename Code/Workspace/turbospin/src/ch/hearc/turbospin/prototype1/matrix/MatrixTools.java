@@ -30,53 +30,53 @@ final public class MatrixTools
 
 	public static Matrix createRotationRzMatrix(double alpha)
 		{
-		Matrix Rz = new Matrix(3);
-		Rz.setValue(0, 0, Math.cos(alpha));
-		Rz.setValue(0, 1, Math.sin(alpha));
-		Rz.setValue(0, 2, 0);
+		Matrix matrixZ = new Matrix(3);
+		matrixZ.setValue(0, 0, Math.cos(alpha));
+		matrixZ.setValue(0, 1, Math.sin(alpha));
+		matrixZ.setValue(0, 2, 0);
 
-		Rz.setValue(1, 0, -Math.sin(alpha));
-		Rz.setValue(1, 1, Math.cos(alpha));
-		Rz.setValue(1, 2, 0);
+		matrixZ.setValue(1, 0, -Math.sin(alpha));
+		matrixZ.setValue(1, 1, Math.cos(alpha));
+		matrixZ.setValue(1, 2, 0);
 
-		Rz.setValue(2, 0, 0);
-		Rz.setValue(2, 1, 0);
-		Rz.setValue(2, 2, 1);
-		return Rz;
+		matrixZ.setValue(2, 0, 0);
+		matrixZ.setValue(2, 1, 0);
+		matrixZ.setValue(2, 2, 1);
+		return matrixZ;
 		}
 
 	public static Matrix createRotationRyMatrix(double beta)
 		{
-		Matrix Ry = new Matrix(3);
-		Ry.setValue(0, 0, Math.cos(beta));
-		Ry.setValue(0, 1, 0);
-		Ry.setValue(0, 2, -Math.sin(beta));
+		Matrix matrixY = new Matrix(3);
+		matrixY.setValue(0, 0, Math.cos(beta));
+		matrixY.setValue(0, 1, 0);
+		matrixY.setValue(0, 2, -Math.sin(beta));
 
-		Ry.setValue(1, 0, 0);
-		Ry.setValue(1, 1, 1);
-		Ry.setValue(1, 2, 0);
+		matrixY.setValue(1, 0, 0);
+		matrixY.setValue(1, 1, 1);
+		matrixY.setValue(1, 2, 0);
 
-		Ry.setValue(2, 0, Math.sin(beta));
-		Ry.setValue(2, 1, 0);
-		Ry.setValue(2, 2, Math.cos(beta));
-		return Ry;
+		matrixY.setValue(2, 0, Math.sin(beta));
+		matrixY.setValue(2, 1, 0);
+		matrixY.setValue(2, 2, Math.cos(beta));
+		return matrixY;
 		}
 
 	public static Matrix createRotationRxMatrix(double gamma)
 		{
-		Matrix Rx = new Matrix(3);
-		Rx.setValue(0, 0, 1);
-		Rx.setValue(0, 1, 0);
-		Rx.setValue(0, 2, 0);
+		Matrix matrixX = new Matrix(3);
+		matrixX.setValue(0, 0, 1);
+		matrixX.setValue(0, 1, 0);
+		matrixX.setValue(0, 2, 0);
 
-		Rx.setValue(1, 0, 0);
-		Rx.setValue(1, 1, Math.cos(gamma));
-		Rx.setValue(1, 2, Math.sin(gamma));
+		matrixX.setValue(1, 0, 0);
+		matrixX.setValue(1, 1, Math.cos(gamma));
+		matrixX.setValue(1, 2, Math.sin(gamma));
 
-		Rx.setValue(2, 0, 0);
-		Rx.setValue(2, 1, -Math.sin(gamma));
-		Rx.setValue(2, 2, Math.cos(gamma));
-		return Rx;
+		matrixX.setValue(2, 0, 0);
+		matrixX.setValue(2, 1, -Math.sin(gamma));
+		matrixX.setValue(2, 2, Math.cos(gamma));
+		return matrixX;
 		}
 
 	public static Vector3D rotate(Vector3D object, Matrix rotationMatrix)
