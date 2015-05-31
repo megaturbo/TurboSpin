@@ -174,6 +174,10 @@ public class Matrix implements RotationTool
 			return 0;
 			}
 		}
+	@Override
+	public String toString() {
+		return "I'm a matrix";
+	}
 
 	/*------------------------------*\
 	|*				Set				*|
