@@ -2,6 +2,7 @@
 package ch.hearc.turbospin.prototype1.matrix;
 
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
 final public class MatrixTools
@@ -19,7 +20,6 @@ final public class MatrixTools
 	\*------------------------------------------------------------------*/
 	public static Matrix createRotationMatrix(double alpha, double beta, double gamma)
 		{
-
 		Matrix rotationRzMatrix = createRotationRzMatrix(alpha);
 		Matrix rotationRyMatrix = createRotationRyMatrix(beta);
 		Matrix rotationRxMatrix = createRotationRxMatrix(gamma);
@@ -80,6 +80,11 @@ final public class MatrixTools
 		}
 
 	public static Vector3D rotate(Vector3D object, Matrix rotationMatrix)
+		{
+		return rotationMatrix.times(object);
+		}
+
+	public static Point3D rotate(Point3D object, Matrix rotationMatrix)
 		{
 		return rotationMatrix.times(object);
 		}

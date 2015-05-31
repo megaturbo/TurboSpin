@@ -101,6 +101,7 @@ public class Vertex3D extends Shape3D
 		LineAttributes la = new LineAttributes();
 		la.setLineWidth(width);
 		la.setLinePattern(linePattern);
+		la.setLineAntialiasingEnable(true);
 		appearance.setLineAttributes(la);
 
 		this.setAppearance(appearance);

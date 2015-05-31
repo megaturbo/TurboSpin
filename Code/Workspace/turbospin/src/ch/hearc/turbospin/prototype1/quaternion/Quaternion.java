@@ -1,9 +1,10 @@
 
 package ch.hearc.turbospin.prototype1.quaternion;
 
+import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 
-public class Quaternion
+public class Quaternion implements RotationTool
 	{
 
 	/*------------------------------------------------------------------*\
@@ -47,27 +48,20 @@ public class Quaternion
 	public String toString()
 		{
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		sb.append(r);
-		sb.append(", ");
-		sb.append(i);
-		sb.append(", ");
-		sb.append(j);
-		sb.append(", ");
-		sb.append(k);
+		sb.append("q = [r: ");
+		sb.append(String.format("%.3f", r));
+		sb.append(", i: ");
+		sb.append(String.format("%.3f", i));
+		sb.append(", j: ");
+		sb.append(String.format("%.3f", j));
+		sb.append(", k: ");
+		sb.append(String.format("%.3f", k));
 		sb.append("]");
 		return sb.toString();
 		}
 
 	public Quaternion add(Quaternion h)
 		{
-		//changes this, not implemented
-		//		r += h.r;
-		//		i += h.i;
-		//		j += h.j;
-		//		k += h.k;
-
-		//no change to this
 		return new Quaternion(r + h.r, i + h.i, j + h.j, k + h.k);
 		}
 
@@ -77,34 +71,17 @@ public class Quaternion
 		double itmp = r * h.i + i * h.r + j * h.k - k * h.j;
 		double jtmp = r * h.j - i * h.k + j * h.r + k * h.i;
 		double ktmp = r * h.k + i * h.j - j * h.i + k * h.r;
-
-		//changes this, not implemented
-		//		this.setReal(rtmp);
-		//		this.setIJK(itmp, jtmp, ktmp);
-		//no change to this
 		return new Quaternion(rtmp, itmp, jtmp, ktmp);
 		}
 
 	public Quaternion multiplyLeft(Quaternion h)
 		{
 		Quaternion tmp = new Quaternion(h);
-		//no change to this
 		return tmp.multiplyRight(this);
-		//changes this, not implemented
-		//		this.r = tmp.r;
-		//		this.i = tmp.i;
-		//		this.j = tmp.j;
-		//		this.k = tmp.k;
 		}
 
 	public Quaternion divide(double n)
 		{
-		//changes this, not implemented
-		//		r /= n;
-		//		i /= n;
-		//		j /= n;
-		//		k /= n;
-		//no change to this
 		return new Quaternion(r / n, i / n, j / n, k / n);
 		}
 
@@ -115,11 +92,6 @@ public class Quaternion
 
 	public Quaternion conjugate()
 		{
-		//changes this, not implemented
-		//		i *= -1.0;
-		//		j *= -1.0;
-		//		k *= -1.0;
-		//no change to this
 		return new Quaternion(r, -i, -j, -k);
 		}
 
@@ -130,13 +102,6 @@ public class Quaternion
 
 	public boolean isEqualTo(Quaternion h, double epsilon)
 		{
-
-		//DEBUG
-		//		System.out.println(Math.abs(r - h.r) + " " + (Math.abs(r - h.r) < epsilon));
-		//		System.out.println(Math.abs(i - h.i) + " " + (Math.abs(i - h.i) < epsilon));
-		//		System.out.println(Math.abs(j - h.j) + " " + (Math.abs(j - h.j) < epsilon));
-		//		System.out.println(Math.abs(k - h.k) + " " + (Math.abs(k - h.k) < epsilon));
-
 		return Math.abs(r - h.r) < epsilon && Math.abs(i - h.i) < epsilon && Math.abs(j - h.j) < epsilon && Math.abs(k - h.k) < epsilon;
 		}
 

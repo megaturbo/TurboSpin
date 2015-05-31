@@ -1,10 +1,16 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelMatrix;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelQuaternion;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
 public class JPanelRotationInfo extends JPanel
 	{
@@ -15,6 +21,10 @@ public class JPanelRotationInfo extends JPanel
 
 	public JPanelRotationInfo()
 		{
+		//Instantiate visualizable quaternion/matrix
+		matrix = new Matrix(3);
+		quaternion = new Quaternion();
+
 		geometry();
 		control();
 		appearance();
@@ -23,6 +33,30 @@ public class JPanelRotationInfo extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	public void refresh(Quaternion quaternion)
+		{
+		panelQuaternion.refresh(quaternion);
+		}
+
+	public void refresh(Matrix rotation, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
+		{
+		panelMatrix.refresh(rotation, matrixRz, matrixRy, matrixRx);
+		}
+
+	public void switchPanel()
+		{
+		if (panelQuaternion.isVisible())
+			{
+			panelMatrix.setVisible(true);
+			panelQuaternion.setVisible(false);
+			}
+		else if(panelMatrix.isVisible())
+			{
+			panelMatrix.setVisible(false);
+			panelQuaternion.setVisible(true);
+			}
+
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -38,19 +72,21 @@ public class JPanelRotationInfo extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
+		panelQuaternion = new JPanelQuaternion(quaternion);
+		panelMatrix = new JPanelMatrix(matrix, new Matrix(3), new Matrix(3), new Matrix(3));
 
-			// Layout : Specification
-			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
+		// Layout : Specification
 
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
+		BoxLayout boxlayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
+		setLayout(boxlayout);
+
+		// flowlayout.setHgap(20);
+		// flowlayout.setVgap(20);
 
 		// JComponent : add
-
+		add(panelMatrix);
+		add(panelQuaternion);
+		panelQuaternion.setVisible(false);
 		}
 
 	private void control()
@@ -62,6 +98,7 @@ public class JPanelRotationInfo extends JPanel
 		{
 		// rien
 		setBorder(BorderFactory.createTitledBorder("Rotation information"));
+		setPreferredSize(new Dimension(0, 230));
 		}
 
 	/*------------------------------------------------------------------*\
@@ -69,5 +106,11 @@ public class JPanelRotationInfo extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
+	public JPanelMatrix panelMatrix;
+	public JPanelQuaternion panelQuaternion;
+
+	//inputs
+	private Quaternion quaternion;
+	private Matrix matrix;
 
 	}

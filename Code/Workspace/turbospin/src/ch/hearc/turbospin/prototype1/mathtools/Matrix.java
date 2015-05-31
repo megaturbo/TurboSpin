@@ -1,7 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-public class Matrix
+public class Matrix implements RotationTool
 	{
 
 	/*------------------------------------------------------------------*\
@@ -34,17 +34,6 @@ public class Matrix
 		this.rows = M;
 		this.columns = M;
 		init();
-		}
-
-	private void init()
-		{
-		for(int i = 0; i < this.rows; i++)
-			{
-			for(int j = 0; j < this.columns; j++)
-				{
-				matrix[i][j] = 0;
-				}
-			}
 		}
 
 	public Matrix(double[][] tab)
@@ -133,6 +122,16 @@ public class Matrix
 			e.printStackTrace();
 			return null;
 			}
+		}
+
+	public Point3D times(Point3D toMultiply)
+		{
+		Point3D product = new Point3D();
+
+		product.set(toMultiply.getX() * (this.matrix[0][0]) + toMultiply.getY() * (this.matrix[1][0]) + toMultiply.getZ() * (this.matrix[2][0]),
+					toMultiply.getX() * (this.matrix[0][1]) + toMultiply.getY() * (this.matrix[1][1]) + toMultiply.getZ() * (this.matrix[2][1]),
+					toMultiply.getX() * (this.matrix[0][2]) + toMultiply.getY() * (this.matrix[1][2]) + toMultiply.getZ() * (this.matrix[2][2]));
+		return product;
 		}
 
 	public Matrix times(double scalar)
@@ -225,6 +224,17 @@ public class Matrix
 			}
 
 		return subMatrix;
+		}
+
+	private void init()
+		{
+		for(int i = 0; i < this.rows; i++)
+			{
+			for(int j = 0; j < this.columns; j++)
+				{
+				matrix[i][j] = 0;
+				}
+			}
 		}
 
 	/*------------------------------------------------------------------*\

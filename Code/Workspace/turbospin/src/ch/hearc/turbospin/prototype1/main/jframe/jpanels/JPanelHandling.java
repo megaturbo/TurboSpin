@@ -7,17 +7,24 @@ import java.util.List;
 
 import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
-import ch.hearc.turbospin.prototype1.exceptions.NotAVectorException;
-import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputs;
+import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
+import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
@@ -29,8 +36,9 @@ public class JPanelHandling extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView)
+	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView, JPanelRotationInfo panelInfo)
 		{
+		this.panelInfo = panelInfo;
 		this.canvas = canvas;
 		this.shapes = shapes;
 		this.panelView = panelView;
@@ -49,7 +57,7 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 
 		panelView.repaint();
-		model.addElement(vector);
+		shapesModel.addElement(vector);
 		}
 
 	public void addPoint(Point3D point)
@@ -58,8 +66,17 @@ public class JPanelHandling extends JPanel
 		canvas.refresh();
 
 		panelView.repaint();
-		model.addElement(point);
+		shapesModel.addElement(point);
+		}
 
+	public void addQuaternion(Quaternion quaternionInput)
+		{
+		rotationModel.addElement(quaternionInput);
+		}
+
+	public void addMatrix(Matrix matrixInput)
+		{
+		rotationModel.addElement(matrixInput);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -70,86 +87,51 @@ public class JPanelHandling extends JPanel
 		// JComponents
 		initComponents();
 
-		JScrollPane listPane = new JScrollPane(listVector);
-
 		// Layout
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(boxLayout);
 
 		// JComponent : add
-		add(buttonRotateVector);
 		add(buttonAddVector);
 		add(buttonAddLine);
 		add(buttonAddPoint);
-		add(listPane);
+		add(listShapesPane);
+
+		add(Box.createGlue());
+
+		add(radioButtonMatrix);
+		add(radioButtonQuaternion);
+		add(buttonAddRotation);
+		add(buttonRotate);
+		add(listRotationsPane);
 		}
 
 	private void control()
 		{
 		initListeners();
-
-		buttonRotateVector.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent arg0)
-					{
-					//vQuaternion
-					Vector3D axis = new Vector3D(1, 0, 0);
-					Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
-					for(Shape3D shape:shapes)
-						{
-						if (shape instanceof Vector3D)
-							{
-							Vector3D vector = (Vector3D)shape;
-							vector.set(QuaternionTools.rotation((Vector3D)shape, rotation));
-							}
-						else if (shape instanceof Point3D)
-							{
-							Point3D point = (Point3D)shape;
-							Point3D resPoint = QuaternionTools.rotation(point, rotation);
-							point.setX(resPoint.getX());
-							point.setY(resPoint.getY());
-							point.setZ(resPoint.getZ());
-
-							}
-						}
-
-					canvas.refresh();
-					panelView.repaint();
-
-					//vMatrix
-					//					//					Matrix rotation = MatrixTools.createRotationMatrix(-0.1, 2, Math.PI / 3);
-					//					Matrix rotation1 = MatrixTools.createRotationRxMatrix(Math.PI / 3);
-					//					Matrix rotation2 = MatrixTools.createRotationRyMatrix(Math.PI / 3);
-					//					Matrix rotation3 = MatrixTools.createRotationRzMatrix(Math.PI / 3);
-					//
-					//					ArrayList<Vector3D> vectorsTmp = new ArrayList<Vector3D>();
-					//					for(Vector3D vector:vectors)
-					//						{
-					//						//						vector.set(MatrixTools.rotate(vector, rotation));
-					//						Vector3D vector1 = MatrixTools.rotate(vector, rotation1);
-					//						Vector3D vector2 = MatrixTools.rotate(vector1, rotation2);
-					//						Vector3D vector3 = MatrixTools.rotate(vector2, rotation3);
-					//						vectorsTmp.add(new Vector3D(vector1, TurboColors.RED));
-					//						vectorsTmp.add(new Vector3D(vector2, TurboColors.GREEN));
-					//						vectorsTmp.add(new Vector3D(vector3, TurboColors.BLUE));
-					//						}
-					//					vectors.addAll(vectorsTmp);
-					//					canvas.refresh();
-					//					panelView.repaint();
-					}
-			});
 		}
 
 	private void initComponents()
 		{
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
-		buttonRotateVector = new JButton("Rotate by 60° C");
 		buttonAddPoint = new JButton("Add points");
-		model = new DefaultListModel<Shape3D>();
-		listVector = new JList<Shape3D>(model);
+		shapesModel = new DefaultListModel<Shape3D>();
+		listShapes = new JList<Shape3D>(shapesModel);
+		listShapesPane = new JScrollPane(listShapes);
+
+		buttonAddRotation = new JButton("Add rotation");
+		buttonRotate = new JButton("Rotation tests");
+		rotationModel = new DefaultListModel<RotationTool>();
+		listRotation = new JList<RotationTool>(rotationModel);
+		listRotationsPane = new JScrollPane(listRotation);
+
+		buttonGroupRadio = new ButtonGroup();
+		radioButtonMatrix = new JRadioButton("Rotate using matrices");
+		radioButtonMatrix.setSelected(true);
+		radioButtonQuaternion = new JRadioButton("Rotate using quaternions");
+		buttonGroupRadio.add(radioButtonMatrix);
+		buttonGroupRadio.add(radioButtonQuaternion);
 		}
 
 	private void initListeners()
@@ -158,13 +140,13 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent arg0)
+				public void actionPerformed(ActionEvent a)
 					{
 					try
 						{
-						addVector(JPanelInputs.showVectorInput());
+						addVector(JPanelInputsFactory.showVectorInput());
 						}
-					catch (NotAVectorException e)
+					catch (UserIsAnIdiotException e)
 						{
 						//NOP
 						}
@@ -175,9 +157,9 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent arg0)
+				public void actionPerformed(ActionEvent a)
 					{
-					JPanelInputs.showLineInput();
+					JPanelInputsFactory.showLineInput();
 
 					//The line above will return a Line3D object
 					//TODO Add it to the view
@@ -188,31 +170,78 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent e)
+				public void actionPerformed(ActionEvent a)
 					{
-
-					addPoint(JPanelInputs.showPointInput());
 					try
 						{
-						addVector(JPanelInputs.showVectorInput());
+						addPoint(JPanelInputsFactory.showPointInput());
 						}
-					catch (NotAVectorException e1)
+					catch (UserIsAnIdiotException e)
 						{
 						//NOP
 						}
 					}
 			});
 
-		buttonAddLine.addActionListener(new ActionListener()
+		buttonAddRotation.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent a)
+					{
+					if (radioButtonQuaternion.isSelected())
+						{
+						try
+							{
+							addQuaternion(JPanelInputsFactory.showQuaternionInput());
+							}
+						catch (UserIsAnIdiotException e)
+							{
+							//NOP
+							}
+						}
+					else if (radioButtonMatrix.isSelected())
+						{
+						try
+							{
+							addMatrix(JPanelInputsFactory.showMatrixInput());
+							}
+						catch (UserIsAnIdiotException e)
+							{
+							//NOP
+							}
+						}
+					}
+			});
+
+		buttonRotate.addActionListener(new ActionListener()
 			{
 
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 					{
-					JPanelInputs.showLineInput();
+					//vQuaternion
+					if (radioButtonQuaternion.isSelected())
+						{
 
-					//The line above will return a Line3D object
-					//TODO Add it to the view
+						if (!panelInfo.panelQuaternion.isVisible())
+							{
+							panelInfo.switchPanel();
+							}
+						rotateWithQuaternion();
+						listShapesPane.repaint();
+						}
+					else if (radioButtonMatrix.isSelected())
+						{
+
+						if (!panelInfo.panelMatrix.isVisible())
+							{
+							panelInfo.switchPanel();
+							}
+						rotateWithMatrix(Math.PI/2, Math.PI, Math.PI);
+						listShapesPane.repaint();
+
+						}
 					}
 			});
 		}
@@ -222,21 +251,80 @@ public class JPanelHandling extends JPanel
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
 
+	private void rotateWithQuaternion()
+		{
+		Vector3D axis = new Vector3D(1, 0, 0);
+		Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
+		panelInfo.refresh(rotation);
+		for(Shape3D shape:shapes)
+			{
+			if (shape instanceof Vector3D)
+				{
+				Vector3D vector = (Vector3D)shape;
+				vector.set(QuaternionTools.rotation(vector, rotation));
+				}
+			else if (shape instanceof Point3D)
+				{
+				Point3D point = (Point3D)shape;
+				point.set(QuaternionTools.rotation(point, rotation));
+				}
+			}
+
+		canvas.refresh();
+		panelView.repaint();
+		}
+
+	private void rotateWithMatrix(double alpha, double beta, double gamma)
+		{
+		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
+		Matrix rz = MatrixTools.createRotationRzMatrix(alpha);
+		Matrix ry = MatrixTools.createRotationRzMatrix(beta);
+		Matrix rx = MatrixTools.createRotationRzMatrix(gamma);
+
+		panelInfo.refresh(rotation, rz, ry, rx);
+		for(Shape3D shape:shapes)
+			{
+			if (shape instanceof Vector3D)
+				{
+				Vector3D vector = (Vector3D)shape;
+				vector.set(MatrixTools.rotate(vector, rotation));
+				}
+			else if (shape instanceof Point3D)
+				{
+				Point3D point = (Point3D)shape;
+				point.set(MatrixTools.rotate(point, rotation));
+				}
+			}
+
+		canvas.refresh();
+		panelView.repaint();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JButton buttonAddVector;
-	private JButton buttonAddLine;
-	private JButton buttonRotateVector;
-	private JButton buttonAddPoint;
-
-	private JList<Shape3D> listVector;
-	private DefaultListModel<Shape3D> model;
-
-	private List<Shape3D> shapes;
+	private JPanelRotationInfo panelInfo;
 	private TurboCanvas canvas;
 	private JPanelView panelView;
+	private List<Shape3D> shapes;
+	//shapes
+	private JButton buttonAddVector;
+	private JButton buttonAddLine;
+	private JButton buttonAddPoint;
+	private JList<Shape3D> listShapes;
+	private DefaultListModel<Shape3D> shapesModel;
+	private JScrollPane listShapesPane;
 
+	//rotations
+	private JButton buttonAddRotation;
+	private JList<RotationTool> listRotation;
+	private DefaultListModel<RotationTool> rotationModel;
+	private JScrollPane listRotationsPane;
+
+	private JButton buttonRotate;
+	private ButtonGroup buttonGroupRadio;
+	private JRadioButton radioButtonQuaternion;
+	private JRadioButton radioButtonMatrix;
 	}

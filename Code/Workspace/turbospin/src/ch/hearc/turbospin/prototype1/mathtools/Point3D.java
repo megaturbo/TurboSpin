@@ -54,7 +54,7 @@ public class Point3D extends Shape3D
 	public String toString()
 		{
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		sb.append("Point: [");
 		sb.append(x);
 		sb.append(", ");
 		sb.append(y);
@@ -125,6 +125,13 @@ public class Point3D extends Shape3D
 	public double getZ()
 		{
 		return this.z;
+		}
+
+	public Color3f getColor()
+		{
+		Color3f output = new Color3f();
+		this.getAppearance().getColoringAttributes().getColor(output);
+		return output;
 		}
 
 	/*------------------------------------------------------------------*\

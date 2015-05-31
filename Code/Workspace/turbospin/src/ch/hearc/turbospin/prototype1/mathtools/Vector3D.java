@@ -59,7 +59,7 @@ public class Vector3D extends Shape3D
 	public String toString()
 		{
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
+		sb.append("Vector: [");
 		sb.append(a);
 		sb.append(", ");
 		sb.append(b);
@@ -173,6 +173,11 @@ public class Vector3D extends Shape3D
 		return output;
 		}
 
+	public int getWidth()
+		{
+		return (int)this.getAppearance().getLineAttributes().getLineWidth();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -198,6 +203,7 @@ public class Vector3D extends Shape3D
 		//width
 		LineAttributes la = new LineAttributes();
 		la.setLineWidth(width);
+		la.setLineAntialiasingEnable(true);
 		appearance.setLineAttributes(la);
 
 		this.setAppearance(appearance);
