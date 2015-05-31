@@ -1,6 +1,9 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
+import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
+
 public class Matrix implements RotationItem
 	{
 
@@ -176,7 +179,21 @@ public class Matrix implements RotationItem
 		}
 	@Override
 	public String toString() {
-		return "I'm a";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Matrix [");
+		sb.append(Hexacodes.ALPHA_LOWER);
+		sb.append(" = ");
+		sb.append(String.format("%.3f", MatrixTools.getAlpha(this)));
+		sb.append(", ");
+		sb.append(Hexacodes.BETA_LOWER);
+		sb.append(" = ");
+		sb.append(String.format("%.3f", MatrixTools.getBeta(this)));
+		sb.append(", ");
+		sb.append(Hexacodes.GAMMA_LOWER);
+		sb.append(" = ");
+		sb.append(String.format("%.3f", MatrixTools.getGamma(this)));
+		sb.append("]");
+		return sb.toString();
 	}
 
 	/*------------------------------*\
