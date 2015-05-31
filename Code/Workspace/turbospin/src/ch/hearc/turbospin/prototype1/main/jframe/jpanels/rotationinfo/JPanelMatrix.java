@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 
 public class JPanelMatrix extends JPanel
 	{
@@ -41,6 +42,18 @@ public class JPanelMatrix extends JPanel
 		this.alpha = Math.acos(matrixRz.getValue(0, 0));
 		this.beta = Math.acos(matrixRy.getValue(0, 0));
 		this.gamma = Math.acos(matrixRx.getValue(1, 1));
+		repaint();
+		}
+
+	public void refresh(Matrix rotation)
+		{
+		this.matrixRotation = rotation;
+		this.alpha = MatrixTools.getAlpha(rotation);
+		this.beta = MatrixTools.getBeta(rotation);
+		this.gamma = MatrixTools.getGamma(rotation);
+		this.matrixRx = MatrixTools.createRotationRxMatrix(gamma);
+		this.matrixRy = MatrixTools.createRotationRyMatrix(beta);
+		this.matrixRz = MatrixTools.createRotationRzMatrix(alpha);
 		repaint();
 		}
 

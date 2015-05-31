@@ -77,12 +77,12 @@ public class TurboCanvas extends Canvas3D
 	 * Add a vector starting at origin, with a parallelepiped showing its 3D components
 	 * @param v End location
 	 */
-	public void addVectorWithTheCubeEffectzor(Vector3D vector)
+	public void addParallelepiped(Vector3D vector)
 		{
 		vectorsBG.detach();
 
 		//adding the vector
-		vectorsBG.addChild(vector);
+		//		vectorsBG.addChild(vector);
 
 		//adding a cube
 		//colored vertices
@@ -115,6 +115,11 @@ public class TurboCanvas extends Canvas3D
 			}
 
 		mainTG.addChild(vectorsBG);
+		}
+
+	public void addParallelepiped(Point3D point)
+		{
+		addParallelepiped(new Vector3D(point));
 		}
 
 	/**
@@ -157,11 +162,13 @@ public class TurboCanvas extends Canvas3D
 			{
 			if (shape instanceof Vector3D)
 				{
-				addVectorWithTheCubeEffectzor((Vector3D)shape);
+					addVector((Vector3D)shape);
+					addParallelepiped((Vector3D)shape);
 				}
 			if (shape instanceof Point3D)
 				{
 				addPoint((Point3D)shape);
+				addParallelepiped((Point3D)shape);
 				}
 			}
 		createAxisSystem();

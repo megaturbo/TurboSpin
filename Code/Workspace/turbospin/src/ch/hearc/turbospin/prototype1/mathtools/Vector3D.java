@@ -51,6 +51,11 @@ public class Vector3D extends Shape3D
 		this(0, 0, 0);
 		}
 
+	public Vector3D(Point3D src)
+		{
+		this(src.getX(), src.getY(), src.getZ());
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
@@ -77,31 +82,16 @@ public class Vector3D extends Shape3D
 	public Vector3D normalize()
 		{
 		double norm = norm();
-		//changes this, not implemented
-		//		a /= norm;
-		//		b /= norm;
-		//		c /= norm;
-		//no change to this
 		return new Vector3D(a / norm, b / norm, c / norm);
 		}
 
 	public Vector3D add(Vector3D v)
 		{
-		//changes this, not implemented
-		//		a += v.a;
-		//		b += v.b;
-		//		c += v.c;
-		//no change to this
 		return new Vector3D(a + v.a, b + v.b, c + v.c);
 		}
 
 	public Vector3D multiply(double x)
 		{
-		//changes this, not implemented
-		//		a *= x;
-		//		b *= x;
-		//		c *= x;
-		//no change to this
 		return new Vector3D(a * x, b * x, c * x);
 		}
 

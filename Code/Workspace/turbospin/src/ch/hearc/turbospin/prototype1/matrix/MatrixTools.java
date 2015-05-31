@@ -88,6 +88,22 @@ final public class MatrixTools
 		{
 		return rotationMatrix.times(object);
 		}
+
+	public static double getAlpha(Matrix rotationMatrix)
+		{
+		return Math.atan2(rotationMatrix.getValue(1, 0), rotationMatrix.getValue(0, 0));
+		}
+
+	public static double getBeta(Matrix rotationMatrix)
+		{
+		return Math.atan2(-rotationMatrix.getValue(2, 0), Math.sqrt(Math.pow(rotationMatrix.getValue(2, 1), 2) + Math.pow(rotationMatrix.getValue(2, 2), 2)));
+		}
+
+	public static double getGamma(Matrix rotationMatrix)
+		{
+		return Math.atan2(rotationMatrix.getValue(2, 1), rotationMatrix.getValue(2, 2));
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
