@@ -120,7 +120,7 @@ public class JPanelInputsFactory {
 
 		panel.add(new JLabel("Veuillez insérer un angle et un axe de rotation."));
 
-		panel.add(new JLabel(Hexacodes.THETA + ":"));
+		panel.add(new JLabel(Hexacodes.THETA_LOWER + ":"));
 		panel.add(aField);
 		panel.add(new JLabel("x:"));
 		panel.add(xField);
@@ -165,11 +165,11 @@ public class JPanelInputsFactory {
 		panel.add(new JLabel(
 				"Veuillez insérer 3 angles pour créer une matrice."));
 
-		panel.add(new JLabel(Hexacodes.ALPHA));
+		panel.add(new JLabel(Hexacodes.ALPHA_LOWER));
 		panel.add(aField);
-		panel.add(new JLabel(Hexacodes.BETA));
+		panel.add(new JLabel(Hexacodes.BETA_LOWER));
 		panel.add(bField);
-		panel.add(new JLabel(Hexacodes.GAMMA));
+		panel.add(new JLabel(Hexacodes.GAMMA_LOWER));
 		panel.add(cField);
 
 		int result = JOptionPane.showConfirmDialog(null, panel,
