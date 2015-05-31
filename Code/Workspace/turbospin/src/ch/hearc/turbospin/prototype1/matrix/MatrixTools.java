@@ -32,15 +32,15 @@ final public class MatrixTools
 		{
 		Matrix Rz = new Matrix(3);
 		Rz.setValue(0, 0, Math.cos(alpha));
-		Rz.setValue(0, 1, Math.sin(alpha));
-		Rz.setValue(0, 2, 0);
-
-		Rz.setValue(1, 0, -Math.sin(alpha));
-		Rz.setValue(1, 1, Math.cos(alpha));
-		Rz.setValue(1, 2, 0);
-
+		Rz.setValue(1, 0, Math.sin(alpha));
 		Rz.setValue(2, 0, 0);
+
+		Rz.setValue(0, 1, -Math.sin(alpha));
+		Rz.setValue(1, 1, Math.cos(alpha));
 		Rz.setValue(2, 1, 0);
+
+		Rz.setValue(0, 2, 0);
+		Rz.setValue(1, 2, 0);
 		Rz.setValue(2, 2, 1);
 		return Rz;
 		}
@@ -49,15 +49,15 @@ final public class MatrixTools
 		{
 		Matrix Ry = new Matrix(3);
 		Ry.setValue(0, 0, Math.cos(beta));
-		Ry.setValue(0, 1, 0);
-		Ry.setValue(0, 2, -Math.sin(beta));
-
 		Ry.setValue(1, 0, 0);
-		Ry.setValue(1, 1, 1);
-		Ry.setValue(1, 2, 0);
+		Ry.setValue(2, 0, -Math.sin(beta));
 
-		Ry.setValue(2, 0, Math.sin(beta));
+		Ry.setValue(0, 1, 0);
+		Ry.setValue(1, 1, 1);
 		Ry.setValue(2, 1, 0);
+
+		Ry.setValue(0, 2, Math.sin(beta));
+		Ry.setValue(1, 2, 0);
 		Ry.setValue(2, 2, Math.cos(beta));
 		return Ry;
 		}

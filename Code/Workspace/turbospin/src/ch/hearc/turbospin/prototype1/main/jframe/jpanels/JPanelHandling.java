@@ -322,8 +322,8 @@ public class JPanelHandling extends JPanel
 		{
 		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
 		Matrix rz = MatrixTools.createRotationRzMatrix(alpha);
-		Matrix ry = MatrixTools.createRotationRzMatrix(beta);
-		Matrix rx = MatrixTools.createRotationRzMatrix(gamma);
+		Matrix ry = MatrixTools.createRotationRyMatrix(beta);
+		Matrix rx = MatrixTools.createRotationRxMatrix(gamma);
 
 		panelInfo.refresh(rotation, rz, ry, rx);
 		for(Shape3D shape:shapes)
