@@ -1,7 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.mathtools;
 
-public class Matrix implements RotationTool
+public class Matrix implements RotationItem
 	{
 
 	/*------------------------------------------------------------------*\

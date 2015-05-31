@@ -2,6 +2,8 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.util.List;
 
 import javax.media.j3d.Shape3D;
@@ -15,13 +17,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
-import ch.hearc.turbospin.prototype1.mathtools.RotationTool;
+import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
@@ -122,8 +126,8 @@ public class JPanelHandling extends JPanel {
 
 		buttonAddRotation = new JButton("Add rotation");
 		buttonRotate = new JButton("Rotation tests");
-		rotationModel = new DefaultListModel<RotationTool>();
-		listRotation = new JList<RotationTool>(rotationModel);
+		rotationModel = new DefaultListModel<RotationItem>();
+		listRotation = new JList<RotationItem>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
 
 		buttonGroupRadio = new ButtonGroup();
@@ -242,8 +246,8 @@ public class JPanelHandling extends JPanel {
 	private void rotateWithMatrix(double alpha, double beta, double gamma) {
 		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
 		Matrix rz = MatrixTools.createRotationRzMatrix(alpha);
-		Matrix ry = MatrixTools.createRotationRzMatrix(beta);
-		Matrix rx = MatrixTools.createRotationRzMatrix(gamma);
+		Matrix ry = MatrixTools.createRotationRyMatrix(beta);
+		Matrix rx = MatrixTools.createRotationRxMatrix(gamma);
 
 		panelInfo.refresh(rotation, rz, ry, rx);
 		for (Shape3D shape : shapes) {
@@ -279,8 +283,8 @@ public class JPanelHandling extends JPanel {
 
 	// rotations
 	private JButton buttonAddRotation;
-	private JList<RotationTool> listRotation;
-	private DefaultListModel<RotationTool> rotationModel;
+	private JList<RotationItem> listRotation;
+	private DefaultListModel<RotationItem> rotationModel;
 	private JScrollPane listRotationsPane;
 
 	private JButton buttonRotate;
