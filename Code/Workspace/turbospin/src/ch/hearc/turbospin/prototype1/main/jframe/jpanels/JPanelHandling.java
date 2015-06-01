@@ -53,9 +53,8 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	//TODO addShape3D should be the only one
-	public void addVector(Vector3D vector)
-		{
+	// TODO addShape3D should be the only one
+	public void addVector(Vector3D vector) {
 		shapes.add(vector);
 		canvas.refresh();
 
