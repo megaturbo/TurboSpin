@@ -1,10 +1,14 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
@@ -27,9 +31,11 @@ public class JPanelQuaternion extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 	public void refresh(Quaternion quaternion)
-	{
-		quaternionLabel.setText(quaternion.toString());
-	}
+		{
+		this.quaternion = quaternion;
+		repaint();
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
@@ -41,24 +47,29 @@ public class JPanelQuaternion extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+	@Override
+	protected void paintComponent(Graphics g)
+		{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D)g;
 
+		//handling fonts
+		Font font = this.getFont();
+		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+
+		fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		g2d.setFont(font.deriveFont(fontAttributes));
+
+		g2d.drawString("Quaternion generated from this rotation:", 10, 40);
+
+		fontAttributes.put(TextAttribute.UNDERLINE,-1);
+		g2d.setFont(font.deriveFont(Font.BOLD));
+
+		g2d.drawString(quaternion.toString(), 15, 70);
+		}
 	private void geometry()
 		{
-		// JComponent : Instanciation
-		quaternionInfoLabel = new JLabel("Quaternion generated from this rotation:");
-		quaternionLabel = new JLabel("");
-			// Layout : Specification
-			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
-
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
-
-		// JComponent : add
-			add(quaternionInfoLabel);
-			add(quaternionLabel);
+		//rien
 		}
 
 	private void control()
@@ -70,6 +81,7 @@ public class JPanelQuaternion extends JPanel
 		{
 		// rien
 		setBorder(BorderFactory.createTitledBorder("Quaternion"));
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -77,8 +89,7 @@ public class JPanelQuaternion extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JLabel quaternionLabel;
-	private JLabel quaternionInfoLabel;
 	// Inputs
+	private Quaternion quaternion;
 
 	}

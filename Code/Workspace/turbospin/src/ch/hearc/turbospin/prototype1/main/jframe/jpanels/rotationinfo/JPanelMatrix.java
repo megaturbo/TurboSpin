@@ -3,8 +3,12 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo;
 
 import java.awt.BasicStroke;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -64,7 +68,17 @@ public class JPanelMatrix extends JPanel
 		{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
+
+		//handling fonts
+		Font font = this.getFont();
+		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+		fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		g2d.setFont(font.deriveFont(fontAttributes));
+
 		g2d.drawString("Rotation matrices generated from this rotation:", 10, 30);
+
+		fontAttributes.put(TextAttribute.UNDERLINE,-1);
+		g2d.setFont(font.deriveFont(fontAttributes));
 
 		int offset = (int)(this.getWidth() * 0.08);
 

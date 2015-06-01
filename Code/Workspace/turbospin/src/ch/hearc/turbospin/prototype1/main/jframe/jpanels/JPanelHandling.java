@@ -205,7 +205,6 @@ public class JPanelHandling extends JPanel
 						{
 						if (!panelInfo.panelQuaternion.isVisible())
 							{
-							System.out.println("switching to quater");
 							panelInfo.displayQuaternion();
 							}
 						rotateWithQuaternion();
@@ -216,7 +215,6 @@ public class JPanelHandling extends JPanel
 
 						if (!panelInfo.panelMatrix.isVisible())
 							{
-							System.out.println("switch to matrix");
 							panelInfo.displayMatrix();
 							}
 						rotateWithMatrix(1, 2, 3);
