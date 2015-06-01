@@ -16,6 +16,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
@@ -163,6 +165,61 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
+		buttonAddLine.addActionListener(new ActionListener()
+			{
+
+				//The line above will return a Line3D object
+				//TODO Add it to the view
+				@Override
+				public void actionPerformed(ActionEvent a)
+					{
+					try
+						{
+						addShape3D(JPanelInputsFactory.showLineInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						// NOP
+						}
+					}
+			});
+
+		buttonAddPoint.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent a)
+					{
+					try
+						{
+						addPoint(JPanelInputsFactory.showPoint3DInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						// NOP
+						}
+					}
+			});
+
+		listRotation.addListSelectionListener(new ListSelectionListener()
+			{
+
+				@Override
+				public void valueChanged(ListSelectionEvent e)
+					{
+					if (listRotation.getSelectedValue() instanceof Matrix)
+						{
+						panelInfo.displayMatrix();
+						panelInfo.refresh((Matrix)listRotation.getSelectedValue());
+						}
+					else if (listRotation.getSelectedValue() instanceof Quaternion)
+						{
+						panelInfo.displayQuaternion();
+						panelInfo.refresh((Quaternion)listRotation.getSelectedValue());
+						}
+					}
+			});
+
 		buttonAddRotation.addActionListener(new ActionListener()
 			{
 
@@ -225,41 +282,6 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		buttonAddLine.addActionListener(new ActionListener()
-			{
-
-				//The line above will return a Line3D object
-				//TODO Add it to the view
-				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					try
-						{
-						addShape3D(JPanelInputsFactory.showLineInput());
-						}
-					catch (UserIsAnIdiotException e)
-						{
-						// NOP
-						}
-					}
-			});
-
-		buttonAddPoint.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					try
-						{
-						addPoint(JPanelInputsFactory.showPoint3DInput());
-						}
-					catch (UserIsAnIdiotException e)
-						{
-						// NOP
-						}
-					}
-			});
 		}
 
 	private void appearance()
