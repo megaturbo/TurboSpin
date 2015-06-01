@@ -67,7 +67,7 @@ public class JPanelInputsFactory
 
 		JPanel panel = new JPanel();
 
-		String lineTypes[] = { "Paramètrique", "A l'aide de 2 points" };
+		String lineTypes[] = { "Paramï¿½trique", "A l'aide de 2 points" };
 		JComboBox<String> lineComboBox = new JComboBox<String>(lineTypes);
 
 		panel.add(new JLabel("Comment voulez-vous entrer la droite?"));
@@ -94,7 +94,7 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insérer un point."));
+		panel.add(new JLabel("Veuillez insï¿½rer un point."));
 
 		panel.add(new JLabel("x:"));
 		panel.add(xField);
@@ -103,7 +103,7 @@ public class JPanelInputsFactory
 		panel.add(new JLabel("z:"));
 		panel.add(zField);
 
-		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnées", JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les coordonnï¿½es", JOptionPane.OK_CANCEL_OPTION);
 		yField.requestFocus();
 
 		if (result == JOptionPane.OK_OPTION)
@@ -139,7 +139,7 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insérer un angle et un axe de rotation."));
+		panel.add(new JLabel("Veuillez insï¿½rer un angle et un axe de rotation."));
 
 		panel.add(new JLabel("Î±:"));
 		panel.add(aField);
@@ -187,7 +187,7 @@ public class JPanelInputsFactory
 		JTextField bField = new JTextField(5);
 		JTextField cField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insérer 3 angles pour créer une matrice."));
+		panel.add(new JLabel("Veuillez insÃ©rer 3 angles pour crï¿½er une matrice."));
 
 		panel.add(new JLabel(Hexacodes.ALPHA));
 		panel.add(aField);

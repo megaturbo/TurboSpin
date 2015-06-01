@@ -66,8 +66,7 @@ public class JPanelMatrix extends JPanel
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawString("Rotation matrices generated from this rotation:", 10, 30);
 
-		int offset =  (int)(this.getWidth()*0.08);
-
+		int offset = (int)(this.getWidth() * 0.08);
 
 		drawRotationMatrix(g2d, matrixRotation, offset, 60);
 		g2d.drawString("Complete Rotation", offset + 30, 50);
@@ -76,19 +75,19 @@ public class JPanelMatrix extends JPanel
 		g2d.setColor(Color.BLUE);
 		drawRotationMatrix(g2d, matrixRz, offset + 210, 60);
 		g2d.drawString("Rotation around Z axis", offset + 20 + 210, 50);
-		g2d.drawString("X",  offset + 185 + 202, 115);
-		g2d.drawString("Rotated by: " + String.format("%.3f", alpha / Math.PI)+ Hexacodes.PI, offset + 30 + 210, 190);
+		g2d.drawString("X", offset + 185 + 202, 115);
+		g2d.drawString("Rotated by: " + String.format("%.3f", alpha) + Hexacodes.PI, offset + 30 + 210, 190);
 
 		g2d.setColor(Color.GREEN);
 		drawRotationMatrix(g2d, matrixRy, offset + 210 + 195, 60);
 		g2d.drawString("Rotation around Y axis", offset + 20 + 210 + 195, 50);
 		g2d.drawString("X", offset + 185 + 202 + 195, 115);
-		g2d.drawString("Rotated by: " + String.format("%.3f", beta / Math.PI)+ Hexacodes.PI, offset + 30 + 210 + 195, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", beta) + Hexacodes.PI, offset + 30 + 210 + 195, 190);
 
 		g2d.setColor(Color.RED);
 		drawRotationMatrix(g2d, matrixRx, offset + 210 + 195 + 195, 60);
 		g2d.drawString("Rotation around X axis", offset + 20 + 210 + 195 + 195, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", gamma / Math.PI)+ Hexacodes.PI, offset + 30 + 210 + 2 * 195, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", gamma) + Hexacodes.PI, offset + 30 + 210 + 2 * 195, 190);
 
 		g2d.setColor(Color.BLACK);
 		}
@@ -112,7 +111,7 @@ public class JPanelMatrix extends JPanel
 			{
 			for(int j = 1; j <= 3; j++)
 				{
-				g2d.drawString(String.format("%.3f", matrix.getValue(i - 1, j - 1)), x - 13 + 40 * i, y - 20 + 40 * j);
+				g2d.drawString(String.format("%.3f", matrix.getValue(i - 1, j - 1)), x - 13 + 40 * j, y - 20 + 40 * i);
 				}
 			}
 

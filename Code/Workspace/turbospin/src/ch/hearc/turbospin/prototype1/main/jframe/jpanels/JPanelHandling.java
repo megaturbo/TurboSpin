@@ -242,7 +242,7 @@ public class JPanelHandling extends JPanel
 							{
 							panelInfo.switchPanel();
 							}
-						rotateWithMatrix(Math.PI / 2, Math.PI, Math.PI);
+						rotateWithMatrix(1, 2, 3);
 						listShapesPane.repaint();
 
 						}
