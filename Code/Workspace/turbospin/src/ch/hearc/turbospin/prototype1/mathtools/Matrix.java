@@ -89,7 +89,7 @@ public class Matrix implements RotationItem
 				{
 				for(int j = 0; j < toMultiply.columns; j++)
 					{
-					for(int k = 0; k < this.columns; k++)
+					for(int k = 0; k < toMultiply.rows; k++)
 						{
 						product.matrix[i][j] += matrix[i][k] * toMultiply.matrix[k][j];
 						}
@@ -131,9 +131,8 @@ public class Matrix implements RotationItem
 		{
 		Point3D product = new Point3D();
 
-		product.set(toMultiply.getX() * (this.matrix[0][0]) + toMultiply.getY() * (this.matrix[1][0]) + toMultiply.getZ() * (this.matrix[2][0]),
-					toMultiply.getX() * (this.matrix[0][1]) + toMultiply.getY() * (this.matrix[1][1]) + toMultiply.getZ() * (this.matrix[2][1]),
-					toMultiply.getX() * (this.matrix[0][2]) + toMultiply.getY() * (this.matrix[1][2]) + toMultiply.getZ() * (this.matrix[2][2]));
+		product.set(toMultiply.getX() * (this.matrix[0][0]) + toMultiply.getY() * (this.matrix[1][0]) + toMultiply.getZ() * (this.matrix[2][0]), toMultiply.getX() * (this.matrix[0][1]) + toMultiply.getY() * (this.matrix[1][1]) + toMultiply.getZ() * (this.matrix[2][1]), toMultiply.getX()
+				* (this.matrix[0][2]) + toMultiply.getY() * (this.matrix[1][2]) + toMultiply.getZ() * (this.matrix[2][2]));
 		return product;
 		}
 
@@ -177,8 +176,10 @@ public class Matrix implements RotationItem
 			return 0;
 			}
 		}
+
 	@Override
-	public String toString() {
+	public String toString()
+		{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Matrix [");
 		sb.append(Hexacodes.ALPHA_LOWER);
@@ -194,7 +195,7 @@ public class Matrix implements RotationItem
 		sb.append(String.format("%.3f", MatrixTools.getGamma(this)));
 		sb.append("]");
 		return sb.toString();
-	}
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
