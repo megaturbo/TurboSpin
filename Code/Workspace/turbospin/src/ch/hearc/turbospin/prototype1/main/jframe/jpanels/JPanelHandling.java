@@ -132,8 +132,8 @@ public class JPanelHandling extends JPanel
 		listShapes = new JList<Shape3D>(shapesModel);
 		listShapesPane = new JScrollPane(listShapes);
 
-		buttonAddRotation = new JButton("Add rotation");
-		buttonRotate = new JButton("Rotation tests");
+		buttonAddRotation = new JButton("Add rotation item");
+		buttonRotate = new JButton("Rotate selected item");
 		rotationModel = new DefaultListModel<RotationItem>();
 		listRotation = new JList<RotationItem>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
@@ -217,6 +217,16 @@ public class JPanelHandling extends JPanel
 						panelInfo.displayQuaternion();
 						panelInfo.refresh((Quaternion)listRotation.getSelectedValue());
 						}
+					}
+			});
+
+		listShapes.addListSelectionListener(new ListSelectionListener()
+			{
+
+				@Override
+				public void valueChanged(ListSelectionEvent e)
+					{
+					canvas.setSelected(listShapes.getSelectedValue());
 					}
 			});
 
