@@ -1,6 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.matrix;
 
+import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
@@ -129,13 +130,15 @@ final public class MatrixTools
 		{
 		if (rotationMatrix.getValue(2, 0) != 1 || rotationMatrix.getValue(2, 0) != -1)
 			{
-			double theta1 = -Math.asin(rotationMatrix.getValue(2, 0));
-			double theta2 = Math.PI - theta1;
-			double psi1 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta1), rotationMatrix.getValue(2, 2) / Math.cos(theta1));
-			double psi2 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta2), rotationMatrix.getValue(2, 2) / Math.cos(theta2));
-			double phi1 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta1), rotationMatrix.getValue(0, 0) / Math.cos(theta1));
-			double phi2 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta2), rotationMatrix.getValue(0, 0) / Math.cos(theta2));
-			System.out.println();
+			double beta1 = -Math.asin(rotationMatrix.getValue(2, 0));
+			double beta2 = Math.PI - beta1;
+			double gamma1 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(beta1), rotationMatrix.getValue(2, 2) / Math.cos(beta1));
+			double gamma2 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(beta2), rotationMatrix.getValue(2, 2) / Math.cos(beta2));
+			double alpha1 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(beta1), rotationMatrix.getValue(0, 0) / Math.cos(beta1));
+			double alpha2 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(beta2), rotationMatrix.getValue(0, 0) / Math.cos(beta2));
+			System.out.println(Hexacodes.ALPHA_LOWER + "1: " + alpha1 + " " + Hexacodes.ALPHA_LOWER + "2: " + alpha2 + " ");
+			System.out.println(Hexacodes.BETA_LOWER + "1: " + beta1 + " " + Hexacodes.BETA_LOWER + "2: " + beta2 + " ");
+			System.out.println(Hexacodes.GAMMA_LOWER + "1: " + gamma1 + " " + Hexacodes.GAMMA_LOWER + "2: " + gamma2);
 			}
 		else
 			{
