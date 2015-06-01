@@ -135,6 +135,7 @@ final public class MatrixTools
 			double psi2 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta2), rotationMatrix.getValue(2, 2) / Math.cos(theta2));
 			double phi1 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta1), rotationMatrix.getValue(0, 0) / Math.cos(theta1));
 			double phi2 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta2), rotationMatrix.getValue(0, 0) / Math.cos(theta2));
+			System.out.println();
 			}
 		else
 			{

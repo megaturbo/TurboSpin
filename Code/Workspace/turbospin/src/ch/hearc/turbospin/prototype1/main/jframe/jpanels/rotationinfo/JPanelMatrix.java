@@ -75,21 +75,25 @@ public class JPanelMatrix extends JPanel
 		g2d.setColor(Color.BLUE);
 		drawRotationMatrix(g2d, matrixRz, offset + 210, 60);
 		g2d.drawString("Rotation around Z axis", offset + 20 + 210, 50);
+
 		g2d.drawString("X", offset + 185 + 202, 115);
-		g2d.drawString("Rotated by: " + String.format("%.3f", alpha) + Hexacodes.PI, offset + 30 + 210, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", alpha) + Hexacodes.PI_LOWER, offset + 30 + 210, 190);
 
 		g2d.setColor(Color.GREEN);
 		drawRotationMatrix(g2d, matrixRy, offset + 210 + 195, 60);
 		g2d.drawString("Rotation around Y axis", offset + 20 + 210 + 195, 50);
+
 		g2d.drawString("X", offset + 185 + 202 + 195, 115);
-		g2d.drawString("Rotated by: " + String.format("%.3f", beta) + Hexacodes.PI, offset + 30 + 210 + 195, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", beta) + Hexacodes.PI_LOWER, offset + 30 + 210 + 195, 190);
 
 		g2d.setColor(Color.RED);
 		drawRotationMatrix(g2d, matrixRx, offset + 210 + 195 + 195, 60);
 		g2d.drawString("Rotation around X axis", offset + 20 + 210 + 195 + 195, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", gamma) + Hexacodes.PI, offset + 30 + 210 + 2 * 195, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", gamma) + Hexacodes.PI_LOWER, offset + 30 + 210 + 2 * 195, 190);
 
 		g2d.setColor(Color.BLACK);
+		g2d.drawString("X", offset + 185 + 202, 115);
+		g2d.drawString("X", offset + 185 + 202 + 195, 115);
 		}
 
 	private void drawRotationMatrix(Graphics2D g2d, Matrix matrix, int x, int y)

@@ -3,8 +3,6 @@ package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.util.List;
 
 import javax.media.j3d.Shape3D;
@@ -18,8 +16,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
@@ -55,6 +51,7 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	//TODO addShape3D should be the only one
 	public void addVector(Vector3D vector)
 		{
 		shapes.add(vector);
@@ -71,6 +68,15 @@ public class JPanelHandling extends JPanel
 
 		panelView.repaint();
 		shapesModel.addElement(point);
+		}
+
+	public void addShape3D(Shape3D shape)
+		{
+		shapes.add(shape);
+		canvas.refresh();
+
+		panelView.repaint();
+		shapesModel.addElement(shape);
 		}
 
 	public void addQuaternion(Quaternion quaternionInput)
@@ -148,41 +154,11 @@ public class JPanelHandling extends JPanel
 					{
 					try
 						{
-						addVector(JPanelInputsFactory.showVectorInput());
+						addShape3D(JPanelInputsFactory.showVector3DInput());
 						}
 					catch (UserIsAnIdiotException e)
 						{
-						//NOP
-						}
-					}
-			});
-
-		buttonAddLine.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					JPanelInputsFactory.showLineInput();
-
-					//The line above will return a Line3D object
-					//TODO Add it to the view
-					}
-			});
-
-		buttonAddPoint.addActionListener(new ActionListener()
-			{
-
-				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					try
-						{
-						addPoint(JPanelInputsFactory.showPointInput());
-						}
-					catch (UserIsAnIdiotException e)
-						{
-						//NOP
+						// NOP
 						}
 					}
 			});
@@ -249,44 +225,40 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		listRotationsPane.addContainerListener(new ContainerListener()
+		buttonAddLine.addActionListener(new ActionListener()
 			{
 
+				//The line above will return a Line3D object
+				//TODO Add it to the view
 				@Override
-				public void componentAdded(ContainerEvent e)
+				public void actionPerformed(ActionEvent a)
 					{
-					// TODO Auto-generated method stub
-
+					try
+						{
+						addShape3D(JPanelInputsFactory.showLineInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						// NOP
+						}
 					}
-
-				@Override
-				public void componentRemoved(ContainerEvent e)
-					{
-					// TODO Auto-generated method stub
-
-					}
-
 			});
 
-		listRotation.addListSelectionListener(new ListSelectionListener()
+		buttonAddPoint.addActionListener(new ActionListener()
 			{
 
 				@Override
-				public void valueChanged(ListSelectionEvent e)
+				public void actionPerformed(ActionEvent a)
 					{
-					RotationItem item = listRotation.getSelectedValue();
-					if (item instanceof Quaternion)
+					try
 						{
-						panelInfo.displayQuaternion();
-						panelInfo.refresh((Quaternion)item);
+						addPoint(JPanelInputsFactory.showPoint3DInput());
 						}
-					else if (item instanceof Matrix)
+					catch (UserIsAnIdiotException e)
 						{
-						panelInfo.displayMatrix();
-						panelInfo.refresh((Matrix)item);
+						// NOP
 						}
 					}
-
 			});
 		}
 
@@ -353,7 +325,7 @@ public class JPanelHandling extends JPanel
 	private TurboCanvas canvas;
 	private JPanelView panelView;
 	private List<Shape3D> shapes;
-	//shapes
+	// shapes
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
 	private JButton buttonAddPoint;
@@ -361,7 +333,7 @@ public class JPanelHandling extends JPanel
 	private DefaultListModel<Shape3D> shapesModel;
 	private JScrollPane listShapesPane;
 
-	//rotations
+	// rotations
 	private JButton buttonAddRotation;
 	private JList<RotationItem> listRotation;
 	private DefaultListModel<RotationItem> rotationModel;
