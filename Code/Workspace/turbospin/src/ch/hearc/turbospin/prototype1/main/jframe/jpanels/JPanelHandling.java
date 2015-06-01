@@ -260,10 +260,10 @@ public class JPanelHandling extends JPanel
 					//vQuaternion
 					if (radioButtonQuaternion.isSelected())
 						{
-
 						if (!panelInfo.panelQuaternion.isVisible())
 							{
-							panelInfo.switchPanel();
+							System.out.println("switching to quater");
+							panelInfo.displayQuaternion();
 							}
 						rotateWithQuaternion();
 						listShapesPane.repaint();
@@ -273,7 +273,8 @@ public class JPanelHandling extends JPanel
 
 						if (!panelInfo.panelMatrix.isVisible())
 							{
-							panelInfo.switchPanel();
+							System.out.println("switch to matrix");
+							panelInfo.displayMatrix();
 							}
 						rotateWithMatrix(1, 2, 3);
 						listShapesPane.repaint();

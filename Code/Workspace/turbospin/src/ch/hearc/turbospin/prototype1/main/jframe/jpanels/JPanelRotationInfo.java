@@ -51,18 +51,6 @@ public class JPanelRotationInfo extends JPanel
 
 		}
 
-	public void switchPanel()
-		{
-		if (panelQuaternion.isVisible())
-			{
-			displayQuaternion();
-			}
-		else if (panelMatrix.isVisible())
-			{
-			displayMatrix();
-			}
-		}
-
 	public void displayQuaternion()
 		{
 		panelMatrix.setVisible(false);
