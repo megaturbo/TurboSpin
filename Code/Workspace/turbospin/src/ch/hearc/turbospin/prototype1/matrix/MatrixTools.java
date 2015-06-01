@@ -21,11 +21,19 @@ final public class MatrixTools
 	public static Matrix createRotationMatrix(double alpha, double beta, double gamma)
 		{
 		Matrix rotationRzMatrix = createRotationRzMatrix(alpha);
+		System.out.println(Math.acos(rotationRzMatrix.getValue(0, 0)));
 		Matrix rotationRyMatrix = createRotationRyMatrix(beta);
+		System.out.println(Math.acos(rotationRyMatrix.getValue(0, 0)));
 		Matrix rotationRxMatrix = createRotationRxMatrix(gamma);
+		System.out.println(Math.acos(rotationRxMatrix.getValue(1, 1)));
 
-		return rotationRzMatrix.times(rotationRyMatrix.times(rotationRxMatrix));
+		Matrix temp = rotationRzMatrix.times(rotationRyMatrix.times(rotationRxMatrix));
 
+		System.out.println(getAlpha(temp));
+		System.out.println(getBeta(temp));
+		System.out.println(getGamma(temp));
+
+		return temp;
 		}
 
 	public static Matrix createRotationRzMatrix(double alpha)
@@ -64,19 +72,19 @@ final public class MatrixTools
 
 	public static Matrix createRotationRxMatrix(double gamma)
 		{
-		Matrix matrixX = new Matrix(3);
-		matrixX.setValue(0, 0, 1);
-		matrixX.setValue(0, 1, 0);
-		matrixX.setValue(0, 2, 0);
+		Matrix Rx = new Matrix(3);
+		Rx.setValue(0, 0, 1);
+		Rx.setValue(1, 0, 0);
+		Rx.setValue(2, 0, 0);
 
-		matrixX.setValue(1, 0, 0);
-		matrixX.setValue(1, 1, Math.cos(gamma));
-		matrixX.setValue(1, 2, Math.sin(gamma));
+		Rx.setValue(0, 1, 0);
+		Rx.setValue(1, 1, Math.cos(gamma));
+		Rx.setValue(2, 1, Math.sin(gamma));
 
-		matrixX.setValue(2, 0, 0);
-		matrixX.setValue(2, 1, -Math.sin(gamma));
-		matrixX.setValue(2, 2, Math.cos(gamma));
-		return matrixX;
+		Rx.setValue(0, 2, 0);
+		Rx.setValue(1, 2, -Math.sin(gamma));
+		Rx.setValue(2, 2, Math.cos(gamma));
+		return Rx;
 		}
 
 	public static Vector3D rotate(Vector3D object, Matrix rotationMatrix)
@@ -91,17 +99,58 @@ final public class MatrixTools
 
 	public static double getAlpha(Matrix rotationMatrix)
 		{
-		return Math.atan2(rotationMatrix.getValue(1, 0), rotationMatrix.getValue(0, 0));
+		//		return Math.atan2(rotationMatrix.getValue(1, 0), rotationMatrix.getValue(0, 0));
+
+		double theta1 = -Math.asin(rotationMatrix.getValue(2, 0));
+		double theta2 = Math.PI - theta1;
+		return Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta2), rotationMatrix.getValue(0, 0) / Math.cos(theta2));
 		}
 
 	public static double getBeta(Matrix rotationMatrix)
 		{
-		return Math.atan2(-rotationMatrix.getValue(2, 0), Math.sqrt(Math.pow(rotationMatrix.getValue(2, 1), 2) + Math.pow(rotationMatrix.getValue(2, 2), 2)));
+		//		return Math.atan2(-rotationMatrix.getValue(2, 0), Math.sqrt(Math.pow(rotationMatrix.getValue(2, 1), 2) + Math.pow(rotationMatrix.getValue(2, 2), 2)));
+		//		return -Math.asin(rotationMatrix.getValue(2, 0));
+
+		double theta1 = -Math.asin(rotationMatrix.getValue(2, 0));
+		return Math.PI - theta1;
 		}
 
 	public static double getGamma(Matrix rotationMatrix)
 		{
-		return Math.atan2(rotationMatrix.getValue(2, 1), rotationMatrix.getValue(2, 2));
+		//		double beta = getBeta(rotationMatrix);
+		//		return Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(beta), rotationMatrix.getValue(2, 2) / Math.cos(beta));
+
+		double theta1 = -Math.asin(rotationMatrix.getValue(2, 0));
+		double theta2 = Math.PI - theta1;
+		return Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta2), rotationMatrix.getValue(2, 2) / Math.cos(theta2));
+		}
+
+	public static void getAngles(Matrix rotationMatrix)
+		{
+		if (rotationMatrix.getValue(2, 0) != 1 || rotationMatrix.getValue(2, 0) != -1)
+			{
+			double theta1 = -Math.asin(rotationMatrix.getValue(2, 0));
+			double theta2 = Math.PI - theta1;
+			double psi1 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta1), rotationMatrix.getValue(2, 2) / Math.cos(theta1));
+			double psi2 = Math.atan2(rotationMatrix.getValue(2, 1) / Math.cos(theta2), rotationMatrix.getValue(2, 2) / Math.cos(theta2));
+			double phi1 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta1), rotationMatrix.getValue(0, 0) / Math.cos(theta1));
+			double phi2 = Math.atan2(rotationMatrix.getValue(1, 0) / Math.cos(theta2), rotationMatrix.getValue(0, 0) / Math.cos(theta2));
+			System.out.println();
+			}
+		else
+			{
+			double phi = 0.0;
+			if (rotationMatrix.getValue(2, 0) == -1.0)
+				{
+				double beta = Math.PI / 2;
+				double psi = phi + Math.atan2(rotationMatrix.getValue(0, 1), rotationMatrix.getValue(0, 2));
+				}
+			else
+				{
+				double beta = -Math.PI / 2;
+				double psi = -phi + Math.atan2(-rotationMatrix.getValue(0, 1), -rotationMatrix.getValue(0, 2));
+				}
+			}
 		}
 
 	/*------------------------------*\

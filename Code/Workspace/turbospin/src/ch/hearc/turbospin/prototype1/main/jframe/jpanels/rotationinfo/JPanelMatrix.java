@@ -66,7 +66,7 @@ public class JPanelMatrix extends JPanel
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawString("Rotation matrices generated from this rotation:", 10, 30);
 
-		int offset =  (int)(this.getWidth()*0.08);
+		int offset = (int)(this.getWidth() * 0.08);
 
 		g2d.setStroke(new BasicStroke(3));
 
@@ -82,7 +82,7 @@ public class JPanelMatrix extends JPanel
 		g2d.setColor(TurboColors.GREEN.get());
 		drawRotationMatrix(g2d, matrixRy, offset + 405, 60);
 		g2d.drawString("Rotation around Y axis", offset + 425, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", beta / Math.PI)+ Hexacodes.PI_LOWER, offset + 435, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", beta/ Math.PI) + Hexacodes.PI_LOWER, offset + 435, 190);
 
 		g2d.setColor(TurboColors.RED.get());
 		drawRotationMatrix(g2d, matrixRx, offset + 600, 60);
@@ -113,7 +113,7 @@ public class JPanelMatrix extends JPanel
 			{
 			for(int j = 1; j <= 3; j++)
 				{
-				g2d.drawString(String.format("%.3f", matrix.getValue(i - 1, j - 1)), x - 13 + 40 * i, y - 20 + 40 * j);
+				g2d.drawString(String.format("%.3f", matrix.getValue(i - 1, j - 1)), x - 13 + 40 * j, y - 20 + 40 * i);
 				}
 			}
 
