@@ -255,32 +255,49 @@ public class JPanelHandling extends JPanel
 			{
 
 				@Override
-				public void actionPerformed(ActionEvent arg0)
+				public void actionPerformed(ActionEvent e)
 					{
-					//vQuaternion
-					if (radioButtonQuaternion.isSelected())
+					Shape3D shape = listShapes.getSelectedValue();
+					RotationItem rotationItem = listRotation.getSelectedValue();
+
+					if (rotationItem instanceof Matrix)
 						{
-						if (!panelInfo.panelQuaternion.isVisible())
-							{
-							System.out.println("switching to quater");
-							panelInfo.displayQuaternion();
-							}
-						rotateWithQuaternion();
-						listShapesPane.repaint();
+						rotateWithMatrix(shape, (Matrix)rotationItem);
 						}
-					else if (radioButtonMatrix.isSelected())
+					else if (rotationItem instanceof Quaternion)
 						{
-
-						if (!panelInfo.panelMatrix.isVisible())
-							{
-							System.out.println("switch to matrix");
-							panelInfo.displayMatrix();
-							}
-						rotateWithMatrix(1, 2, 3);
-						listShapesPane.repaint();
-
+						rotateWithQuaternion(shape, (Quaternion)rotationItem);
 						}
 					}
+
+				//				@Override
+				//				public void actionPerformed(ActionEvent arg0)
+				//					{
+				//					//vQuaternion
+				//					if (radioButtonQuaternion.isSelected())
+				//						{
+				//						if (!panelInfo.panelQuaternion.isVisible())
+				//							{
+				//							System.out.println("switching to quater");
+				//							panelInfo.displayQuaternion();
+				//							}
+				//						rotateWithQuaternion();
+				//						listShapesPane.repaint();
+				//						}
+				//					else if (radioButtonMatrix.isSelected())
+				//						{
+				//
+				//						if (!panelInfo.panelMatrix.isVisible())
+				//							{
+				//							System.out.println("switch to matrix");
+				//							panelInfo.displayMatrix();
+				//							}
+				//						rotateWithMatrix(1, 2, 3);
+				//						listShapesPane.repaint();
+				//
+				//						}
+				//					}
+
 			});
 
 		}
@@ -290,49 +307,34 @@ public class JPanelHandling extends JPanel
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		}
 
-	private void rotateWithQuaternion()
+	private void rotateWithQuaternion(Shape3D shape, Quaternion rotation)
 		{
-		Vector3D axis = new Vector3D(1, 0, 0);
-		Quaternion rotation = QuaternionTools.createRotationQuaternion(Math.PI / 3, axis);
-		panelInfo.refresh(rotation);
-		for(Shape3D shape:shapes)
+		if (shape instanceof Vector3D)
 			{
-			if (shape instanceof Vector3D)
-				{
-				Vector3D vector = (Vector3D)shape;
-				vector.set(QuaternionTools.rotation(vector, rotation));
-				}
-			else if (shape instanceof Point3D)
-				{
-				Point3D point = (Point3D)shape;
-				point.set(QuaternionTools.rotation(point, rotation));
-				}
+			Vector3D vector = (Vector3D)shape;
+			vector.set(QuaternionTools.rotation(vector, rotation));
+			}
+		else if (shape instanceof Point3D)
+			{
+			Point3D point = (Point3D)shape;
+			point.set(QuaternionTools.rotation(point, rotation));
 			}
 
 		canvas.refresh();
 		panelView.repaint();
 		}
 
-	private void rotateWithMatrix(double alpha, double beta, double gamma)
+	private void rotateWithMatrix(Shape3D shape, Matrix rotation)
 		{
-		Matrix rotation = MatrixTools.createRotationMatrix(alpha, beta, gamma);
-		Matrix rz = MatrixTools.createRotationRzMatrix(alpha);
-		Matrix ry = MatrixTools.createRotationRyMatrix(beta);
-		Matrix rx = MatrixTools.createRotationRxMatrix(gamma);
-
-		panelInfo.refresh(rotation, rz, ry, rx);
-		for(Shape3D shape:shapes)
+		if (shape instanceof Vector3D)
 			{
-			if (shape instanceof Vector3D)
-				{
-				Vector3D vector = (Vector3D)shape;
-				vector.set(MatrixTools.rotate(vector, rotation));
-				}
-			else if (shape instanceof Point3D)
-				{
-				Point3D point = (Point3D)shape;
-				point.set(MatrixTools.rotate(point, rotation));
-				}
+			Vector3D vector = (Vector3D)shape;
+			vector.set(MatrixTools.rotate(vector, rotation));
+			}
+		else if (shape instanceof Point3D)
+			{
+			Point3D point = (Point3D)shape;
+			point.set(MatrixTools.rotate(point, rotation));
 			}
 
 		canvas.refresh();
