@@ -15,6 +15,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
@@ -56,7 +57,9 @@ public class TurboCanvas extends Canvas3D
 		createMouseNavigation();
 
 		Transform3D rotate = new Transform3D();
-		rotate.rotX(Math.PI / 4);
+		rotate.lookAt(new Point3d(8, 8, 8), new Point3d(2, 2, 0), new Vector3d(-0.5, 5, 0));
+		//		rotate.rotX(Math.PI / 4)
+		//		rotate.rotY(-Math.PI / 6);
 		mainTG.setTransform(rotate);
 
 		// add the branch to the universe
@@ -64,7 +67,7 @@ public class TurboCanvas extends Canvas3D
 		//		mainTG.addChild(vectorsBG);
 
 		// Faster rendering
-		//				mainBG.compile(); //this makes everything crash, for some reason
+		//						mainBG.compile(); //this makes everything crash, for some reason
 
 		universe.addBranchGraph(mainBG);
 		}
@@ -81,10 +84,6 @@ public class TurboCanvas extends Canvas3D
 		{
 		vectorsBG.detach();
 
-		//adding the vector
-		//		vectorsBG.addChild(vector);
-
-		//adding a cube
 		//colored vertices
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
 		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
@@ -117,9 +116,16 @@ public class TurboCanvas extends Canvas3D
 		mainTG.addChild(vectorsBG);
 		}
 
-	public void addParallelepiped(Point3D point)
+	public void addParallelepiped(Shape3D shape)
 		{
-		addParallelepiped(new Vector3D(point));
+		if (shape instanceof Point3D)
+			{
+			addParallelepiped(new Vector3D((Point3D)shape));
+			}
+		else if (shape instanceof Vector3D)
+			{
+			addParallelepiped((Vector3D)shape);
+			}
 		}
 
 	/**
@@ -162,16 +168,21 @@ public class TurboCanvas extends Canvas3D
 			{
 			if (shape instanceof Vector3D)
 				{
-					addVector((Vector3D)shape);
-					addParallelepiped((Vector3D)shape);
+				addVector((Vector3D)shape);
 				}
 			if (shape instanceof Point3D)
 				{
 				addPoint((Point3D)shape);
-				addParallelepiped((Point3D)shape);
 				}
 			}
+		addParallelepiped(selectedItem);
 		createAxisSystem();
+		}
+
+	public void setSelected(Shape3D shape)
+		{
+		this.selectedItem = shape;
+		this.refresh();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -222,4 +233,5 @@ public class TurboCanvas extends Canvas3D
 	private TransformGroup mainTG = new TransformGroup();
 	private List<Shape3D> shapes;
 	private SimpleUniverse universe;
+	private Shape3D selectedItem;
 	}
