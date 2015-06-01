@@ -18,7 +18,6 @@ public class JPanelQuaternion extends JPanel
 
 	public JPanelQuaternion(Quaternion quaternion)
 		{
-		this.quaternion = quaternion;
 		geometry();
 		control();
 		appearance();
@@ -81,6 +80,5 @@ public class JPanelQuaternion extends JPanel
 	private JLabel quaternionLabel;
 	private JLabel quaternionInfoLabel;
 	// Inputs
-	private Quaternion quaternion;
 
 	}
