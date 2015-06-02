@@ -24,6 +24,11 @@ public class Vertex3D extends Shape3D
 		this(A, B, TurboColors.PINK, 3);
 		}
 
+	public Vertex3D(Vector3D A, Vector3D B)
+		{
+		this(new Point3D(A.getA(), A.getB(), A.getC()), new Point3D(B.getA(), B.getB(), B.getC()));
+		}
+
 	public Vertex3D(Point3D A, Point3D B, Color3f color, int width, int linePattern)
 		{
 		this.A = new Point3D(A);
@@ -50,7 +55,7 @@ public class Vertex3D extends Shape3D
 
 	public Vertex3D(Vertex3D v)
 		{
-		this(v.A, v.B);
+		this(v.A, v.B, v.getColor(), v.getWidth());
 		}
 
 	public Vertex3D(Vertex3D v, Color3f color, int width)
@@ -62,13 +67,53 @@ public class Vertex3D extends Shape3D
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	@Override
+	public String toString()
+		{
+		return "Vertex: " + A.toString() + ", " + B.toString();
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
 
+	public void setA(Point3D A)
+		{
+		this.A = new Point3D(A);
+		setGeometry();
+		}
+
+	public void setB(Point3D B)
+		{
+		this.B = new Point3D(B);
+		setGeometry();
+		}
+
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
+
+	public Point3D getA()
+		{
+		return new Point3D(A);
+		}
+
+	public Point3D getB()
+		{
+		return new Point3D(B);
+		}
+
+	public Color3f getColor()
+		{
+		Color3f output = new Color3f();
+		this.getAppearance().getColoringAttributes().getColor(output);
+		return output;
+		}
+
+	public int getWidth()
+		{
+		return (int)this.getAppearance().getLineAttributes().getLineWidth();
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|

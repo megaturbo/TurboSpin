@@ -26,6 +26,7 @@ import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
@@ -53,42 +54,17 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	//TODO addShape3D should be the only one
-	public void addVector(Vector3D vector)
-		{
-		shapes.add(vector);
-		canvas.refresh();
-
-		panelView.repaint();
-		shapesModel.addElement(vector);
-		}
-
-	public void addPoint(Point3D point)
-		{
-		shapes.add(point);
-		canvas.refresh();
-
-		panelView.repaint();
-		shapesModel.addElement(point);
-		}
-
 	public void addShape3D(Shape3D shape)
 		{
 		shapes.add(shape);
-		canvas.refresh();
-
+		canvas.addShape(shape);
 		panelView.repaint();
 		shapesModel.addElement(shape);
 		}
 
-	public void addQuaternion(Quaternion quaternionInput)
+	public void addRotation(RotationItem input)
 		{
-		rotationModel.addElement(quaternionInput);
-		}
-
-	public void addMatrix(Matrix matrixInput)
-		{
-		rotationModel.addElement(matrixInput);
+		rotationModel.addElement(input);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -105,8 +81,9 @@ public class JPanelHandling extends JPanel
 
 		// JComponent : add
 		add(buttonAddVector);
-		add(buttonAddLine);
 		add(buttonAddPoint);
+		add(buttonAddLine);
+		add(buttonAddVertex);
 		add(listShapesPane);
 
 		add(Box.createGlue());
@@ -127,6 +104,7 @@ public class JPanelHandling extends JPanel
 		{
 		buttonAddVector = new JButton("Add vector");
 		buttonAddLine = new JButton("Add line");
+		buttonAddVertex = new JButton("Add vertex");
 		buttonAddPoint = new JButton("Add points");
 		shapesModel = new DefaultListModel<Shape3D>();
 		listShapes = new JList<Shape3D>(shapesModel);
@@ -184,6 +162,24 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
+		buttonAddVertex.addActionListener(new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent a)
+					{
+					try
+						{
+						addShape3D(JPanelInputsFactory.showVertexInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						//NOP
+						}
+					}
+
+			});
+
 		buttonAddPoint.addActionListener(new ActionListener()
 			{
 
@@ -192,7 +188,7 @@ public class JPanelHandling extends JPanel
 					{
 					try
 						{
-						addPoint(JPanelInputsFactory.showPoint3DInput());
+						addShape3D(JPanelInputsFactory.showPoint3DInput());
 						}
 					catch (UserIsAnIdiotException e)
 						{
@@ -240,7 +236,7 @@ public class JPanelHandling extends JPanel
 						{
 						try
 							{
-							addQuaternion(JPanelInputsFactory.showQuaternionInput());
+							addRotation(JPanelInputsFactory.showQuaternionInput());
 							}
 						catch (UserIsAnIdiotException e)
 							{
@@ -251,7 +247,7 @@ public class JPanelHandling extends JPanel
 						{
 						try
 							{
-							addMatrix(JPanelInputsFactory.showMatrixInput());
+							addRotation(JPanelInputsFactory.showMatrixInput());
 							}
 						catch (UserIsAnIdiotException e)
 							{
@@ -279,35 +275,6 @@ public class JPanelHandling extends JPanel
 						rotateWithQuaternion(shape, (Quaternion)rotationItem);
 						}
 					}
-
-				//				@Override
-				//				public void actionPerformed(ActionEvent arg0)
-				//					{
-				//					//vQuaternion
-				//					if (radioButtonQuaternion.isSelected())
-				//						{
-				//						if (!panelInfo.panelQuaternion.isVisible())
-				//							{
-				//							System.out.println("switching to quater");
-				//							panelInfo.displayQuaternion();
-				//							}
-				//						rotateWithQuaternion();
-				//						listShapesPane.repaint();
-				//						}
-				//					else if (radioButtonMatrix.isSelected())
-				//						{
-				//
-				//						if (!panelInfo.panelMatrix.isVisible())
-				//							{
-				//							System.out.println("switch to matrix");
-				//							panelInfo.displayMatrix();
-				//							}
-				//						rotateWithMatrix(1, 2, 3);
-				//						listShapesPane.repaint();
-				//
-				//						}
-				//					}
-
 			});
 
 		}
@@ -329,9 +296,17 @@ public class JPanelHandling extends JPanel
 			Point3D point = (Point3D)shape;
 			point.set(QuaternionTools.rotation(point, rotation));
 			}
+		else if (shape instanceof Vertex3D)
+			{
+			Vertex3D vertex = (Vertex3D)shape;
+			Vertex3D newVertex = QuaternionTools.rotation(vertex, rotation);
+			vertex.setA(newVertex.getA());
+			vertex.setB(newVertex.getB());
+			}
 
 		canvas.refresh();
 		panelView.repaint();
+		this.repaint();
 		}
 
 	private void rotateWithMatrix(Shape3D shape, Matrix rotation)
@@ -363,6 +338,7 @@ public class JPanelHandling extends JPanel
 	// shapes
 	private JButton buttonAddVector;
 	private JButton buttonAddLine;
+	private JButton buttonAddVertex;
 	private JButton buttonAddPoint;
 	private JList<Shape3D> listShapes;
 	private DefaultListModel<Shape3D> shapesModel;

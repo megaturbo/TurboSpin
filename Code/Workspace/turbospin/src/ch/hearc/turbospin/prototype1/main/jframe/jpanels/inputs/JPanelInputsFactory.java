@@ -1,6 +1,7 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs;
 
+import javax.media.j3d.Shape3D;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels.JPanelPar
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels.JPanelPointInput;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels.JPanelTwoPointsLineInput;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels.JPanelVectorInput;
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.panels.JPanelVertexInput;
 import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
 import ch.hearc.turbospin.prototype1.mathtools.Line3D;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
@@ -82,6 +84,21 @@ public class JPanelInputsFactory
 		if (result == JOptionPane.OK_OPTION)
 			{
 			return pointInput.getPoint3D();
+			}
+		else
+			{
+			throw new UserIsAnIdiotException("Canceled");
+			}
+		}
+
+	public static Shape3D showVertexInput() throws UserIsAnIdiotException
+		{
+		JPanelVertexInput vertexInput = new JPanelVertexInput();
+		int result = JOptionPane.showConfirmDialog(null, vertexInput, "Vertex input", JOptionPane.OK_CANCEL_OPTION);
+
+		if (result == JOptionPane.OK_OPTION)
+			{
+			return vertexInput.getVertex3D();
 			}
 		else
 			{

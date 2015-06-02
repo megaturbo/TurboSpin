@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 
 public class JPanel2D extends JPanel implements MouseMotionListener
 	{
@@ -74,17 +75,21 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 				{
 				drawPoint(g2d, (Point3D)shape);
 				}
+			if (shape instanceof Vertex3D)
+				{
+				drawVertex(g2d, (Vertex3D)shape);
+				}
 			}
 		}
 
 	private void drawPoint(Graphics2D g2d, Point3D point)
 		{
 		g2d.setColor(point.getColor().get());
-		g2d.setStroke(new BasicStroke(3));
+		g2d.setStroke(new BasicStroke(point.getSize()));
 		double deltaX = getPointValue(point, dim1);
 		double deltaY = getPointValue(point, dim2);
-		double x = (centerX + deltaX) / xArea * getWidth();
-		double y = (centerY - deltaY) / yArea * getHeight();
+		double x = (centerX + deltaX) * getWidth() / xArea;
+		double y = (centerY - deltaY) * getHeight() / yArea;
 		g2d.drawArc((int)x, (int)y, 3, 3, 0, 360);
 		}
 
@@ -96,9 +101,26 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 		double deltaY = getVectorValue(vector, dim2);
 		double x1 = centerX * getWidth() / xArea;
 		double y1 = centerY * getHeight() / yArea;
-		double x2 = x1 + deltaX / xArea * getWidth();
-		double y2 = y1 - deltaY / yArea * getHeight();
+		double x2 = x1 + deltaX * getWidth() / xArea;
+		double y2 = y1 - deltaY * getHeight() / yArea;
 		g2d.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+		}
+
+	private void drawVertex(Graphics2D g2d, Vertex3D vertex)
+		{
+		g2d.setColor(vertex.getColor().get());
+		g2d.setStroke(new BasicStroke(vertex.getWidth()));
+		double deltaXA = getPointValue(vertex.getA(), dim1);
+		double deltaXB = getPointValue(vertex.getB(), dim1);
+		double deltaYA = getPointValue(vertex.getA(), dim2);
+		double deltaYB = getPointValue(vertex.getB(), dim2);
+		double x = centerX * getWidth() / xArea;
+		double y = centerY * getHeight() / yArea;
+		double xA = x + deltaXA * getWidth() / xArea;
+		double yA = y - deltaYA * getHeight() / yArea;
+		double xB = x + deltaXB * getWidth() / xArea;
+		double yB = y - deltaYB * getHeight() / yArea;
+		g2d.drawLine((int)xA, (int)yA, (int)xB, (int)yB);
 		}
 
 	private double getPointValue(Point3D point, char dim)
@@ -145,7 +167,7 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 				@Override
 				public void componentResized(ComponentEvent e)
 					{
-					xArea = (double)getWidth() / getHeight() * yArea;
+					xArea = getWidth() * yArea / getHeight();
 					repaint();
 					}
 			});
@@ -182,12 +204,12 @@ public class JPanel2D extends JPanel implements MouseMotionListener
 				{
 				case 1:
 				case 3:
-					centerX += (double)deltaX / getWidth() * xArea;
-					centerY += (double)deltaY / getHeight() * yArea;
+					centerX += deltaX * xArea / getWidth();
+					centerY += deltaY * yArea / getHeight();
 					break;
 				case 2:
 					yArea *= Math.pow(Math.E, deltaY / 10.0);
-					xArea = (double)getWidth() / getHeight() * yArea;
+					xArea = getWidth() * yArea / getHeight();
 					centerX *= Math.pow(Math.E, deltaY / 10.0);
 					centerY *= Math.pow(Math.E, deltaY / 10.0);
 					break;

@@ -44,8 +44,8 @@ public class TurboCanvas extends Canvas3D
 		universe.getViewingPlatform().setNominalViewingTransform();
 
 		// Groups capabilities
-		vectorsBG.setCapability(BranchGroup.ALLOW_DETACH);
-//		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
+		shapesBG.setCapability(BranchGroup.ALLOW_DETACH);
+		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
@@ -80,68 +80,91 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void addParallelepiped(Vector3D vector)
 		{
-		vectorsBG.detach();
+		shapesBG.detach();
 
 		//colored vertices
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
 
 		//black vertices
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 
-		vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-		vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 
 		//black vertices that may be in the axes
 		if (vector.getA() < 0)
 			{
-			vectorsBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 			}
 		if (vector.getB() < 0)
 			{
-			vectorsBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			shapesBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), 0), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 			}
 		if (vector.getC() < 0)
 			{
-			vectorsBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+			shapesBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 			}
 
-		mainTG.addChild(vectorsBG);
+		mainTG.addChild(shapesBG);
+		}
+
+	public void addParallelepiped(Vertex3D vertex)
+		{
+		Point3D A = vertex.getA();
+		Point3D B = vertex.getB();
+
+		shapesBG.detach();
+
+		//colored vertices
+		shapesBG.addChild(new Vertex3D(A, new Point3D(B.getX(), A.getY(), A.getZ()), TurboColors.RED, 1));
+		shapesBG.addChild(new Vertex3D(A, new Point3D(A.getX(), B.getY(), A.getZ()), TurboColors.GREEN, 1));
+		shapesBG.addChild(new Vertex3D(A, new Point3D(A.getX(), A.getY(), B.getZ()), TurboColors.BLUE, 1));
+
+		//black vertices
+		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(B.getX(), A.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(A.getX(), B.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), A.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(A.getX(), B.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		//black vertices that may be in the axes
+		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), B.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), B.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), B.getY(), A.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
+
+		mainTG.addChild(shapesBG);
 		}
 
 	public void addParallelepiped(Shape3D shape)
 		{
 		if (shape instanceof Point3D)
 			{
-			addParallelepiped(new Vector3D((Point3D)shape));
+			addParallelepiped(new Vertex3D(new Point3D(), (Point3D)shape));
 			}
 		else if (shape instanceof Vector3D)
 			{
-			addParallelepiped((Vector3D)shape);
+			addParallelepiped(new Vertex3D(new Vector3D(), (Vector3D)shape));
+			}
+		else if (shape instanceof Vertex3D)
+			{
+			addParallelepiped((Vertex3D)shape);
 			}
 		}
 
-	/**
-	 * Add a vector starting at origin
-	 * @param v End location
-	 */
-	public void addVector(Vector3D vector)
+	public void addShape(Shape3D shape)
 		{
-		vectorsBG.detach();
-		vectorsBG.addChild(vector);
-		mainTG.addChild(vectorsBG);
-		}
-
-	public void addPoint(Point3D point)
-		{
-		vectorsBG.detach();
-		vectorsBG.addChild(point);
-		mainTG.addChild(vectorsBG);
+		shapesBG.detach();
+		shapesBG.addChild(shape);
+		mainTG.addChild(shapesBG);
 		}
 
 	/**
@@ -149,9 +172,9 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void clear()
 		{
-		vectorsBG.detach();
-		vectorsBG.removeAllChildren();
-		mainTG.addChild(vectorsBG);
+		shapesBG.detach();
+		shapesBG.removeAllChildren();
+		mainTG.addChild(shapesBG);
 		createAxisSystem();
 		}
 
@@ -160,18 +183,11 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void refresh()
 		{
-		vectorsBG.detach();
-		vectorsBG.removeAllChildren();
+		shapesBG.detach();
+		shapesBG.removeAllChildren();
 		for(Shape3D shape:shapes)
 			{
-			if (shape instanceof Vector3D)
-				{
-				addVector((Vector3D)shape);
-				}
-			if (shape instanceof Point3D)
-				{
-				addPoint((Point3D)shape);
-				}
+			addShape(shape);
 			}
 		addParallelepiped(selectedItem);
 		createAxisSystem();
@@ -214,12 +230,14 @@ public class TurboCanvas extends Canvas3D
 
 	private void createAxisSystem()
 		{
-		addVector(new Vector3D(1, 0, 0, TurboColors.RED, 3));
-		addVector(new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
-		addVector(new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
-		addVector(new Vector3D(100, 0, 0, TurboColors.RED, 1));
-		addVector(new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
-		addVector(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
+		shapesBG.detach();
+		shapesBG.addChild(new Vector3D(1, 0, 0, TurboColors.RED, 3));
+		shapesBG.addChild(new Vector3D(0, 1, 0, TurboColors.GREEN, 3));
+		shapesBG.addChild(new Vector3D(0, 0, 1, TurboColors.BLUE, 3));
+		shapesBG.addChild(new Vector3D(100, 0, 0, TurboColors.RED, 1));
+		shapesBG.addChild(new Vector3D(0, 100, 0, TurboColors.GREEN, 1));
+		shapesBG.addChild(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
+		mainTG.addChild(shapesBG);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -227,7 +245,7 @@ public class TurboCanvas extends Canvas3D
 	\*------------------------------------------------------------------*/
 
 	private BranchGroup mainBG = new BranchGroup();
-	private BranchGroup vectorsBG = new BranchGroup();
+	private BranchGroup shapesBG = new BranchGroup();
 	private TransformGroup mainTG = new TransformGroup();
 	private List<Shape3D> shapes;
 	private SimpleUniverse universe;

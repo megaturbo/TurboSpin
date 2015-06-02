@@ -79,7 +79,7 @@ public class JPanelMatrix extends JPanel
 
 		g2d.drawString("Rotation matrices generated from this rotation:", 10, 30);
 
-		fontAttributes.put(TextAttribute.UNDERLINE,-1);
+		fontAttributes.put(TextAttribute.UNDERLINE, -1);
 		g2d.setFont(font.deriveFont(fontAttributes));
 
 		int offset = (int)(this.getWidth() * 0.08);
@@ -93,22 +93,22 @@ public class JPanelMatrix extends JPanel
 		g2d.setColor(TurboColors.BLUE.get());
 		drawRotationMatrix(g2d, matrixRz, offset + 210, 60);
 		g2d.drawString("Rotation around Z axis", offset + 230, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", alpha / Math.PI)+ Hexacodes.PI_LOWER, offset + 240, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", alpha / Math.PI) + Hexacodes.PI_LOWER, offset + 240, 190);
 
 		g2d.setColor(TurboColors.GREEN.get());
 		drawRotationMatrix(g2d, matrixRy, offset + 405, 60);
 		g2d.drawString("Rotation around Y axis", offset + 425, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", beta/ Math.PI) + Hexacodes.PI_LOWER, offset + 435, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", beta / Math.PI) + Hexacodes.PI_LOWER, offset + 435, 190);
 
 		g2d.setColor(TurboColors.RED.get());
 		drawRotationMatrix(g2d, matrixRx, offset + 600, 60);
 		g2d.drawString("Rotation around X axis", offset + 610, 50);
-		g2d.drawString("Rotated by: " + String.format("%.3f", gamma / Math.PI)+ Hexacodes.PI_LOWER, offset + 630, 190);
+		g2d.drawString("Rotated by: " + String.format("%.3f", gamma / Math.PI) + Hexacodes.PI_LOWER, offset + 630, 190);
 
 		g2d.setStroke(new BasicStroke(1));
 
 		g2d.setColor(TurboColors.BLACK.get());
-		g2d.drawString("X",  offset +387, 115);
+		g2d.drawString("X", offset + 387, 115);
 		g2d.drawString("X", offset + 582, 115);
 		}
 

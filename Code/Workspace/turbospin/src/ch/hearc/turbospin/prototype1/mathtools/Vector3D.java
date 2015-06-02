@@ -38,7 +38,7 @@ public class Vector3D extends Shape3D
 
 	public Vector3D(Vector3D v)
 		{
-		this(v.a, v.b, v.c);
+		this(v.a, v.b, v.c, v.getColor(), v.getWidth());
 		}
 
 	public Vector3D(Vector3D v, Color3f color, int width)

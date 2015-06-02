@@ -43,7 +43,7 @@ public class Point3D extends Shape3D
 
 	public Point3D(Point3D src)
 		{
-		this(src.x, src.y, src.z);
+		this(src.x, src.y, src.z, src.getColor(), src.getSize());
 		}
 
 	/*------------------------------------------------------------------*\
@@ -132,6 +132,11 @@ public class Point3D extends Shape3D
 		Color3f output = new Color3f();
 		this.getAppearance().getColoringAttributes().getColor(output);
 		return output;
+		}
+
+	public int getSize()
+		{
+		return (int)this.getAppearance().getPointAttributes().getPointSize();
 		}
 
 	/*------------------------------------------------------------------*\

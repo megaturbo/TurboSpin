@@ -3,6 +3,7 @@ package ch.hearc.turbospin.prototype1.quaternion;
 
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 
 final public class QuaternionTools
 	{
@@ -53,7 +54,7 @@ final public class QuaternionTools
 
 	/**
 	 * Rotates the given point around the given axis by angle theta
-	 * @param pointVector
+	 * @param point
 	 * @param theta
 	 * @param axisVector
 	 */
@@ -65,7 +66,7 @@ final public class QuaternionTools
 
 	/**
 	 * Rotates the given vector around the given axis by angle theta
-	 * @param pointVector
+	 * @param vector
 	 * @param theta
 	 * @param axisVector
 	 */
@@ -73,5 +74,30 @@ final public class QuaternionTools
 		{
 		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
 		return rotation(vector, q);
+		}
+
+	/**
+	 * Rotates the given vertex by the given quaternion
+	 * @param vertex
+	 * @param q
+	 */
+	public static Vertex3D rotation(Vertex3D vertex, Quaternion q)
+		{
+		Vertex3D output = new Vertex3D(vertex);
+		output.setA(rotation(vertex.getA(), q));
+		output.setB(rotation(vertex.getB(), q));
+		return output;
+		}
+
+	/**
+	 * rotates the given vertex around the given axis by angle theta
+	 * @param vertex
+	 * @param theta
+	 * @param axisVector
+	 */
+	public static Vertex3D rotation(Vertex3D vertex, double theta, Vector3D axisVector)
+		{
+		Quaternion q = QuaternionTools.createRotationQuaternion(theta, axisVector);
+		return rotation(vertex, q);
 		}
 	}
