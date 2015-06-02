@@ -45,10 +45,9 @@ public class TurboCanvas extends Canvas3D
 
 		// Groups capabilities
 		vectorsBG.setCapability(BranchGroup.ALLOW_DETACH);
-		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
+//		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		//		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
@@ -56,10 +55,9 @@ public class TurboCanvas extends Canvas3D
 		// Controls
 		createMouseNavigation();
 
+		//camera position at start
 		Transform3D rotate = new Transform3D();
 		rotate.lookAt(new Point3d(8, 8, 8), new Point3d(2, 2, 0), new Vector3d(-0.5, 5, 0));
-		//		rotate.rotX(Math.PI / 4)
-		//		rotate.rotY(-Math.PI / 6);
 		mainTG.setTransform(rotate);
 
 		// add the branch to the universe
