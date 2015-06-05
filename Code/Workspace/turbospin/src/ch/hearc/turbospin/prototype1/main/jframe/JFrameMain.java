@@ -1,4 +1,3 @@
-
 package ch.hearc.turbospin.prototype1.main.jframe;
 
 import java.awt.BorderLayout;
@@ -18,20 +17,18 @@ import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
-public class JFrameMain extends JFrame
-	{
+public class JFrameMain extends JFrame {
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameMain()
-		{
+	public JFrameMain() {
 		geometry();
 		control();
 		appearance();
 		this.setSize(new Dimension(this.getWidth() + 1, this.getHeight()));
-		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -41,18 +38,19 @@ public class JFrameMain extends JFrame
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void geometry()
-		{
+	private void geometry() {
 		// Instantiate list
 		List<Shape3D> shapes = new ArrayList<Shape3D>();
 
 		// Instantiate canvas
-		turboCanvas = new TurboCanvas(SimpleUniverse.getPreferredConfiguration(), shapes);
+		turboCanvas = new TurboCanvas(
+				SimpleUniverse.getPreferredConfiguration(), shapes);
 
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
 		panelRotationInfo = new JPanelRotationInfo();
-		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView, panelRotationInfo);
+		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView,
+				panelRotationInfo);
 
 		// Layout specifications
 		BorderLayout borderLayout = new BorderLayout();
@@ -62,19 +60,17 @@ public class JFrameMain extends JFrame
 		add(panelHandling, BorderLayout.WEST);
 		add(panelView, BorderLayout.CENTER);
 		add(panelRotationInfo, BorderLayout.SOUTH);
-		}
+	}
 
-	private void control()
-		{
+	private void control() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		}
+	}
 
-	private void appearance()
-		{
+	private void appearance() {
 		setSize(1024, 768);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
-		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
@@ -89,4 +85,4 @@ public class JFrameMain extends JFrame
 	// Inputs
 	private Quaternion infoQuaternion;
 	private Matrix infoMatrix;
-	}
+}
