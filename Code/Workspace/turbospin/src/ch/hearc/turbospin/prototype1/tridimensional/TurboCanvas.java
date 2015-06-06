@@ -234,19 +234,18 @@ public class TurboCanvas extends Canvas3D {
 		theta *= 180.0 / Math.PI;
 		Vector3D tmp = new Vector3D(v);
 
-		Point3d[] points = new Point3d[2 * (int) theta + 2];
+		Point3d[] points = new Point3d[3 * (int) theta];
 		LineStripArray lsa = new LineStripArray((int) theta + 2,
 				LineStripArray.COORDINATES | LineStripArray.COLOR_3,
 				new int[] { (int) theta + 2 });
 		for (int i = 0; i < (int) theta; i++) {
 			Point3d pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-			points[i] = new Point3d(pointTmp);
-			points[2 * (int) theta - i + 1] = new Point3d(pointTmp);
+			points[3 * i] = new Point3d(pointTmp);
 			lsa.setCoordinate(i, pointTmp);
 			tmp = QuaternionTools.rotation(tmp, qslow);
+			points[3 * i + 1] = new Point3d(pointTmp);
+			points[3 * i + 2] = new Point3d(0.0, 0.0, 0.0);
 		}
-		points[(int) theta] = new Point3d(0.0, 0.0, 0.0);
-		points[(int) theta + 1] = new Point3d(0.0, 0.0, 0.0);
 		lsa.setCoordinate((int) theta, new Point3d(0.0, 0.0, 0.0));
 		lsa.setCoordinate((int) theta + 1,
 				new Point3d(v.getA(), v.getB(), v.getC()));
@@ -261,13 +260,30 @@ public class TurboCanvas extends Canvas3D {
 		// **********************************************/
 
 		// Geometry
-		int[] stripCounts = new int[2];
-		stripCounts[0] = (int) theta + 1;
-		stripCounts[1] = (int) theta + 1;
+		// int[] stripCounts = new int[2];
+		// stripCounts[0] = (int) theta + 1;
+		// stripCounts[1] = (int) theta + 1;
 
-		int[] contourCount = new int[2];
-		contourCount[0] = 1; // 1 stripCount for first face.
-		contourCount[1] = 1; // 1 stripCount for second face.
+		System.out.println(theta + " " + points.length);
+
+		int[] stripCounts = new int[(int) theta];
+		for (int i = 0; i < stripCounts.length; i++) {
+			stripCounts[i] = 3;
+		}
+
+		// int[] contourCount = new int[2];
+		// contourCount[0] = 1; // 1 stripCount for first face.
+		// contourCount[1] = 1; // 1 stripCount for second face.
+
+		// TODO: display a flat face, the polygon is correct but invisible
+		// apparently
+		int[] contourCount = new int[(int) theta];
+		// contourCount[0] = (int) theta / 2;
+		// contourCount[1] = (int) theta / 2 + 1;
+
+		for (int i = 0; i < contourCount.length; i++) {
+			contourCount[i] = 1;
+		}
 
 		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
 
