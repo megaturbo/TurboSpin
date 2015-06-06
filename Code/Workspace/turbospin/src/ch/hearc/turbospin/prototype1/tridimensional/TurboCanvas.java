@@ -1,8 +1,6 @@
 package ch.hearc.turbospin.prototype1.tridimensional;
 
-import java.awt.Color;
 import java.awt.GraphicsConfiguration;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,24 +14,17 @@ import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineAttributes;
 import javax.media.j3d.LineStripArray;
-import javax.media.j3d.Material;
-import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
-import javax.vecmath.Color4b;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
-import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.geometry.GeometryInfo;
-import com.sun.j3d.utils.geometry.NormalGenerator;
-import com.sun.j3d.utils.geometry.Stripifier;
-import com.sun.j3d.utils.geometry.Triangulator;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
@@ -93,7 +84,7 @@ public class TurboCanvas extends Canvas3D {
 	/**
 	 * Add a vector starting at origin, with a parallelepiped showing its 3D
 	 * components
-	 * 
+	 *
 	 * @param v
 	 *            End location
 	 */
@@ -236,7 +227,7 @@ public class TurboCanvas extends Canvas3D {
 
 		Point3d[] points = new Point3d[3 * (int) theta];
 		LineStripArray lsa = new LineStripArray((int) theta + 2,
-				LineStripArray.COORDINATES | LineStripArray.COLOR_3,
+				GeometryArray.COORDINATES | GeometryArray.COLOR_3,
 				new int[] { (int) theta + 2 });
 		for (int i = 0; i < (int) theta; i++) {
 			Point3d pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
@@ -341,6 +332,12 @@ public class TurboCanvas extends Canvas3D {
 	public void addShape(Shape3D shape) {
 		shapesBG.detach();
 		shapesBG.addChild(shape);
+		mainTG.addChild(shapesBG);
+	}
+
+	public void removeShape(Shape3D shape) {
+		shapesBG.detach();
+		shapesBG.removeChild(shape);
 		mainTG.addChild(shapesBG);
 	}
 
