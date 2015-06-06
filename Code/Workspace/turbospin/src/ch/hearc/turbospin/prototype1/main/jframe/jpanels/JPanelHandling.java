@@ -124,6 +124,8 @@ public class JPanelHandling extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				try {
 					addShape3D(JPanelInputsFactory.showVector3DInput());
+					listShapes.setSelectedValue(shapes.get(shapes.size() - 1),
+							true);
 					canvas.setSelected(shapes.get(shapes.size() - 1));
 				} catch (UserIsAnIdiotException e) {
 					// NOP
@@ -203,6 +205,8 @@ public class JPanelHandling extends JPanel {
 				if (radioButtonQuaternion.isSelected()) {
 					try {
 						addRotation(JPanelInputsFactory.showQuaternionInput());
+						listRotation.setSelectedValue(
+								rotationModel.firstElement(), true);
 						canvas.setSelected(rotationModel.firstElement());
 					} catch (UserIsAnIdiotException e) {
 						// NOP

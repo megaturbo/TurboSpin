@@ -160,12 +160,12 @@ public class Quaternion implements RotationItem
 
 	public double getJ()
 		{
-		return r;
+		return j;
 		}
 
 	public double getK()
 		{
-		return r;
+		return k;
 		}
 
 	public Vector3D getVector()

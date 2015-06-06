@@ -2,16 +2,22 @@ package ch.hearc.turbospin.prototype1.tridimensional;
 
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineAttributes;
 import javax.media.j3d.LineStripArray;
+import javax.media.j3d.Material;
+import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -24,6 +30,10 @@ import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
 import com.sun.j3d.utils.geometry.Cylinder;
+import com.sun.j3d.utils.geometry.GeometryInfo;
+import com.sun.j3d.utils.geometry.NormalGenerator;
+import com.sun.j3d.utils.geometry.Stripifier;
+import com.sun.j3d.utils.geometry.Triangulator;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
@@ -215,30 +225,101 @@ public class TurboCanvas extends Canvas3D {
 		}
 	}
 
-	// TODO fix this (the rendering is hideous so i should probably just start
-	// over anyways)
 	public void addTrail(Quaternion q, Vector3D v) {
 		// LineStripArray
-		double theta = Math.acos(q.getReal()) / 2.0;
-		Vector3D axis = new Vector3D(q.getI() / Math.asin(theta / 2.0),
-				q.getJ() / Math.asin(theta / 2.0), q.getK()
-						/ Math.asin(theta / 2.0));
-		Quaternion qslow = QuaternionTools
-				.createRotationQuaternion(theta, axis);
-		theta *= 360.0 / Math.PI;
+		double theta = QuaternionTools.getAngle(q);
+		Vector3D axis = QuaternionTools.getAxis(q);
+		Quaternion qslow = QuaternionTools.createRotationQuaternion(
+				2.0 * Math.PI / 360.0, axis);
+		theta *= 180.0 / Math.PI;
 		Vector3D tmp = new Vector3D(v);
 
-		LineStripArray lsa = new LineStripArray((int) theta,
+		Point3d[] points = new Point3d[2 * (int) theta + 2];
+		LineStripArray lsa = new LineStripArray((int) theta + 2,
 				LineStripArray.COORDINATES | LineStripArray.COLOR_3,
-				new int[] { (int) theta });
-		System.out.println(theta);
+				new int[] { (int) theta + 2 });
 		for (int i = 0; i < (int) theta; i++) {
-			lsa.setCoordinate(i,
-					new Point3d(tmp.getA(), tmp.getB(), tmp.getC()));
+			Point3d pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
+			points[i] = new Point3d(pointTmp);
+			points[2 * (int) theta - i + 1] = new Point3d(pointTmp);
+			lsa.setCoordinate(i, pointTmp);
 			tmp = QuaternionTools.rotation(tmp, qslow);
 		}
-		lsa.setColor(0, TurboColors.PINK);
+		points[(int) theta] = new Point3d(0.0, 0.0, 0.0);
+		points[(int) theta + 1] = new Point3d(0.0, 0.0, 0.0);
+		lsa.setCoordinate((int) theta, new Point3d(0.0, 0.0, 0.0));
+		lsa.setCoordinate((int) theta + 1,
+				new Point3d(v.getA(), v.getB(), v.getC()));
+
+		Color3f[] colors = new Color3f[(int) theta + 2];
+		Arrays.fill(colors, TurboColors.PINK);
+		lsa.setColors(0, colors);
 		addShape(new Shape3D(lsa));
+
+		// **********************************************
+		// ******************polygons********************
+		// **********************************************/
+
+		// Geometry
+		int[] stripCounts = new int[2];
+		stripCounts[0] = (int) theta + 1;
+		stripCounts[1] = (int) theta + 1;
+
+		int[] contourCount = new int[2];
+		contourCount[0] = 1; // 1 stripCount for first face.
+		contourCount[1] = 1; // 1 stripCount for second face.
+
+		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
+
+		for (int i = 0; i < points.length; i++) {
+			System.out.println(points[i]);
+		}
+
+		gi.setCoordinates(points);
+		gi.setStripCounts(stripCounts);
+		gi.setContourCounts(contourCount);
+
+		GeometryArray polygons = gi.getGeometryArray();
+
+		// Appearance
+		Appearance ap = new Appearance();
+		ColoringAttributes ca = new ColoringAttributes(TurboColors.GREEN,
+				ColoringAttributes.NICEST);
+		ap.setColoringAttributes(ca);
+
+		addShape(new Shape3D(polygons, ap));
+
+		// GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
+		// // GeometryArray polygons = gi.getGeometryArray();
+		//
+		// gi.setCoordinates(data);
+		// gi.setStripCounts(new int[] { (int) theta + 2 });
+		// gi.recomputeIndices();
+		//
+		// NormalGenerator ng = new NormalGenerator();
+		// ng.generateNormals(gi);
+		// gi.recomputeIndices();
+		//
+		// Stripifier st = new Stripifier();
+		// st.stripify(gi);
+		// gi.recomputeIndices();
+		//
+		// Shape3D part = new Shape3D();
+		//
+		// Appearance materialAppear = new Appearance();
+		// PolygonAttributes polyAttrib = new PolygonAttributes();
+		// polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
+		// materialAppear.setPolygonAttributes(polyAttrib);
+		//
+		// Material material = new Material();
+		// material.setDiffuseColor(TurboColors.BLUE);
+		// materialAppear.setMaterial(material);
+		//
+		// part.setAppearance(materialAppear);
+		// part.setGeometry(gi.getGeometryArray());
+		//
+		// addShape(part);
+
 	}
 
 	public void addShape(Shape3D shape) {
@@ -279,7 +360,6 @@ public class TurboCanvas extends Canvas3D {
 	public void setSelected(RotationItem rotationItem) {
 		this.selectedRotation = rotationItem;
 		this.refresh();
-		System.out.println(rotationItem);
 	}
 
 	/*------------------------------------------------------------------*\
