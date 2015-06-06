@@ -98,8 +98,9 @@ public class JPanelHandling extends JPanel
 		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(buttonAddPoint);
 		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonAddLine);
-		add(Box.createRigidArea(new Dimension(0, 5)));
+		/*button for future use -> implementing lines
+		 * add(buttonAddLine);
+		add(Box.createRigidArea(new Dimension(0, 5)));*/
 		add(buttonAddVertex);
 		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(listShapesPane);
@@ -129,7 +130,8 @@ public class JPanelHandling extends JPanel
 	private void initComponents()
 		{
 		buttonAddVector = new JButton("Add vector");
-		buttonAddLine = new JButton("Add line");
+		/*button for future use -> implementing lines
+		 * buttonAddLine = new JButton("Add line");*/
 		buttonAddVertex = new JButton("Add vertex");
 		buttonAddPoint = new JButton("Add points");
 		buttonRemoveObjectFromList = new JButton("Remove selected object");
@@ -173,7 +175,8 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		buttonAddLine.addActionListener(new ActionListener()
+		/*button listener for future use -> implementing lines
+		 * buttonAddLine.addActionListener(new ActionListener()
 			{
 
 				// The line above will return a Line3D object
@@ -190,7 +193,7 @@ public class JPanelHandling extends JPanel
 						// NOP
 						}
 					}
-			});
+			});*/
 
 		buttonAddVertex.addActionListener(new ActionListener()
 			{
@@ -420,7 +423,8 @@ public class JPanelHandling extends JPanel
 	private List<Shape3D> shapes;
 	// shapes
 	private JButton buttonAddVector;
-	private JButton buttonAddLine;
+	/*button for future use -> implementing lines
+	 * private JButton buttonAddLine;*/
 	private JButton buttonAddVertex;
 	private JButton buttonAddPoint;
 	private JList<Shape3D> listShapes;
