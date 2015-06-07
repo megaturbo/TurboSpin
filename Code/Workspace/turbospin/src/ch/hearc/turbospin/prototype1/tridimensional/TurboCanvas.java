@@ -3,7 +3,6 @@ package ch.hearc.turbospin.prototype1.tridimensional;
 
 import java.awt.GraphicsConfiguration;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
@@ -46,11 +45,9 @@ public class TurboCanvas extends Canvas3D
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public TurboCanvas(GraphicsConfiguration arg0, List<Shape3D> shapes)
+	public TurboCanvas(GraphicsConfiguration arg0)
 		{
 		super(arg0);
-
-		this.shapes = shapes;
 
 		//parallepipedusorz init
 		para = new Vertex3D[12];
@@ -341,24 +338,60 @@ public class TurboCanvas extends Canvas3D
 		if (!isRunning)
 			{
 			isRunning = true;
-			if (selectedRotation instanceof Quaternion)
-				{
-				Thread thread = rotate(buttonRotate, (Quaternion)selectedRotation);
-				thread.start();
-				try
-					{
-					thread.join();
-					}
-				catch (InterruptedException e)
-					{
-					e.printStackTrace();
-					}
-				isRunning = false;
-				}
-			else if (selectedRotation instanceof Matrix)
+			Thread thread = new Thread(new Runnable()
 				{
 
-				}
+					@Override
+					public void run()
+						{
+
+						if (selectedRotation instanceof Quaternion)
+							{
+							Thread thread = rotate(buttonRotate, (Quaternion)selectedRotation);
+							thread.start();
+							try
+								{
+								thread.join();
+								}
+							catch (InterruptedException e)
+								{
+								e.printStackTrace();
+								}
+							createTrail();
+							buttonRotate.setEnabled(true);
+							isRunning = false;
+							refresh();
+							}
+						else if (selectedRotation instanceof Matrix)
+							{
+							Matrix matrix = (Matrix)selectedRotation;
+							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(1.0, 0.0, 0.0));
+							Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
+							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 1.0));
+							Thread thread1 = rotate(buttonRotate, q1);
+							Thread thread2 = rotate(buttonRotate, q2);
+							Thread thread3 = rotate(buttonRotate, q3);
+							try
+								{
+								thread1.start();
+								thread1.join();
+								thread2.start();
+								thread2.join();
+								thread3.start();
+								thread3.join();
+								}
+							catch (InterruptedException e)
+								{
+								e.printStackTrace();
+								}
+							createTrail();
+							buttonRotate.setEnabled(true);
+							isRunning = false;
+							refresh();
+							}
+						}
+				});
+			thread.start();
 			}
 		}
 
@@ -377,7 +410,7 @@ public class TurboCanvas extends Canvas3D
 						{
 						try
 							{
-							Thread.sleep(1000 / 27);
+							Thread.sleep(1000 / 60);
 							}
 						catch (InterruptedException e)
 							{
@@ -387,9 +420,6 @@ public class TurboCanvas extends Canvas3D
 						repaint();
 						addParallelepiped();
 						}
-					createTrail();
-					refresh();
-					buttonRotate.setEnabled(true);
 					}
 
 				private void slowRotate()
@@ -460,7 +490,6 @@ public class TurboCanvas extends Canvas3D
 	private BranchGroup shapesBG = new BranchGroup();
 	private BranchGroup paraBG = new BranchGroup();
 	private TransformGroup mainTG = new TransformGroup();
-	private List<Shape3D> shapes;
 	private SimpleUniverse universe;
 	private Shape3D selectedShape;
 	private RotationItem selectedRotation;

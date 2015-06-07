@@ -169,7 +169,7 @@ public class JPanelInputsFactory
 		JTextField zField = new JTextField(5);
 
 		ButtonGroup buttonGroupRadio = new ButtonGroup();
-		JRadioButton radioButtonDegrees = new JRadioButton("Degrés");
+		JRadioButton radioButtonDegrees = new JRadioButton("Degrï¿½s");
 		radioButtonDegrees.setSelected(true);
 		JRadioButton radioButtonRadians = new JRadioButton("Radians");
 		buttonGroupRadio.add(radioButtonDegrees);
@@ -184,7 +184,7 @@ public class JPanelInputsFactory
 		co.gridy = 0;
 		co.gridwidth = 6;
 		co.insets = new Insets(0, 0, 20, 0);
-		panel.add(new JLabel("Veuillez insérer un angle et un axe de rotation."), co);
+		panel.add(new JLabel("Veuillez insï¿½rer un angle et un axe de rotation."), co);
 
 		co.gridx = 0;
 		co.gridy = 1;
@@ -226,7 +226,7 @@ public class JPanelInputsFactory
 		co.gridx = 4;
 		co.gridy = 4;
 		co.insets = new Insets(0, 0, 0, 20);
-		panel.add(new JLabel("y:"), co);
+		panel.add(new JLabel("z:"), co);
 		co.insets = new Insets(0, 0, 0, 30);
 		co.gridx = 5;
 		panel.add(zField, co);
@@ -277,7 +277,7 @@ public class JPanelInputsFactory
 		cField.setText("0");
 
 		ButtonGroup buttonGroupRadio = new ButtonGroup();
-		JRadioButton radioButtonDegrees = new JRadioButton("Degrés");
+		JRadioButton radioButtonDegrees = new JRadioButton("Degrï¿½s");
 		radioButtonDegrees.setSelected(true);
 		JRadioButton radioButtonRadians = new JRadioButton("Radians");
 		buttonGroupRadio.add(radioButtonDegrees);
@@ -292,7 +292,7 @@ public class JPanelInputsFactory
 		co.gridy = 0;
 		co.gridwidth = 6;
 		co.insets = new Insets(0, 0, 20, 0);
-		panel.add(new JLabel("Veuillez insérer 3 angles pour créer une matrice."), co);
+		panel.add(new JLabel("Veuillez insï¿½rer 3 angles pour crï¿½er une matrice."), co);
 
 		co.gridx = 0;
 		co.gridy = 1;
