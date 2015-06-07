@@ -5,13 +5,11 @@ import java.awt.GraphicsConfiguration;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineAttributes;
@@ -20,11 +18,11 @@ import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TransparencyAttributes;
 import javax.media.j3d.TriangleArray;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
@@ -177,15 +175,18 @@ public class TurboCanvas extends Canvas3D
 			}
 		}
 
-	private void addTrail()
+	private void createTrail()
 		{
-		if (selectedRotation instanceof Quaternion)
+		if (selectedRotation != null && selectedShape != null)
 			{
-			addTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
+			if (selectedRotation instanceof Quaternion)
+				{
+				createTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
+				}
 			}
 		}
 
-	public void addTrail(Quaternion q, Vector3D v)
+	public Shape3D createTrail(Quaternion q, Vector3D v)
 		{
 		// LineStripArray
 		double theta = QuaternionTools.getAngle(q);
@@ -194,184 +195,64 @@ public class TurboCanvas extends Canvas3D
 		theta *= 180.0 / Math.PI;
 		Vector3D tmp = new Vector3D(v);
 
-		Point3d[] pointsTmp = new Point3d[4 * (int)theta - 8];
 		LineStripArray lsa = new LineStripArray((int)theta + 2, GeometryArray.COORDINATES | GeometryArray.COLOR_3, new int[] { (int)theta + 2 });
 
 		Point3d pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[1] = new Point3d(pointTmp);
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[2] = new Point3d(pointTmp);
-		pointsTmp[5] = new Point3d(pointTmp);
+		Point3d[] pointsInit = new Point3d[(int)theta + 1];
+		pointsInit[0] = new Point3d(pointTmp);
 
-		for(int i = 0; i < 4 * (int)theta - 16; i += 4)
+		for(int i = 0; i < (int)theta; i++)
 			{
-			pointsTmp[i] = new Point3d(0.0, 0.0, 0.0);
 			tmp = QuaternionTools.rotation(tmp, qslow);
 			pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-			pointsTmp[i + 3] = new Point3d(pointTmp);
-			pointsTmp[i + 6] = new Point3d(pointTmp);
-			pointsTmp[i + 9] = new Point3d(pointTmp);
-			lsa.setCoordinate(i / 4, pointTmp);
+			lsa.setCoordinate(i, pointTmp);
+			pointsInit[i + 1] = new Point3d(pointTmp);
 			}
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[4 * (int)theta - 13] = new Point3d(pointTmp);
-		pointsTmp[4 * (int)theta - 10] = new Point3d(pointTmp);
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[4 * (int)theta - 9] = new Point3d(pointTmp);;
-		pointsTmp[4 * (int)theta - 12] = new Point3d(0.0, 0.0, 0.0);
-		pointsTmp[4 * (int)theta - 16] = new Point3d(0.0, 0.0, 0.0);
-
-		Point3d[] points = new Point3d[2 * (4 * (int)theta - 8)];
-		Point3d[] pointsT = new Point3d[6 * (int)theta - 12];
-		int u = 0;
-		for(int i = 0; i < pointsTmp.length; i++)
-			{
-			points[i] = pointsTmp[i];
-			points[points.length - 1 - i] = new Point3d(pointsTmp[i]);
-			if (i % 4 != 3)
-				{
-				pointsT[pointsT.length - 1 - u] = points[i];
-				pointsT[u++] = points[i];
-				}
-			}
-
 		lsa.setCoordinate((int)theta, new Point3d(0.0, 0.0, 0.0));
 		lsa.setCoordinate((int)theta + 1, new Point3d(v.getA(), v.getB(), v.getC()));
 
 		Color3f[] colors = new Color3f[(int)theta + 2];
 		Arrays.fill(colors, TurboColors.PINK);
 		lsa.setColors(0, colors);
-		//		addShape(new Shape3D(lsa));
+		addShape(new Shape3D(lsa));
 
 		// **********************************************
 		// ******************polygons********************
 		// **********************************************/
 
-		// Geometry
-		// int[] stripCounts = new int[2];
-		// stripCounts[0] = (int) theta + 1;
-		// stripCounts[1] = (int) theta + 1;
-
-		int[] stripCounts = new int[2 * (int)theta - 4];
-		for(int i = 0; i < stripCounts.length; i++)
+		Point3d[] points = new Point3d[2 * pointsInit.length];
+		for(int i = 0; i < pointsInit.length; i++)
 			{
-			stripCounts[i] = 4;
+			points[i] = new Point3d(pointsInit[i]);
+			points[points.length - 1 - i] = new Point3d(pointsInit[i]);
 			}
 
-		// int[] contourCount = new int[2];
-		// contourCount[0] = 1; // 1 stripCount for first face.
-		// contourCount[1] = 1; // 1 stripCount for second face.
-
-		// TODO: display a flat face, the polygon is correct but invisible
-		// apparently
-		int[] contourCount = new int[2 * (int)theta - 4];
-		// contourCount[0] = (int) theta / 2;
-		// contourCount[1] = (int) theta / 2 + 1;
-
-		for(int i = 0; i < contourCount.length; i++)
+		TriangleArray geometryArray = new TriangleArray(points.length * 3, GeometryArray.COORDINATES);
+		for(int i = 0; i < points.length - 1; i++)
 			{
-			contourCount[i] = 1;
+			geometryArray.setCoordinate(3 * i, new Point3d(0.0f, 0.0f, 0.0f));
+			geometryArray.setCoordinate(3 * i + 1, points[i]);
+			geometryArray.setCoordinate(3 * i + 2, points[i + 1]);
 			}
 
-		TriangleArray geometryArray = new TriangleArray(pointsT.length, GeometryArray.COORDINATES);
-		for(int i = 0; i < pointsT.length; i++)
-			{
-			geometryArray.setCoordinate(i, pointsT[i]);
-			}
-
-		//		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
 		GeometryInfo gi = new GeometryInfo(geometryArray);
-
-		//		gi.setCoordinates(pointsTmp);
-		//		gi.setStripCounts(stripCounts);
-		//		gi.setContourCounts(contourCount);
 
 		NormalGenerator normalGenerator = new NormalGenerator();
 		normalGenerator.generateNormals(gi);
 		GeometryArray polygons = gi.getIndexedGeometryArray();
 
-
 		// Appearance
 		Appearance ap = new Appearance();
-		//				ColoringAttributes ca = new ColoringAttributes(TurboColors.GREEN, ColoringAttributes.NICEST);
-		//				ap.setColoringAttributes(ca);
-
 		Material material = new Material();
-		material.setDiffuseColor(0.8f, 0.1f, 0.1f); // red
-		material.setSpecularColor(0.8f, 0.1f, 0.1f); // reduce default values
+		material.setEmissiveColor(0.8f, 0.8f, 0.8f);
+		material.setSpecularColor(0.8f, 0.5f, 0.5f);
+		material.setColorTarget(Material.SPECULAR);
 		ap.setMaterial(material);
-		//		PolygonAttributes polyAttrib = new PolygonAttributes();
-		//				polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
-		//		ap.setPolygonAttributes(polyAttrib);
 
-		Color3f light1Color = new Color3f(1.8f, 0.1f, 0.1f);
-		BoundingSphere bounds = new BoundingSphere(new Point3d(10.0, 1.0, 1.0), 100.0);
-		AmbientLight light1 = new AmbientLight(light1Color);
-		light1.setEnable(true);
-		light1.setInfluencingBounds(bounds);
-		Color3f lightColour = new Color3f(1.0f, 1.0f, 1.0f);
-		Vector3f lightDir = new Vector3f(-1.0f, -1.0f, -1.0f);
-		DirectionalLight light = new DirectionalLight(lightColour, lightDir);
-		light.setInfluencingBounds(bounds);
+		TransparencyAttributes ta = new TransparencyAttributes(TransparencyAttributes.NICEST, 0.5f);
+		ap.setTransparencyAttributes(ta);
 
-		shapesBG.detach();
-//		shapesBG.addChild(light1);
-		shapesBG.addChild(light);
-		mainTG.addChild(shapesBG);
-
-		Shape3D part = new Shape3D(polygons, ap);
-
-		//		AmbientLight al = new AmbientLight(TurboColors.WHITE);
-
-		//		PolygonAttributes pa = new PolygonAttributes();
-		//		pa.setCullFace(PolygonAttributes.CULL_BACK);
-		//		ap.setPolygonAttributes(pa);
-
-		addShape(part);
-
-		//DEBUG
-		//		for(int i = 0; i < points.length; i++)
-		//			{
-		//			System.out.println(points[i]);
-		//			if (i % 4 == 3)
-		//				{
-		//				System.out.println();
-		//				}
-		//
-		//			}
-
-		// GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
-		// // GeometryArray polygons = gi.getGeometryArray();
-		//
-		// gi.setCoordinates(data);
-		// gi.setStripCounts(new int[] { (int) theta + 2 });
-		// gi.recomputeIndices();
-		//
-		// NormalGenerator ng = new NormalGenerator();
-		// ng.generateNormals(gi);
-		// gi.recomputeIndices();
-		//
-		// Stripifier st = new Stripifier();
-		// st.stripify(gi);
-		// gi.recomputeIndices();
-		//
-		// Shape3D part = new Shape3D();
-		//
-		// Appearance materialAppear = new Appearance();
-		// PolygonAttributes polyAttrib = new PolygonAttributes();
-		// polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
-		// materialAppear.setPolygonAttributes(polyAttrib);
-		//
-
-		//
-		// part.setAppearance(materialAppear);
-		// part.setGeometry(gi.getGeometryArray());
-		//
-		// addShape(part);
-
+		return new Shape3D(polygons, ap);
 		}
 
 	public void addShape(Shape3D shape)
@@ -411,19 +292,20 @@ public class TurboCanvas extends Canvas3D
 			addShape(shape);
 			}
 		addParallelepiped(selectedShape);
-		addTrail();
 		createAxisSystem();
 		}
 
 	public void setSelected(Shape3D shape)
 		{
 		this.selectedShape = shape;
+		createTrail();
 		this.refresh();
 		}
 
 	public void setSelected(RotationItem rotationItem)
 		{
 		this.selectedRotation = rotationItem;
+		createTrail();
 		this.refresh();
 		}
 
