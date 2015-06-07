@@ -61,7 +61,6 @@ public class JPanelHandling extends JPanel {
 	public void addShape3D(Shape3D shape) {
 		shapes.add(shape);
 		canvas.addShape(shape);
-		panelView.repaint();
 		shapesModel.addElement(shape);
 		listShapes.setSelectedValue(shapesModel.lastElement(), true);
 	}
@@ -70,7 +69,9 @@ public class JPanelHandling extends JPanel {
 		shapes.remove(shape);
 		shapesModel.removeElement(shape);
 
-//		listShapes.setSelectedValue(shapesModel.lastElement(), true);
+		if(shapesModel.getSize() > 0){
+			listShapes.setSelectedValue(shapesModel.lastElement(), true);
+		}
 
 		panelView.repaint();
 		canvas.refresh();
@@ -280,7 +281,6 @@ public class JPanelHandling extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println(listShapes.getSelectedValue());
 				canvas.setSelected(listShapes.getSelectedValue());
 				if (listShapes.isSelectionEmpty()) {
 					buttonRemoveShapeFromList.setEnabled(false);
