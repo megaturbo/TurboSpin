@@ -271,10 +271,6 @@ public class JPanelInputsFactory
 		JTextField aField = new JTextField(5);
 		JTextField bField = new JTextField(5);
 		JTextField cField = new JTextField(5);
-		aField.setText("0");
-		aField.requestFocusInWindow();
-		bField.setText("0");
-		cField.setText("0");
 
 		ButtonGroup buttonGroupRadio = new ButtonGroup();
 		JRadioButton radioButtonDegrees = new JRadioButton("Degr�s");
