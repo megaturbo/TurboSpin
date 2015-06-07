@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
@@ -55,11 +56,39 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	private Semaphore s = new Semaphore(1);
+
 	public void refreshCanvas()
 		{
-		canvas.createTrail();
-		canvas.refresh();
 		listRotation.repaint();
+		try
+			{
+			s.acquire();
+			}
+		catch (InterruptedException e1)
+			{
+			e1.printStackTrace();
+			}
+		Thread t = new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+					try
+						{
+						Thread.sleep(1000 / 27);
+						s.release();
+						}
+					catch (InterruptedException e)
+						{
+						e.printStackTrace();
+						}
+					}
+
+			});
+		canvas.createTrail();
+		t.start();
 		}
 
 	public void addShape3D(Shape3D shape)

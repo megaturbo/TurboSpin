@@ -44,7 +44,6 @@ public class TurboCanvas extends Canvas3D
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-
 	public TurboCanvas(GraphicsConfiguration arg0)
 		{
 		super(arg0);
@@ -79,7 +78,6 @@ public class TurboCanvas extends Canvas3D
 
 		// Groups capabilities
 		shapesBG.setCapability(BranchGroup.ALLOW_DETACH);
-//		paraBG.setCapability(BranchGroup.ALLOW_DETACH);
 		trailBG.setCapability(BranchGroup.ALLOW_DETACH);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
@@ -101,7 +99,7 @@ public class TurboCanvas extends Canvas3D
 		mainBG.addChild(mainTG);
 
 		// Faster rendering
-		//		 mainBG.compile(); //this makes everything crash, for some reason
+		//				 mainBG.compile(); //this makes everything crash, for some reason
 
 		universe.addBranchGraph(mainBG);
 		}
@@ -305,6 +303,7 @@ public class TurboCanvas extends Canvas3D
 		ap.setTransparencyAttributes(ta);
 
 		Shape3D trail = new Shape3D(polygons, ap);
+
 		trailBG.detach();
 		trailBG.addChild(trail);
 		trailBG.addChild(trailLines);
