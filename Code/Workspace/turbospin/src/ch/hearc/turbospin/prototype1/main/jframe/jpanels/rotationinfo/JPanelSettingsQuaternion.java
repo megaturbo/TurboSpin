@@ -10,7 +10,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
+import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
+import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 
 public class JPanelSettingsQuaternion extends JPanel
 	{
@@ -19,7 +22,7 @@ public class JPanelSettingsQuaternion extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelSettingsQuaternion(JPanelQuaternion parent, Quaternion quaternion)
+	public JPanelSettingsQuaternion(JPanelQuaternion parent)
 		{
 		this.parent = parent;
 
@@ -34,21 +37,34 @@ public class JPanelSettingsQuaternion extends JPanel
 	public void updateQuaternion(Quaternion quaternion)
 		{
 		this.quaternion = quaternion;
+		Vector3D vector = QuaternionTools.getAxis(quaternion);
+		double theta = QuaternionTools.getAngle(quaternion);
 
-		sliderR.setValue((int)quaternion.getReal());
-		sliderI.setValue((int)quaternion.getI());
-		sliderJ.setValue((int)quaternion.getJ());
-		sliderK.setValue((int)quaternion.getK());
+		updateSlider(sliderTheta, theta * 1000.0);
+		updateSlider(sliderX, vector.getA() * 1000.0);
+		updateSlider(sliderY, vector.getB() * 1000.0);
+		updateSlider(sliderZ, vector.getC() * 1000.0);
 		}
 
-	private void sliderChangedRecalculateTheQuaternion() {
-		quaternion.setReal(sliderR.getValue());
-		quaternion.setI(sliderI.getValue());
-		quaternion.setJ(sliderJ.getValue());
-		quaternion.setK(sliderK.getValue());
+	private void updateSlider(JSlider slider, double value) {
+		int intVal = (int)value;
+		if(value > slider.getMaximum()) {
+			slider.setMaximum(intVal * 2);
+		}
+		slider.setValue(intVal);
+	}
+
+	private void sliderChangedRecalculateTheQuaternion()
+		{
+		double theta = sliderTheta.getValue() / 1000.0;
+		double x = sliderX.getValue() / 1000.0;
+		double y = sliderY.getValue() / 1000.0;
+		double z = sliderZ.getValue() / 1000.0;
+
+		quaternion.set(QuaternionTools.createRotationQuaternion(theta, new Vector3D(x, y, z)));
 
 		parent.refreshCanvas();
-	}
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -62,24 +78,25 @@ public class JPanelSettingsQuaternion extends JPanel
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void updateLabels() {
-		labelR.setText("R = " + sliderR.getValue());
-		labelI.setText("I = " + sliderI.getValue());
-		labelJ.setText("J = " + sliderJ.getValue());
-		labelK.setText("K = " + sliderK.getValue());
-	}
+	private void updateLabels()
+		{
+		labelTheta.setText(Hexacodes.THETA_LOWER + " = " + sliderTheta.getValue() / 1000.0);
+		labelX.setText("X = " + sliderX.getValue() / 1000.0);
+		labelY.setText("Y = " + sliderY.getValue() / 1000.0);
+		labelZ.setText("Z = " + sliderZ.getValue() / 1000.0);
+		}
 
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		labelR = new JLabel();
-		labelI = new JLabel();
-		labelJ = new JLabel();
-		labelK = new JLabel();
-		sliderR = new JSlider();
-		sliderI = new JSlider();
-		sliderJ = new JSlider();
-		sliderK = new JSlider();
+		labelTheta = new JLabel();
+		labelX = new JLabel();
+		labelY = new JLabel();
+		labelZ = new JLabel();
+		sliderTheta = new JSlider();
+		sliderX = new JSlider();
+		sliderY = new JSlider();
+		sliderZ = new JSlider();
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -87,28 +104,28 @@ public class JPanelSettingsQuaternion extends JPanel
 
 		c.gridx = 0;
 		c.gridy = 0;
-		add(labelR, c);
+		add(labelTheta, c);
 
 		c.gridy = 1;
-		add(sliderR, c);
+		add(sliderTheta, c);
 
 		c.gridy = 2;
-		add(labelI, c);
+		add(labelX, c);
 
 		c.gridy = 3;
-		add(sliderI, c);
+		add(sliderX, c);
 
 		c.gridy = 4;
-		add(labelJ, c);
+		add(labelY, c);
 
 		c.gridy = 5;
-		add(sliderJ, c);
+		add(sliderY, c);
 
 		c.gridy = 6;
-		add(labelK, c);
+		add(labelZ, c);
 
 		c.gridy = 7;
-		add(sliderK, c);
+		add(sliderZ, c);
 
 		}
 
@@ -117,19 +134,18 @@ public class JPanelSettingsQuaternion extends JPanel
 		ChangeListener changeListener = new ChangeListener()
 			{
 
-			@Override
-			public void stateChanged(ChangeEvent arg0)
-				{
-				System.out.println("state changed");
-				updateLabels();
-				sliderChangedRecalculateTheQuaternion();
-				}
-		};
+				@Override
+				public void stateChanged(ChangeEvent arg0)
+					{
+					updateLabels();
+					sliderChangedRecalculateTheQuaternion();
+					}
+			};
 
-		sliderR.addChangeListener(changeListener);
-		sliderI.addChangeListener(changeListener);
-		sliderJ.addChangeListener(changeListener);
-		sliderK.addChangeListener(changeListener);
+		sliderTheta.addChangeListener(changeListener);
+		sliderX.addChangeListener(changeListener);
+		sliderY.addChangeListener(changeListener);
+		sliderZ.addChangeListener(changeListener);
 		}
 
 	private void appearance()
@@ -146,13 +162,13 @@ public class JPanelSettingsQuaternion extends JPanel
 	private Quaternion quaternion;
 
 	// Tools
-	private JLabel labelR;
-	private JLabel labelI;
-	private JLabel labelJ;
-	private JLabel labelK;
-	private JSlider sliderR;
-	private JSlider sliderI;
-	private JSlider sliderJ;
-	private JSlider sliderK;
+	private JLabel labelTheta;
+	private JLabel labelX;
+	private JLabel labelY;
+	private JLabel labelZ;
+	private JSlider sliderTheta;
+	private JSlider sliderX;
+	private JSlider sliderY;
+	private JSlider sliderZ;
 
 	}

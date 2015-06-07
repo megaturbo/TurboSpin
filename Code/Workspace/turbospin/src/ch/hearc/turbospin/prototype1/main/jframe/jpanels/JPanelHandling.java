@@ -55,8 +55,9 @@ public class JPanelHandling extends JPanel
 
 	public void refreshCanvas()
 		{
+		canvas.createTrail();
 		canvas.refresh();
-		listShapes.repaint();
+		listRotation.repaint();
 		}
 
 	public void addShape3D(Shape3D shape)

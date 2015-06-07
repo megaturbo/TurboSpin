@@ -77,7 +77,7 @@ public class JPanelQuaternion extends JPanel
 		}
 	private void geometry()
 		{
-		panelSettingsQuaternion = new JPanelSettingsQuaternion(this, quaternion);
+		panelSettingsQuaternion = new JPanelSettingsQuaternion(this);
 		add(panelSettingsQuaternion);
 		}
 
