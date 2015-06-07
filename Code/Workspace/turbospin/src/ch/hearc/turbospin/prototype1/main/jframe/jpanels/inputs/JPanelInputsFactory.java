@@ -168,16 +168,68 @@ public class JPanelInputsFactory
 		JTextField yField = new JTextField(5);
 		JTextField zField = new JTextField(5);
 
-		panel.add(new JLabel("Veuillez insï¿½rer un angle et un axe de rotation."));
+		ButtonGroup buttonGroupRadio = new ButtonGroup();
+		JRadioButton radioButtonDegrees = new JRadioButton("Degrés");
+		radioButtonDegrees.setSelected(true);
+		JRadioButton radioButtonRadians = new JRadioButton("Radians");
+		buttonGroupRadio.add(radioButtonDegrees);
+		buttonGroupRadio.add(radioButtonRadians);
 
-		panel.add(new JLabel(Hexacodes.THETA_LOWER + ":"));
-		panel.add(aField);
-		panel.add(new JLabel("x:"));
-		panel.add(xField);
-		panel.add(new JLabel("y:"));
-		panel.add(yField);
-		panel.add(new JLabel("z:"));
-		panel.add(zField);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		GridBagConstraints co = new GridBagConstraints();
+		panel.setLayout(gridBagLayout);
+
+		co.fill = GridBagConstraints.HORIZONTAL;
+		co.gridx = 0;
+		co.gridy = 0;
+		co.gridwidth = 6;
+		co.insets = new Insets(0, 0, 20, 0);
+		panel.add(new JLabel("Veuillez insérer un angle et un axe de rotation."), co);
+
+		co.gridx = 0;
+		co.gridy = 1;
+		co.insets = new Insets(0, 0, 0, 50);
+		co.gridwidth = 1;
+		panel.add(radioButtonDegrees, co);
+
+		co.gridx = 0;
+		co.gridy = 2;
+		panel.add(radioButtonRadians, co);
+		co.insets = new Insets(0, 0, 0, 0);
+
+
+		co.gridx = 4;
+		co.gridy = 1;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel(Hexacodes.THETA_LOWER + ":"),co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(aField, co);
+
+
+		co.gridx = 4;
+		co.gridy = 2;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel("x:"),co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(xField, co);
+
+		co.gridx = 4;
+		co.gridy = 3;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel("y:"), co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(yField, co);
+
+		co.gridx = 4;
+		co.gridy = 4;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel("y:"), co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(zField, co);
 
 		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez l'angle et l'axe de rotation", JOptionPane.OK_CANCEL_OPTION);
 		aField.requestFocus();
@@ -199,6 +251,10 @@ public class JPanelInputsFactory
 			catch (NumberFormatException e)
 				{
 				throw new UserIsAnIdiotException("Not enough information");
+				}
+			if(radioButtonDegrees.isSelected())
+				{
+				a = a * Math.PI/180;
 				}
 			return QuaternionTools.createRotationQuaternion(a, new Vector3D(x, y, z));
 			}
@@ -275,7 +331,6 @@ public class JPanelInputsFactory
 		panel.add(cField, co);
 
 		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les angles", JOptionPane.OK_CANCEL_OPTION);
-		aField.requestFocus();
 
 		if (result == JOptionPane.OK_OPTION)
 			{
