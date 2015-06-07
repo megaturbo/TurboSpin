@@ -67,7 +67,7 @@ public class JFrameMain extends JFrame {
 	}
 
 	private void appearance() {
-		setSize(1024, 768);
+		setSize(1200, 900);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 	}

@@ -5,7 +5,6 @@ import java.awt.GraphicsConfiguration;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
@@ -19,10 +18,11 @@ import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TransparencyAttributes;
+import javax.media.j3d.TriangleArray;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
@@ -40,52 +40,52 @@ import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 
 public class TurboCanvas extends Canvas3D
 	{
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-
+	
 	public TurboCanvas(GraphicsConfiguration arg0, List<Shape3D> shapes)
 		{
 		super(arg0);
-
+		
 		this.shapes = shapes;
-
+		
 		// Universe
 		universe = new SimpleUniverse(this);
 		universe.getViewingPlatform().setNominalViewingTransform();
-
+		
 		// Groups capabilities
 		shapesBG.setCapability(BranchGroup.ALLOW_DETACH);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
+		
 		setBackgroundColor(TurboColors.WHITE);
 		createAxisSystem();
-
+		
 		// Controls
 		createMouseNavigation();
-
+		
 		// camera position at start
 		Transform3D rotate = new Transform3D();
 		rotate.lookAt(new Point3d(8, 8, 8), new Point3d(2, 2, 0), new Vector3d(-0.5, 5, 0));
 		mainTG.setTransform(rotate);
-
+		
 		// add the branch to the universe
 		mainBG.addChild(mainTG);
 		// mainTG.addChild(vectorsBG);
-
+		
 		// Faster rendering
 		// mainBG.compile(); //this makes everything crash, for some reason
-
+		
 		universe.addBranchGraph(mainBG);
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-
+	
 	/**
 	 * Add a vector starting at origin, with a parallelepiped showing its 3D
 	 * components
@@ -96,22 +96,22 @@ public class TurboCanvas extends Canvas3D
 	public void addParallelepiped(Vector3D vector)
 		{
 		shapesBG.detach();
-
+		
 		// colored vertices
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(0, vector.getB(), vector.getC()), TurboColors.RED, 1));
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), 0, vector.getC()), TurboColors.GREEN, 1));
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), vector.getC()), new Point3D(vector.getA(), vector.getB(), 0), TurboColors.BLUE, 1));
-
+		
 		// black vertices
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), vector.getB(), 0), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, 0, vector.getC()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		shapesBG.addChild(new Vertex3D(new Point3D(0, vector.getB(), vector.getC()), new Point3D(0, vector.getB(), 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(vector.getA(), 0, vector.getC()), new Point3D(vector.getA(), 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		// black vertices that may be in the axes
 		if (vector.getA() < 0)
 			{
@@ -125,40 +125,40 @@ public class TurboCanvas extends Canvas3D
 			{
 			shapesBG.addChild(new Vertex3D(new Point3D(0, 0, vector.getC()), new Point3D(0, 0, 0), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 			}
-
+		
 		mainTG.addChild(shapesBG);
 		}
-
+	
 	public void addParallelepiped(Vertex3D vertex)
 		{
 		Point3D A = vertex.getA();
 		Point3D B = vertex.getB();
-
+		
 		shapesBG.detach();
-
+		
 		// colored vertices
 		shapesBG.addChild(new Vertex3D(A, new Point3D(B.getX(), A.getY(), A.getZ()), TurboColors.RED, 1));
 		shapesBG.addChild(new Vertex3D(A, new Point3D(A.getX(), B.getY(), A.getZ()), TurboColors.GREEN, 1));
 		shapesBG.addChild(new Vertex3D(A, new Point3D(A.getX(), A.getY(), B.getZ()), TurboColors.BLUE, 1));
-
+		
 		// black vertices
 		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(B.getX(), A.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(A.getX(), B.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), A.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(A.getX(), B.getY(), B.getZ()), TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		// black vertices that may be in the axes
 		shapesBG.addChild(new Vertex3D(new Point3D(A.getX(), B.getY(), B.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), A.getY(), B.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
 		shapesBG.addChild(new Vertex3D(new Point3D(B.getX(), B.getY(), A.getZ()), B, TurboColors.BLACK, 1, LineAttributes.PATTERN_DASH));
-
+		
 		mainTG.addChild(shapesBG);
 		}
-
+	
 	public void addParallelepiped(Shape3D shape)
 		{
 		if (shape instanceof Point3D)
@@ -174,16 +174,19 @@ public class TurboCanvas extends Canvas3D
 			addParallelepiped((Vertex3D)shape);
 			}
 		}
-
-	private void addTrail()
+	
+	public void createTrail()
 		{
-		if (selectedRotation instanceof Quaternion)
+		if (selectedRotation != null && selectedShape != null)
 			{
-			addTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
+			if (selectedRotation instanceof Quaternion)
+				{
+				createTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
+				}
 			}
 		}
-
-	public void addTrail(Quaternion q, Vector3D v)
+	
+	private void createTrail(Quaternion q, Vector3D v)
 		{
 		// LineStripArray
 		double theta = QuaternionTools.getAngle(q);
@@ -191,182 +194,78 @@ public class TurboCanvas extends Canvas3D
 		Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
 		theta *= 180.0 / Math.PI;
 		Vector3D tmp = new Vector3D(v);
-
-		System.out.println(4 * (int)theta - 8);
-
-		Point3d[] pointsTmp = new Point3d[4 * (int)theta - 8];
+		
 		LineStripArray lsa = new LineStripArray((int)theta + 2, GeometryArray.COORDINATES | GeometryArray.COLOR_3, new int[] { (int)theta + 2 });
-
+		
 		Point3d pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[1] = new Point3d(pointTmp);
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[2] = new Point3d(pointTmp);
-		pointsTmp[5] = new Point3d(pointTmp);
-
-		for(int i = 0; i < 4 * (int)theta - 16; i += 4)
+		Point3d[] pointsInit = new Point3d[(int)theta + 1];
+		pointsInit[0] = new Point3d(pointTmp);
+		
+		for(int i = 0; i < (int)theta; i++)
 			{
-			pointsTmp[i] = new Point3d(0.0, 0.0, 0.0);
 			tmp = QuaternionTools.rotation(tmp, qslow);
 			pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-			pointsTmp[i + 3] = new Point3d(pointTmp);
-			pointsTmp[i + 6] = new Point3d(pointTmp);
-			pointsTmp[i + 9] = new Point3d(pointTmp);
-			lsa.setCoordinate(i / 4, pointTmp);
+			lsa.setCoordinate(i, pointTmp);
+			pointsInit[i + 1] = new Point3d(pointTmp);
 			}
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[4 * (int)theta - 13] = new Point3d(pointTmp);
-		pointsTmp[4 * (int)theta - 10] = new Point3d(pointTmp);
-		tmp = QuaternionTools.rotation(tmp, qslow);
-		pointTmp = new Point3d(tmp.getA(), tmp.getB(), tmp.getC());
-		pointsTmp[4 * (int)theta - 9] = new Point3d(pointTmp);;
-		pointsTmp[4 * (int)theta - 12] = new Point3d(0.0, 0.0, 0.0);
-		pointsTmp[4 * (int)theta - 16] = new Point3d(0.0, 0.0, 0.0);
-
-		Point3d[] points = new Point3d[2 * (4 * (int)theta - 8)];
-		for(int i = 0; i < pointsTmp.length; i++)
-			{
-			points[i] = pointsTmp[i];
-			points[points.length - 1 - i] = new Point3d(pointsTmp[i]);
-			}
-
 		lsa.setCoordinate((int)theta, new Point3d(0.0, 0.0, 0.0));
 		lsa.setCoordinate((int)theta + 1, new Point3d(v.getA(), v.getB(), v.getC()));
-
+		
 		Color3f[] colors = new Color3f[(int)theta + 2];
 		Arrays.fill(colors, TurboColors.PINK);
 		lsa.setColors(0, colors);
-		//		addShape(new Shape3D(lsa));
-
-		// **********************************************
-		// ******************polygons********************
-		// **********************************************/
-
-		// Geometry
-		// int[] stripCounts = new int[2];
-		// stripCounts[0] = (int) theta + 1;
-		// stripCounts[1] = (int) theta + 1;
-
-		int[] stripCounts = new int[2 * (int)theta - 4];
-		for(int i = 0; i < stripCounts.length; i++)
+		trailLines = new Shape3D(lsa);
+		
+		// polygons
+		Point3d[] points = new Point3d[2 * pointsInit.length];
+		for(int i = 0; i < pointsInit.length; i++)
 			{
-			stripCounts[i] = 4;
+			points[i] = new Point3d(pointsInit[i]);
+			points[points.length - 1 - i] = new Point3d(pointsInit[i]);
 			}
-
-		// int[] contourCount = new int[2];
-		// contourCount[0] = 1; // 1 stripCount for first face.
-		// contourCount[1] = 1; // 1 stripCount for second face.
-
-		// TODO: display a flat face, the polygon is correct but invisible
-		// apparently
-		int[] contourCount = new int[2 * (int)theta - 4];
-		// contourCount[0] = (int) theta / 2;
-		// contourCount[1] = (int) theta / 2 + 1;
-
-		for(int i = 0; i < contourCount.length; i++)
+		
+		TriangleArray geometryArray = new TriangleArray(points.length * 3, GeometryArray.COORDINATES);
+		for(int i = 0; i < points.length - 1; i++)
 			{
-			contourCount[i] = 1;
+			geometryArray.setCoordinate(3 * i, new Point3d(0.0f, 0.0f, 0.0f));
+			geometryArray.setCoordinate(3 * i + 1, points[i]);
+			geometryArray.setCoordinate(3 * i + 2, points[i + 1]);
 			}
-
-		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
-
-		gi.setCoordinates(points);
-		gi.setStripCounts(stripCounts);
-		gi.setContourCounts(contourCount);
-
-		GeometryArray polygons = gi.getIndexedGeometryArray();
-
+		
+		GeometryInfo gi = new GeometryInfo(geometryArray);
+		
 		NormalGenerator normalGenerator = new NormalGenerator();
 		normalGenerator.generateNormals(gi);
-
+		GeometryArray polygons = gi.getIndexedGeometryArray();
+		
 		// Appearance
-		//		ColoringAttributes ca = new ColoringAttributes(TurboColors.GREEN, ColoringAttributes.NICEST);
-		//		ap.setColoringAttributes(ca);
-
 		Appearance ap = new Appearance();
 		Material material = new Material();
-		material.setDiffuseColor(1.8f, 0.1f, 1.8f); // red
-		material.setSpecularColor(0.2f, 0.2f, 0.2f); // reduce default values
+		material.setEmissiveColor(0.8f, 0.8f, 0.8f);
+		material.setSpecularColor(0.8f, 0.5f, 0.5f);
+		material.setColorTarget(Material.SPECULAR);
 		ap.setMaterial(material);
-
-		Color3f light1Color = new Color3f(1.8f, 0.1f, 1.8f);
-		BoundingSphere bounds = new BoundingSphere(new Point3d(10.0, 0.0, 0.0), 100.0);
-		Vector3f light1Direction = new Vector3f(-4.0f, 1.0f, 1.0f);
-		AmbientLight light1 = new AmbientLight(true, light1Color);
-		light1.setEnable(true);
-		light1.setInfluencingBounds(bounds);
-
-		shapesBG.detach();
-		shapesBG.addChild(light1);
-		mainTG.addChild(shapesBG);
-
-		Shape3D part = new Shape3D(polygons, ap);
-
-		//		AmbientLight al = new AmbientLight(TurboColors.WHITE);
-
-		//		PolygonAttributes pa = new PolygonAttributes();
-		//		pa.setCullFace(PolygonAttributes.CULL_BACK);
-		//		ap.setPolygonAttributes(pa);
-
-		addShape(part);
-
-		//DEBUG
-		//		for(int i = 0; i < points.length; i++)
-		//			{
-		//			System.out.println(points[i]);
-		//			if (i % 4 == 3)
-		//				{
-		//				System.out.println();
-		//				}
-		//
-		//			}
-
-		// GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
-		// // GeometryArray polygons = gi.getGeometryArray();
-		//
-		// gi.setCoordinates(data);
-		// gi.setStripCounts(new int[] { (int) theta + 2 });
-		// gi.recomputeIndices();
-		//
-		// NormalGenerator ng = new NormalGenerator();
-		// ng.generateNormals(gi);
-		// gi.recomputeIndices();
-		//
-		// Stripifier st = new Stripifier();
-		// st.stripify(gi);
-		// gi.recomputeIndices();
-		//
-		// Shape3D part = new Shape3D();
-		//
-		// Appearance materialAppear = new Appearance();
-		// PolygonAttributes polyAttrib = new PolygonAttributes();
-		// polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
-		// materialAppear.setPolygonAttributes(polyAttrib);
-		//
-
-		//
-		// part.setAppearance(materialAppear);
-		// part.setGeometry(gi.getGeometryArray());
-		//
-		// addShape(part);
-
+		
+		TransparencyAttributes ta = new TransparencyAttributes(TransparencyAttributes.NICEST, 0.5f);
+		ap.setTransparencyAttributes(ta);
+		
+		trail = new Shape3D(polygons, ap);
 		}
-
+	
 	public void addShape(Shape3D shape)
 		{
 		shapesBG.detach();
 		shapesBG.addChild(shape);
 		mainTG.addChild(shapesBG);
 		}
-
+	
 	public void removeShape(Shape3D shape)
 		{
 		shapesBG.detach();
 		shapesBG.removeChild(shape);
 		mainTG.addChild(shapesBG);
 		}
-
+	
 	/**
 	 * Removes all vectors from the scene
 	 */
@@ -377,7 +276,7 @@ public class TurboCanvas extends Canvas3D
 		mainTG.addChild(shapesBG);
 		createAxisSystem();
 		}
-
+	
 	/**
 	 * redraws vectors, useful if they have been changed
 	 */
@@ -390,22 +289,25 @@ public class TurboCanvas extends Canvas3D
 			addShape(shape);
 			}
 		addParallelepiped(selectedShape);
-		addTrail();
+		addShape(trail);
+		addShape(trailLines);
 		createAxisSystem();
 		}
-
+	
 	public void setSelected(Shape3D shape)
 		{
 		this.selectedShape = shape;
+		createTrail();
 		this.refresh();
 		}
-
+	
 	public void setSelected(RotationItem rotationItem)
 		{
 		this.selectedRotation = rotationItem;
+		createTrail();
 		this.refresh();
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -415,18 +317,18 @@ public class TurboCanvas extends Canvas3D
 		MouseRotate mouseRotate = new MouseRotate(mainTG);
 		MouseZoom mouseZoom = new MouseZoom(mainTG);
 		MouseTranslate mouseTranslate = new MouseTranslate(mainTG);
-
+		
 		BoundingSphere bs = new BoundingSphere();
-
+		
 		mouseRotate.setSchedulingBounds(bs);
 		mouseZoom.setSchedulingBounds(bs);
 		mouseTranslate.setSchedulingBounds(bs);
-
+		
 		mainBG.addChild(mouseRotate);
 		mainBG.addChild(mouseZoom);
 		mainBG.addChild(mouseTranslate);
 		}
-
+	
 	private void setBackgroundColor(Color3f color)
 		{
 		Background background = new Background(color);
@@ -434,7 +336,7 @@ public class TurboCanvas extends Canvas3D
 		background.setApplicationBounds(sphere);
 		mainBG.addChild(background);
 		}
-
+	
 	private void createAxisSystem()
 		{
 		shapesBG.detach();
@@ -446,11 +348,11 @@ public class TurboCanvas extends Canvas3D
 		shapesBG.addChild(new Vector3D(0, 0, 100, TurboColors.BLUE, 1));
 		mainTG.addChild(shapesBG);
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
+	
 	private BranchGroup mainBG = new BranchGroup();
 	private BranchGroup shapesBG = new BranchGroup();
 	private TransformGroup mainTG = new TransformGroup();
@@ -458,4 +360,7 @@ public class TurboCanvas extends Canvas3D
 	private SimpleUniverse universe;
 	private Shape3D selectedShape;
 	private RotationItem selectedRotation;
+	private Shape3D trail;
+	private Shape3D trailLines;
+	
 	}
