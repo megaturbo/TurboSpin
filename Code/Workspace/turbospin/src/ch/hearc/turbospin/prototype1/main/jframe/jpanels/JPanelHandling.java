@@ -109,11 +109,12 @@ public class JPanelHandling extends JPanel
 
 		add(Box.createVerticalStrut(30));
 
-		add(radioButtonMatrix);
-		add(Box.createVerticalStrut(-5));
-		add(radioButtonQuaternion);
+//		add(radioButtonMatrix);
+//		add(Box.createVerticalStrut(-5));
+//		add(radioButtonQuaternion);
+		add(buttonAddQuaternion);
 		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonAddRotation);
+		add(buttonAddMatrix);
 		add(Box.createRigidArea(new Dimension(0, 5)));
 		add(buttonRotate);
 		add(Box.createRigidArea(new Dimension(0, 5)));
@@ -129,29 +130,23 @@ public class JPanelHandling extends JPanel
 
 	private void initComponents()
 		{
-		buttonAddVector = new JButton("Add vector");
+		buttonAddVector = new JButton("Ajouter vecteur");
 		/*button for future use -> implementing lines
 		 * buttonAddLine = new JButton("Add line");*/
-		buttonAddVertex = new JButton("Add vertex");
-		buttonAddPoint = new JButton("Add points");
-		buttonRemoveObjectFromList = new JButton("Remove selected object");
+		buttonAddVertex = new JButton("Ajouter un segment");
+		buttonAddPoint = new JButton("Ajouter un point");
+		buttonRemoveObjectFromList = new JButton("Supprimer élément sélectionné");
 		shapesModel = new DefaultListModel<Shape3D>();
 		listShapes = new JList<Shape3D>(shapesModel);
 		listShapesPane = new JScrollPane(listShapes);
 
-		buttonAddRotation = new JButton("Add rotation item");
-		buttonRotate = new JButton("Rotate selected item");
-		buttonRemoveRotationFromList = new JButton("Remove selected item");
+		buttonAddMatrix = new JButton("Ajouter une matrice de rotation");
+		buttonAddQuaternion = new JButton("Ajouter un quaternion");
+		buttonRotate = new JButton("Effectuer la rotation sur l'objet sélectionné");
+		buttonRemoveRotationFromList = new JButton("Supprimer élément sélectionné");
 		rotationModel = new DefaultListModel<RotationItem>();
 		listRotation = new JList<RotationItem>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
-
-		buttonGroupRadio = new ButtonGroup();
-		radioButtonMatrix = new JRadioButton("Rotate using matrices");
-		radioButtonMatrix.setSelected(true);
-		radioButtonQuaternion = new JRadioButton("Rotate using quaternions");
-		buttonGroupRadio.add(radioButtonMatrix);
-		buttonGroupRadio.add(radioButtonQuaternion);
 		}
 
 	private void initListeners()
@@ -308,38 +303,33 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		buttonAddRotation.addActionListener(new ActionListener()
-			{
-
+		buttonAddMatrix.addActionListener(new ActionListener()
+			{				
 				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					if (radioButtonQuaternion.isSelected())
-						{
-						try
-							{
-							addRotation(JPanelInputsFactory.showQuaternionInput());
-							listRotation.setSelectedValue(rotationModel.firstElement(), true);
-							canvas.setSelected(rotationModel.firstElement());
-							}
-						catch (UserIsAnIdiotException e)
-							{
-							// NOP
-							}
-						}
-					else if (radioButtonMatrix.isSelected())
-						{
-						try
-							{
-							addRotation(JPanelInputsFactory.showMatrixInput());
-							}
-						catch (UserIsAnIdiotException e)
-							{
-							// NOP
-							}
-						}
+				public void actionPerformed(ActionEvent e) {
+					try {
+						addRotation(JPanelInputsFactory.showMatrixInput());
+						listRotation.setSelectedValue(rotationModel.firstElement(), true);
+						canvas.setSelected(rotationModel.firstElement());
+					} catch (UserIsAnIdiotException e1) {
+						e1.printStackTrace();
 					}
+				}
 			});
+		
+		buttonAddQuaternion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					addRotation(JPanelInputsFactory.showQuaternionInput());
+					listRotation.setSelectedValue(rotationModel.firstElement(), true);
+					canvas.setSelected(rotationModel.firstElement());
+				} catch (UserIsAnIdiotException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		buttonRotate.addActionListener(new ActionListener()
 			{
@@ -433,14 +423,12 @@ public class JPanelHandling extends JPanel
 	private JButton buttonRemoveObjectFromList;
 
 	// rotations
-	private JButton buttonAddRotation;
+	private JButton buttonAddMatrix;
+	private JButton buttonAddQuaternion;
 	private JButton buttonRemoveRotationFromList;
 	private JList<RotationItem> listRotation;
 	private DefaultListModel<RotationItem> rotationModel;
 	private JScrollPane listRotationsPane;
 
 	private JButton buttonRotate;
-	private ButtonGroup buttonGroupRadio;
-	private JRadioButton radioButtonQuaternion;
-	private JRadioButton radioButtonMatrix;
 	}
