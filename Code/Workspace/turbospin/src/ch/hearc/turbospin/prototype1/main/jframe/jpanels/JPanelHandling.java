@@ -59,16 +59,16 @@ public class JPanelHandling extends JPanel
 		{
 		shapes.add(shape);
 		canvas.addShape(shape);
-		panelView.repaint();
 		shapesModel.addElement(shape);
+		panelView.repaint();
 		}
 
 	public void removeShape3D(Shape3D shape)
 		{
-		shapes.remove(shapes.indexOf(shape));
+		shapes.remove(shape);
 		canvas.removeShape(shape);
-		panelView.repaint();
 		shapesModel.removeElement(shape);
+		panelView.repaint();
 		}
 
 	public void addRotation(RotationItem input)
