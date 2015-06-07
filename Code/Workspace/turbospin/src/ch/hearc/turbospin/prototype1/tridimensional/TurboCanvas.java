@@ -252,6 +252,12 @@ public class TurboCanvas extends Canvas3D
 		trail = new Shape3D(polygons, ap);
 		}
 	
+	public void removeTrail() {
+		trail = null;
+		trailLines = null;
+		refresh();
+	}
+	
 	public void addShape(Shape3D shape)
 		{
 		shapesBG.detach();

@@ -71,6 +71,8 @@ public class JPanelHandling extends JPanel {
 
 		if(shapesModel.getSize() > 0){
 			listShapes.setSelectedValue(shapesModel.lastElement(), true);
+		}else{
+			canvas.removeTrail();
 		}
 
 		panelView.repaint();
@@ -86,6 +88,11 @@ public class JPanelHandling extends JPanel {
 
 	public void removeRotation(RotationItem rotation) {
 		rotationModel.removeElement(rotation);
+		if(rotationModel.getSize() > 0){
+			listRotation.setSelectedValue(rotationModel.lastElement(), true);
+		}else{
+			canvas.removeTrail();
+		}
 	}
 
 	/*------------------------------------------------------------------*\
