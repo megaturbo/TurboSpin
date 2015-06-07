@@ -41,6 +41,11 @@ public class Point3D extends Shape3D
 		this(x, y, z, TurboColors.BLUE, 5);
 		}
 
+	public Point3D(Vector3D v)
+		{
+		this(v.getA(), v.getB(), v.getC());
+		}
+
 	public Point3D(Point3D src)
 		{
 		this(src.x, src.y, src.z, src.getColor(), src.getSize());
