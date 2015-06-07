@@ -110,12 +110,6 @@ public class JPanelHandling extends JPanel
 			}
 		}
 
-	public void updateRotation(RotationItem rotation)
-		{
-		//	int rotationItemIndex = rotationModel.indexOf(rotation);
-		//	RotationItem rotationItem = rotationModel.get(rotationItemIndex);
-		}
-
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -416,16 +410,6 @@ public class JPanelHandling extends JPanel
 				public void actionPerformed(ActionEvent e)
 					{
 					canvas.rotate(buttonRotate);
-					//					Shape3D shape = listShapes.getSelectedValue();
-					//					RotationItem rotationItem = listRotation.getSelectedValue();
-					//					if (rotationItem instanceof Matrix)
-					//						{
-					//						rotateWithMatrix(shape, (Matrix)rotationItem);
-					//						}
-					//					else if (rotationItem instanceof Quaternion)
-					//						{
-					//						rotateWithQuaternion(shape, (Quaternion)rotationItem);
-					//						}
 					}
 			});
 
