@@ -140,6 +140,15 @@ public class Quaternion implements RotationItem
 		this.k = k;
 		}
 
+
+	public void set(Quaternion src)
+		{
+		this.r = src.r;
+		this.i = src.i;
+		this.j = src.j;
+		this.k = src.k;
+		}
+
 	public void setVector(Vector3D im)
 		{
 		setIJK(im.getA(), im.getB(), im.getC());
