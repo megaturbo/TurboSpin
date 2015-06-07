@@ -33,11 +33,11 @@ import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JPanelHandling extends JPanel
 	{
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
-
+	
 	public JPanelHandling(TurboCanvas canvas, List<Shape3D> shapes, JPanelView panelView, JPanelRotationInfo panelInfo)
 		{
 		this.panelInfo = panelInfo;
@@ -48,11 +48,11 @@ public class JPanelHandling extends JPanel
 		control();
 		appearance();
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-
+	
 	public void addShape3D(Shape3D shape)
 		{
 		shapes.add(shape);
@@ -61,12 +61,12 @@ public class JPanelHandling extends JPanel
 		shapesModel.addElement(shape);
 		listShapes.setSelectedValue(shapesModel.lastElement(), true);
 		}
-
+	
 	public void removeShape3D(Shape3D shape)
 		{
 		shapes.remove(shape);
 		shapesModel.removeElement(shape);
-
+		
 		if (shapesModel.getSize() > 0)
 			{
 			listShapes.setSelectedValue(shapesModel.lastElement(), true);
@@ -75,19 +75,19 @@ public class JPanelHandling extends JPanel
 			{
 			canvas.removeTrail();
 			}
-
+		
 		panelView.repaint();
 		canvas.refresh();
 		listShapes.repaint();
 		}
-
+	
 	public void addRotation(RotationItem input)
 		{
 		rotationModel.addElement(input);
 		canvas.setSelected(rotationModel.lastElement());
 		listRotation.setSelectedValue(rotationModel.lastElement(), true);
 		}
-
+	
 	public void removeRotation(RotationItem rotation)
 		{
 		rotationModel.removeElement(rotation);
@@ -100,7 +100,7 @@ public class JPanelHandling extends JPanel
 			canvas.removeTrail();
 			}
 		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -109,91 +109,91 @@ public class JPanelHandling extends JPanel
 		initComponents();
 		initLayout();
 		}
-
+	
 	private void initLayout()
 		{
 		// Layout
 		setLayout(new GridBagLayout());
-
+		
 		// Titles labels
 		JLabel labelAddObject = new JLabel("Ajouter un objet");
 		JLabel labelAddRotation = new JLabel("Créer une rotation");
 		Font titleFont = new Font(labelAddObject.getFont().getFontName(), Font.PLAIN, 20);
 		labelAddObject.setFont(titleFont);
 		labelAddRotation.setFont(titleFont);
-
+		
 		Insets defaultInsets = new Insets(0, 0, 0, 0);
 		Insets topbotInsets = new Insets(10, 0, 10, 0);
-
+		
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-
+		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.insets = topbotInsets;
 		c.gridwidth = 6;
 		add(labelAddObject, c);
-
+		
 		c.gridx = 0;
 		c.gridy = 1;
 		c.insets = defaultInsets;
 		c.gridwidth = 2;
 		add(buttonAddVector, c);
-
+		
 		c.gridx = 2;
 		c.gridy = 1;
 		add(buttonAddPoint, c);
-
+		
 		c.gridx = 4;
 		c.gridy = 1;
 		add(buttonAddVertex, c);
-
+		
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 6;
 		c.insets = topbotInsets; // Top and Bottom padding
 		add(listShapesPane, c);
-
+		
 		c.gridy = 3;
 		c.insets = defaultInsets;
 		add(buttonRemoveShapeFromList, c);
-
+		
 		c.gridy = 4;
 		c.insets = topbotInsets; // Reset padding
 		add(new JSeparator(), c);
-
+		
 		c.gridy = 5;
 		add(labelAddRotation, c);
-
+		
 		c.gridy = 6;
 		c.gridwidth = 3;
 		c.insets = defaultInsets;
 		add(buttonAddQuaternion, c);
-
+		
 		c.gridy = 6;
 		c.gridx = 3;
 		add(buttonAddMatrix, c);
-
+		
 		c.gridx = 0;
 		c.gridy = 7;
 		c.insets = topbotInsets;
 		c.gridwidth = 6;
 		add(listRotationsPane, c);
-
+		
 		c.gridy = 8;
 		c.gridwidth = 3;
 		add(buttonRotate, c);
-
+		
 		c.gridx = 3;
 		c.gridy = 8;
 		add(buttonRemoveRotationFromList, c);
 		}
-
+	
 	private void control()
 		{
 		initListeners();
 		}
-
+	
 	private void initComponents()
 		{
 		buttonAddVector = new JButton("Vecteur");
@@ -203,7 +203,7 @@ public class JPanelHandling extends JPanel
 		shapesModel = new DefaultListModel<Shape3D>();
 		listShapes = new JList<Shape3D>(shapesModel);
 		listShapesPane = new JScrollPane(listShapes);
-
+		
 		buttonAddMatrix = new JButton("Matrice");
 		buttonAddQuaternion = new JButton("Quaternion");
 		buttonRotate = new JButton("Rotation");
@@ -212,12 +212,12 @@ public class JPanelHandling extends JPanel
 		listRotation = new JList<RotationItem>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
 		}
-
+	
 	private void initListeners()
 		{
 		buttonAddVector.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent a)
 					{
@@ -232,7 +232,7 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		/*button listener for future use -> implementing lines
 		 * buttonAddLine.addActionListener(new ActionListener()
 			{
@@ -252,10 +252,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});*/
-
+		
 		buttonAddVertex.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent a)
 					{
@@ -268,12 +268,12 @@ public class JPanelHandling extends JPanel
 						// NOP
 						}
 					}
-
+				
 			});
-
+		
 		buttonAddPoint.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent a)
 					{
@@ -281,10 +281,10 @@ public class JPanelHandling extends JPanel
 					addRotation(QuaternionTools.createRotationQuaternion(1, new Vector3D(1, 0, 0)));
 					}
 			});
-
+		
 		buttonRemoveShapeFromList.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -294,10 +294,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		buttonRemoveRotationFromList.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -307,10 +307,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		listRotation.addListSelectionListener(new ListSelectionListener()
 			{
-
+				
 				@Override
 				public void valueChanged(ListSelectionEvent e)
 					{
@@ -337,10 +337,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		listShapes.addListSelectionListener(new ListSelectionListener()
 			{
-
+				
 				@Override
 				public void valueChanged(ListSelectionEvent e)
 					{
@@ -355,10 +355,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		buttonAddMatrix.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -374,10 +374,10 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		buttonAddQuaternion.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -393,36 +393,26 @@ public class JPanelHandling extends JPanel
 						}
 					}
 			});
-
+		
 		buttonRotate.addActionListener(new ActionListener()
 			{
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
 					canvas.rotate(buttonRotate);
-					//					Shape3D shape = listShapes.getSelectedValue();
-					//					RotationItem rotationItem = listRotation.getSelectedValue();
-					//					if (rotationItem instanceof Matrix)
-					//						{
-					//						rotateWithMatrix(shape, (Matrix)rotationItem);
-					//						}
-					//					else if (rotationItem instanceof Quaternion)
-					//						{
-					//						rotateWithQuaternion(shape, (Quaternion)rotationItem);
-					//						}
 					}
 			});
-
+		
 		}
-
+	
 	private void appearance()
 		{
 		setBorder(BorderFactory.createTitledBorder("Handling"));
 		buttonRemoveShapeFromList.setEnabled(false);
 		buttonRemoveRotationFromList.setEnabled(false);
 		}
-
+	
 	//	private void rotateWithQuaternion(Shape3D shape, Quaternion rotation)
 	//		{
 	//		canvas.rotate(buttonRotate);
@@ -447,11 +437,11 @@ public class JPanelHandling extends JPanel
 	//		canvas.refresh();
 	//		panelView.repaint();
 	//		}
-
+	
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-
+	
 	// Tools
 	private JPanelRotationInfo panelInfo;
 	private TurboCanvas canvas;
@@ -469,7 +459,7 @@ public class JPanelHandling extends JPanel
 	private DefaultListModel<Shape3D> shapesModel;
 	private JScrollPane listShapesPane;
 	private JButton buttonRemoveShapeFromList;
-
+	
 	// rotations
 	private JButton buttonAddMatrix;
 	private JButton buttonAddQuaternion;
@@ -477,6 +467,6 @@ public class JPanelHandling extends JPanel
 	private JList<RotationItem> listRotation;
 	private DefaultListModel<RotationItem> rotationModel;
 	private JScrollPane listRotationsPane;
-
+	
 	private JButton buttonRotate;
 	}
