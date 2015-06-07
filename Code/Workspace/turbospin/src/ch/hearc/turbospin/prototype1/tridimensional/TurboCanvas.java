@@ -20,6 +20,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
 import javax.media.j3d.TriangleArray;
+import javax.swing.JButton;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -72,9 +73,10 @@ public class TurboCanvas extends Canvas3D
 			{
 			paraBG.addChild(para[i]);
 			}
-
+		quaternionAxis = new Vertex3D(new Point3D(), new Point3D(), TurboColors.LIGHTGRAY, 2);
 		addShape(trail);
 		addShape(trailLines);
+		addShape(quaternionAxis);
 
 		// Universe
 		universe = new SimpleUniverse(this);
@@ -116,22 +118,17 @@ public class TurboCanvas extends Canvas3D
 		{
 		Point3D A = vertex.getA();
 		Point3D B = vertex.getB();
-
 		// colored vertices
 		para[0].set(new Vertex3D(A, new Point3D(B.getX(), A.getY(), A.getZ())));
 		para[1].set(new Vertex3D(A, new Point3D(A.getX(), B.getY(), A.getZ())));
 		para[2].set(new Vertex3D(A, new Point3D(A.getX(), A.getY(), B.getZ())));
-
 		// black vertices
 		para[3].set(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ())));
 		para[4].set(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(B.getX(), A.getY(), B.getZ())));
-
 		para[5].set(new Vertex3D(new Point3D(A.getX(), A.getY(), B.getZ()), new Point3D(A.getX(), B.getY(), B.getZ())));
 		para[6].set(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), B.getY(), A.getZ())));
-
 		para[7].set(new Vertex3D(new Point3D(B.getX(), A.getY(), A.getZ()), new Point3D(B.getX(), A.getY(), B.getZ())));
 		para[8].set(new Vertex3D(new Point3D(A.getX(), B.getY(), A.getZ()), new Point3D(A.getX(), B.getY(), B.getZ())));
-
 		// black vertices that may be in the axes
 		para[9].set(new Vertex3D(new Point3D(A.getX(), B.getY(), B.getZ()), B));
 		para[10].set(new Vertex3D(new Point3D(B.getX(), A.getY(), B.getZ()), B));
@@ -151,16 +148,20 @@ public class TurboCanvas extends Canvas3D
 			}
 		else if (shape instanceof Vertex3D)
 			{
-			addParallelepiped(new Vertex3D(new Point3D(), new Point3D(((Vector3D)shape).getA(), ((Vector3D)shape).getB(), ((Vector3D)shape).getC())));
+			addParallelepiped(new Vertex3D(new Point3D(), new Point3D((Vector3D)shape)));
 			}
 		}
 
 	public void createTrail()
 		{
+		removeTrail();
 		if (selectedRotation != null && selectedShape != null)
 			{
 			if (selectedRotation instanceof Quaternion)
 				{
+				Quaternion q = (Quaternion)selectedRotation;
+				Vector3D axis = QuaternionTools.getAxis(q);
+				quaternionAxis.set(new Vertex3D(new Point3D(axis.multiply(-50.0)), new Point3D(axis.multiply(50.0))));
 				createTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
 				}
 			if (selectedRotation instanceof Matrix)
@@ -208,7 +209,7 @@ public class TurboCanvas extends Canvas3D
 		//			}
 		repaint();
 		addParallelepiped();
-//				addShape(trail);
+		//				addShape(trail);
 		//		addShape(trailLines);
 		//		createAxisSystem();
 		}
@@ -288,53 +289,73 @@ public class TurboCanvas extends Canvas3D
 		ap.setTransparencyAttributes(ta);
 
 		trail = new Shape3D(polygons, ap);
+		addShape(trail);
+		addShape(trailLines);
+		refresh();
+		}
+
+	public void removeTrail()
+		{
+		shapesBG.detach();
+		quaternionAxis.set(new Point3D(), new Point3D());
+		shapesBG.removeChild(trail);
+		shapesBG.removeChild(trailLines);
+		trail = null;
+		trailLines = null;
+		mainTG.addChild(shapesBG);
+		refresh();
 		}
 
 	private void createTrail(Matrix selectedRotation2, Vector3D selectedShape2)
+
 		{
 		// TODO Auto-generated method stub
 
 		}
 
-	public void rotate()
+	public void rotate(JButton buttonRotate)
 		{
-		Thread thread = new Thread(new Runnable()
+		if (!isRunning)
 			{
+			isRunning = true;
+			buttonRotate.setEnabled(false);
+			Thread thread = new Thread(new Runnable()
+				{
 
-				@Override
-				public void run()
-					{
-					double theta = QuaternionTools.getAngle((Quaternion)selectedRotation);
-					theta *= 180.0 / Math.PI;
-					for(int i = 0; i < (int)theta; i++)
+					@Override
+					public void run()
 						{
-						try
+						double theta = QuaternionTools.getAngle((Quaternion)selectedRotation);
+						theta *= 180.0 / Math.PI;
+						for(int i = 0; i < (int)theta; i++)
 							{
-							Thread.sleep(1000 / 27);
+							try
+								{
+								Thread.sleep(1000 / 27);
+								}
+							catch (InterruptedException e)
+								{
+								// NOP
+								}
+							slowRotate();
+							repaint();
+							addParallelepiped();
 							}
-						catch (InterruptedException e)
-							{
-							}
-						slowRotate();
-						//						refresh(); //blinkyblinky
-						//						shapesBG.detach();
-						//						refresh(selectedShape);
-						//						mainTG.addChild(shapesBG);
-						repaint();
-						addParallelepiped();
+						createTrail();
+						refresh();
+						isRunning = false;
+						buttonRotate.setEnabled(true);
 						}
-					createTrail();
-					refresh();
-					}
 
-				private void slowRotate()
-					{
-					Vector3D axis = QuaternionTools.getAxis((Quaternion)selectedRotation);
-					Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
-					((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
-					}
-			});
-		thread.start();
+					private void slowRotate()
+						{
+						Vector3D axis = QuaternionTools.getAxis((Quaternion)selectedRotation);
+						Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
+						((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
+						}
+				});
+			thread.start();
+			}
 		}
 
 	private void createMouseNavigation()
@@ -389,6 +410,7 @@ public class TurboCanvas extends Canvas3D
 	private RotationItem selectedRotation;
 	private Shape3D trail;
 	private Shape3D trailLines;
+	private Vertex3D quaternionAxis;
 	private Vertex3D[] para;
-
+	private boolean isRunning = false;
 	}

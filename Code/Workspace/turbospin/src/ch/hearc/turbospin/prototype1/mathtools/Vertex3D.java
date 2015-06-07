@@ -89,6 +89,12 @@ public class Vertex3D extends Shape3D
 		setGeometry();
 		}
 
+	public void set(Point3D A, Point3D B)
+		{
+		setA(A);
+		setB(B);
+		}
+
 	public void set(Vertex3D vertex3d)
 		{
 		this.setA(vertex3d.A);
