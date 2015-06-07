@@ -11,6 +11,7 @@ import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Group;
 import javax.media.j3d.LineAttributes;
@@ -19,6 +20,7 @@ import javax.media.j3d.Material;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TriangleArray;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -192,8 +194,6 @@ public class TurboCanvas extends Canvas3D
 		theta *= 180.0 / Math.PI;
 		Vector3D tmp = new Vector3D(v);
 
-		System.out.println(4 * (int)theta - 8);
-
 		Point3d[] pointsTmp = new Point3d[4 * (int)theta - 8];
 		LineStripArray lsa = new LineStripArray((int)theta + 2, GeometryArray.COORDINATES | GeometryArray.COLOR_3, new int[] { (int)theta + 2 });
 
@@ -225,10 +225,17 @@ public class TurboCanvas extends Canvas3D
 		pointsTmp[4 * (int)theta - 16] = new Point3d(0.0, 0.0, 0.0);
 
 		Point3d[] points = new Point3d[2 * (4 * (int)theta - 8)];
+		Point3d[] pointsT = new Point3d[6 * (int)theta - 12];
+		int u = 0;
 		for(int i = 0; i < pointsTmp.length; i++)
 			{
 			points[i] = pointsTmp[i];
 			points[points.length - 1 - i] = new Point3d(pointsTmp[i]);
+			if (i % 4 != 3)
+				{
+				pointsT[pointsT.length - 1 - u] = points[i];
+				pointsT[u++] = points[i];
+				}
 			}
 
 		lsa.setCoordinate((int)theta, new Point3d(0.0, 0.0, 0.0));
@@ -269,36 +276,50 @@ public class TurboCanvas extends Canvas3D
 			contourCount[i] = 1;
 			}
 
-		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
+		TriangleArray geometryArray = new TriangleArray(pointsT.length, GeometryArray.COORDINATES);
+		for(int i = 0; i < pointsT.length; i++)
+			{
+			geometryArray.setCoordinate(i, pointsT[i]);
+			}
 
-		gi.setCoordinates(points);
-		gi.setStripCounts(stripCounts);
-		gi.setContourCounts(contourCount);
+		//		GeometryInfo gi = new GeometryInfo(GeometryInfo.POLYGON_ARRAY);
+		GeometryInfo gi = new GeometryInfo(geometryArray);
 
-		GeometryArray polygons = gi.getIndexedGeometryArray();
+		//		gi.setCoordinates(pointsTmp);
+		//		gi.setStripCounts(stripCounts);
+		//		gi.setContourCounts(contourCount);
 
 		NormalGenerator normalGenerator = new NormalGenerator();
 		normalGenerator.generateNormals(gi);
+		GeometryArray polygons = gi.getIndexedGeometryArray();
+
 
 		// Appearance
-		//		ColoringAttributes ca = new ColoringAttributes(TurboColors.GREEN, ColoringAttributes.NICEST);
-		//		ap.setColoringAttributes(ca);
-
 		Appearance ap = new Appearance();
-		Material material = new Material();
-		material.setDiffuseColor(1.8f, 0.1f, 1.8f); // red
-		material.setSpecularColor(0.2f, 0.2f, 0.2f); // reduce default values
-		ap.setMaterial(material);
+		//				ColoringAttributes ca = new ColoringAttributes(TurboColors.GREEN, ColoringAttributes.NICEST);
+		//				ap.setColoringAttributes(ca);
 
-		Color3f light1Color = new Color3f(1.8f, 0.1f, 1.8f);
-		BoundingSphere bounds = new BoundingSphere(new Point3d(10.0, 0.0, 0.0), 100.0);
-		Vector3f light1Direction = new Vector3f(-4.0f, 1.0f, 1.0f);
-		AmbientLight light1 = new AmbientLight(true, light1Color);
+		Material material = new Material();
+		material.setDiffuseColor(0.8f, 0.1f, 0.1f); // red
+		material.setSpecularColor(0.8f, 0.1f, 0.1f); // reduce default values
+		ap.setMaterial(material);
+		//		PolygonAttributes polyAttrib = new PolygonAttributes();
+		//				polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
+		//		ap.setPolygonAttributes(polyAttrib);
+
+		Color3f light1Color = new Color3f(1.8f, 0.1f, 0.1f);
+		BoundingSphere bounds = new BoundingSphere(new Point3d(10.0, 1.0, 1.0), 100.0);
+		AmbientLight light1 = new AmbientLight(light1Color);
 		light1.setEnable(true);
 		light1.setInfluencingBounds(bounds);
+		Color3f lightColour = new Color3f(1.0f, 1.0f, 1.0f);
+		Vector3f lightDir = new Vector3f(-1.0f, -1.0f, -1.0f);
+		DirectionalLight light = new DirectionalLight(lightColour, lightDir);
+		light.setInfluencingBounds(bounds);
 
 		shapesBG.detach();
-		shapesBG.addChild(light1);
+//		shapesBG.addChild(light1);
+		shapesBG.addChild(light);
 		mainTG.addChild(shapesBG);
 
 		Shape3D part = new Shape3D(polygons, ap);
