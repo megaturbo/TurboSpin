@@ -34,6 +34,11 @@ public class JFrameMain extends JFrame {
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	public void refreshCanvas()
+		{
+		panelHandling.refreshCanvas();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -48,7 +53,7 @@ public class JFrameMain extends JFrame {
 
 		// Instantiate components
 		panelView = new JPanelView(turboCanvas, shapes);
-		panelRotationInfo = new JPanelRotationInfo();
+		panelRotationInfo = new JPanelRotationInfo(this);
 		panelHandling = new JPanelHandling(turboCanvas, shapes, panelView,
 				panelRotationInfo);
 

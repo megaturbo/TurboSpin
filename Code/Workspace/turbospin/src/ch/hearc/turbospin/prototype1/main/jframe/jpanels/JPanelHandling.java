@@ -56,6 +56,12 @@ public class JPanelHandling extends JPanel
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
+	public void refreshCanvas()
+		{
+		canvas.refresh();
+		listShapes.repaint();
+		}
+
 	public void addShape3D(Shape3D shape)
 		{
 		shapes.add(shape);
@@ -63,6 +69,7 @@ public class JPanelHandling extends JPanel
 		canvas.setSelected(shape);
 		shapesModel.addElement(shape);
 		listShapes.setSelectedValue(shapesModel.lastElement(), true);
+		canvas.refresh();
 		}
 
 	public void removeShape3D(Shape3D shape)
@@ -89,6 +96,7 @@ public class JPanelHandling extends JPanel
 		rotationModel.addElement(input);
 		canvas.setSelected(rotationModel.lastElement());
 		listRotation.setSelectedValue(rotationModel.lastElement(), true);
+		canvas.refresh();
 		}
 
 	public void removeRotation(RotationItem rotation)
@@ -102,6 +110,12 @@ public class JPanelHandling extends JPanel
 			{
 			canvas.removeTrail();
 			}
+		}
+
+	public void updateRotation(RotationItem rotation)
+		{
+		//	int rotationItemIndex = rotationModel.indexOf(rotation);
+		//	RotationItem rotationItem = rotationModel.get(rotationItemIndex);
 		}
 
 	/*------------------------------------------------------------------*\
