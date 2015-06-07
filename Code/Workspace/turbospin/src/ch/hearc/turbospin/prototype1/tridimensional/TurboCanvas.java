@@ -341,56 +341,77 @@ public class TurboCanvas extends Canvas3D
 		if (!isRunning)
 			{
 			isRunning = true;
-			buttonRotate.setEnabled(false);
-			Thread thread = new Thread(new Runnable()
+			if (selectedRotation instanceof Quaternion)
+				{
+				Thread thread = rotate(buttonRotate, (Quaternion)selectedRotation);
+				thread.start();
+				try
+					{
+					thread.join();
+					}
+				catch (InterruptedException e)
+					{
+					e.printStackTrace();
+					}
+				isRunning = false;
+				}
+			else if (selectedRotation instanceof Matrix)
 				{
 
-					@Override
-					public void run()
-						{
-						double theta = QuaternionTools.getAngle((Quaternion)selectedRotation);
-						theta *= 180.0 / Math.PI;
-						for(int i = 0; i < (int)theta; i++)
-							{
-							try
-								{
-								Thread.sleep(1000 / 27);
-								}
-							catch (InterruptedException e)
-								{
-								// NOP
-								}
-							slowRotate();
-							repaint();
-							addParallelepiped();
-							}
-						createTrail();
-						refresh();
-						isRunning = false;
-						buttonRotate.setEnabled(true);
-						}
-
-					private void slowRotate()
-						{
-						Vector3D axis = QuaternionTools.getAxis((Quaternion)selectedRotation);
-						Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
-						if (selectedShape instanceof Vector3D)
-							{
-							((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
-							}
-						else if (selectedShape instanceof Point3D)
-							{
-							((Point3D)selectedShape).set(QuaternionTools.rotation((Point3D)selectedShape, qslow));
-							}
-						else if (selectedShape instanceof Vertex3D)
-							{
-							((Vertex3D)selectedShape).setA(QuaternionTools.rotation(((Vertex3D)selectedShape).getA(), qslow));
-							((Vertex3D)selectedShape).setB(QuaternionTools.rotation(((Vertex3D)selectedShape).getB(), qslow));
-							}
-						}
-				});
-			thread.start();
+				}
 			}
+		}
+
+	private Thread rotate(JButton buttonRotate, Quaternion q)
+		{
+		buttonRotate.setEnabled(false);
+		return new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+					double theta = QuaternionTools.getAngle(q);
+					theta *= 180.0 / Math.PI;
+					for(int i = 0; i < (int)theta; i++)
+						{
+						try
+							{
+							Thread.sleep(1000 / 27);
+							}
+						catch (InterruptedException e)
+							{
+							// NOP
+							}
+						slowRotate();
+						repaint();
+						addParallelepiped();
+						}
+					createTrail();
+					refresh();
+					buttonRotate.setEnabled(true);
+					}
+
+				private void slowRotate()
+					{
+					Vector3D axis = QuaternionTools.getAxis(q);
+					Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
+					if (selectedShape instanceof Vector3D)
+						{
+						((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
+						}
+					else if (selectedShape instanceof Point3D)
+						{
+						((Point3D)selectedShape).set(QuaternionTools.rotation((Point3D)selectedShape, qslow));
+						}
+					else if (selectedShape instanceof Vertex3D)
+						{
+						((Vertex3D)selectedShape).setA(QuaternionTools.rotation(((Vertex3D)selectedShape).getA(), qslow));
+						((Vertex3D)selectedShape).setB(QuaternionTools.rotation(((Vertex3D)selectedShape).getB(), qslow));
+						}
+					}
+			});
+
 		}
 
 	private void createMouseNavigation()
