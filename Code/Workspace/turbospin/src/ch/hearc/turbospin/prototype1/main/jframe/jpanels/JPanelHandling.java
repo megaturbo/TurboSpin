@@ -25,8 +25,10 @@ import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
+import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
@@ -298,7 +300,12 @@ public class JPanelHandling extends JPanel
 					{
 					if (!listShapes.isSelectionEmpty())
 						{
+						canvas.removeShape(listShapes.getSelectedValue());
 						removeShape3D(listShapes.getSelectedValue());
+						if (shapesModel.getSize() < 1)
+							{
+							canvas.addParallelepiped(new Vertex3D(new Point3D(), new Point3D()));
+							}
 						}
 					}
 			});

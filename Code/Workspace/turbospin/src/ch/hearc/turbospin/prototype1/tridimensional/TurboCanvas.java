@@ -79,7 +79,7 @@ public class TurboCanvas extends Canvas3D
 
 		// Groups capabilities
 		shapesBG.setCapability(BranchGroup.ALLOW_DETACH);
-		paraBG.setCapability(BranchGroup.ALLOW_DETACH);
+//		paraBG.setCapability(BranchGroup.ALLOW_DETACH);
 		trailBG.setCapability(BranchGroup.ALLOW_DETACH);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
@@ -207,6 +207,7 @@ public class TurboCanvas extends Canvas3D
 		shapesBG.detach();
 		shapesBG.removeChild(shape);
 		mainTG.addChild(shapesBG);
+		refresh();
 		}
 
 	/**
@@ -225,6 +226,7 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void refresh()
 		{
+		addParallelepiped();
 		repaint();
 		}
 
@@ -303,19 +305,19 @@ public class TurboCanvas extends Canvas3D
 		ap.setTransparencyAttributes(ta);
 
 		Shape3D trail = new Shape3D(polygons, ap);
-		paraBG.detach();
-		paraBG.addChild(trail);
-		paraBG.addChild(trailLines);
-		mainTG.addChild(paraBG);
+		trailBG.detach();
+		trailBG.addChild(trail);
+		trailBG.addChild(trailLines);
+		mainTG.addChild(trailBG);
 		refresh();
 		}
 
 	public void removeTrail()
 		{
 		quaternionAxis.set(new Point3D(), new Point3D());
-		paraBG.detach();
-		paraBG.removeAllChildren();
-		mainTG.addChild(paraBG);
+		trailBG.detach();
+		trailBG.removeAllChildren();
+		mainTG.addChild(trailBG);
 		refresh();
 		}
 
@@ -415,7 +417,7 @@ public class TurboCanvas extends Canvas3D
 							// NOP
 							}
 						slowRotate();
-						repaint();
+						refresh();
 						addParallelepiped();
 						}
 					}
