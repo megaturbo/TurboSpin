@@ -148,7 +148,7 @@ public class TurboCanvas extends Canvas3D
 			}
 		else if (shape instanceof Vertex3D)
 			{
-			addParallelepiped(new Vertex3D(new Point3D(), new Point3D((Vector3D)shape)));
+			addParallelepiped((Vertex3D)shape);
 			}
 		}
 
@@ -161,12 +161,40 @@ public class TurboCanvas extends Canvas3D
 				{
 				Quaternion q = (Quaternion)selectedRotation;
 				Vector3D axis = QuaternionTools.getAxis(q);
-				quaternionAxis.set(new Vertex3D(new Point3D(axis.multiply(-50.0)), new Point3D(axis.multiply(50.0))));
-				createTrail((Quaternion)selectedRotation, (Vector3D)selectedShape);
+				if (selectedShape instanceof Vector3D)
+					{
+					quaternionAxis.set(new Vertex3D(new Point3D(axis.multiply(-50.0)), new Point3D(axis.multiply(50.0))));
+					createTrail((Quaternion)selectedRotation, (Vector3D)selectedShape, TurboColors.LIGHTGRAY);
+					}
+				else if (selectedShape instanceof Point3D)
+					{
+					quaternionAxis.set(new Vertex3D(new Point3D(axis.multiply(-50.0)), new Point3D(axis.multiply(50.0))));
+					createTrail((Quaternion)selectedRotation, new Vector3D((Point3D)selectedShape), TurboColors.LIGHTGRAY);
+					}
+				else if (selectedShape instanceof Vertex3D)
+					{
+					quaternionAxis.set(new Vertex3D(new Point3D(axis.multiply(-50.0)), new Point3D(axis.multiply(50.0))));
+					Point3D A = ((Vertex3D)selectedShape).getA();
+					Point3D B = ((Vertex3D)selectedShape).getB();
+					createTrail((Quaternion)selectedRotation, new Vector3D(A), TurboColors.LIGHTGRAY);
+					createTrail((Quaternion)selectedRotation, new Vector3D(B), TurboColors.LIGHTGRAY);
+					}
 				}
 			if (selectedRotation instanceof Matrix)
 				{
-				createTrail((Matrix)selectedRotation, (Vector3D)selectedShape);
+				if (selectedShape instanceof Vector3D)
+					{
+					createTrail((Matrix)selectedRotation, (Vector3D)selectedShape);
+					}
+				else if (selectedShape instanceof Point3D)
+					{
+					createTrail((Matrix)selectedRotation, new Vector3D((Point3D)selectedShape));
+					}
+				else if (selectedShape instanceof Vertex3D)
+					{
+					createTrail((Matrix)selectedRotation, new Vector3D(((Vertex3D)selectedShape).getA()));
+					createTrail((Matrix)selectedRotation, new Vector3D(((Vertex3D)selectedShape).getB()));
+					}
 				}
 			}
 		}
@@ -201,17 +229,7 @@ public class TurboCanvas extends Canvas3D
 	 */
 	public void refresh()
 		{
-		//		shapesBG.detach();
-		//		shapesBG.removeAllChildren();
-		//		for(Shape3D shape:shapes)
-		//			{
-		//			addShape(shape);
-		//			}
 		repaint();
-		addParallelepiped();
-		//				addShape(trail);
-		//		addShape(trailLines);
-		//		createAxisSystem();
 		}
 
 	public void setSelected(Shape3D shape)
@@ -232,7 +250,7 @@ public class TurboCanvas extends Canvas3D
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void createTrail(Quaternion q, Vector3D v)
+	private void createTrail(Quaternion q, Vector3D v, Color3f color)
 		{
 		// LineStripArray
 		double theta = QuaternionTools.getAngle(q);
@@ -283,7 +301,7 @@ public class TurboCanvas extends Canvas3D
 
 		// Appearance
 		Appearance ap = new Appearance();
-		ColoringAttributes ca = new ColoringAttributes(TurboColors.LIGHTGRAY, 1);
+		ColoringAttributes ca = new ColoringAttributes(color, 1);
 		ap.setColoringAttributes(ca);
 		TransparencyAttributes ta = new TransparencyAttributes(TransparencyAttributes.NICEST, 0.5f);
 		ap.setTransparencyAttributes(ta);
@@ -306,11 +324,16 @@ public class TurboCanvas extends Canvas3D
 		refresh();
 		}
 
-	private void createTrail(Matrix selectedRotation2, Vector3D selectedShape2)
-
+	private void createTrail(Matrix matrix, Vector3D shape)
 		{
-		// TODO Auto-generated method stub
-
+		Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(1.0, 0.0, 0.0));
+		Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
+		Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 1.0));
+		Vector3D tmp1 = QuaternionTools.rotation(shape, q1);
+		Vector3D tmp2 = QuaternionTools.rotation(tmp1, q2);
+		createTrail(q1, shape, TurboColors.RED);
+		createTrail(q2, tmp1, TurboColors.GREEN);
+		createTrail(q3, tmp2, TurboColors.BLUE);
 		}
 
 	public void rotate(JButton buttonRotate)
@@ -351,7 +374,19 @@ public class TurboCanvas extends Canvas3D
 						{
 						Vector3D axis = QuaternionTools.getAxis((Quaternion)selectedRotation);
 						Quaternion qslow = QuaternionTools.createRotationQuaternion(2.0 * Math.PI / 360.0, axis);
-						((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
+						if (selectedShape instanceof Vector3D)
+							{
+							((Vector3D)selectedShape).set(QuaternionTools.rotation((Vector3D)selectedShape, qslow));
+							}
+						else if (selectedShape instanceof Point3D)
+							{
+							((Point3D)selectedShape).set(QuaternionTools.rotation((Point3D)selectedShape, qslow));
+							}
+						else if (selectedShape instanceof Vertex3D)
+							{
+							((Vertex3D)selectedShape).setA(QuaternionTools.rotation(((Vertex3D)selectedShape).getA(), qslow));
+							((Vertex3D)selectedShape).setB(QuaternionTools.rotation(((Vertex3D)selectedShape).getB(), qslow));
+							}
 						}
 				});
 			thread.start();

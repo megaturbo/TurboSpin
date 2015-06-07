@@ -60,8 +60,6 @@ public class JPanelMatrix extends JPanel
 		this.matrixRx = MatrixTools.createRotationRxMatrix(gamma);
 		this.matrixRy = MatrixTools.createRotationRyMatrix(beta);
 		this.matrixRz = MatrixTools.createRotationRzMatrix(alpha);
-
-		MatrixTools.getAngles(rotation);
 		repaint();
 		}
 

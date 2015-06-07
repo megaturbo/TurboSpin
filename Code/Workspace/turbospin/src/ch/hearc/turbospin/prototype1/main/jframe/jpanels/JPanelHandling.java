@@ -25,11 +25,8 @@ import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs.JPanelInputsFactory;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
-import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
 import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
-import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
-import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
@@ -403,17 +400,17 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					Shape3D shape = listShapes.getSelectedValue();
-					RotationItem rotationItem = listRotation.getSelectedValue();
-
-					if (rotationItem instanceof Matrix)
-						{
-						rotateWithMatrix(shape, (Matrix)rotationItem);
-						}
-					else if (rotationItem instanceof Quaternion)
-						{
-						rotateWithQuaternion(shape, (Quaternion)rotationItem);
-						}
+					canvas.rotate(buttonRotate);
+					//					Shape3D shape = listShapes.getSelectedValue();
+					//					RotationItem rotationItem = listRotation.getSelectedValue();
+					//					if (rotationItem instanceof Matrix)
+					//						{
+					//						rotateWithMatrix(shape, (Matrix)rotationItem);
+					//						}
+					//					else if (rotationItem instanceof Quaternion)
+					//						{
+					//						rotateWithQuaternion(shape, (Quaternion)rotationItem);
+					//						}
 					}
 			});
 
@@ -426,48 +423,30 @@ public class JPanelHandling extends JPanel
 		buttonRemoveRotationFromList.setEnabled(false);
 		}
 
-	private void rotateWithQuaternion(Shape3D shape, Quaternion rotation)
-		{
-		if (shape instanceof Vector3D)
-			{
-			//			Vector3D vector = (Vector3D)shape;
-			//			vector.set(QuaternionTools.rotation(vector, rotation));
-			canvas.rotate(buttonRotate);
-			}
-		else if (shape instanceof Point3D)
-			{
-			Point3D point = (Point3D)shape;
-			point.set(QuaternionTools.rotation(point, rotation));
-			}
-		else if (shape instanceof Vertex3D)
-			{
-			Vertex3D vertex = (Vertex3D)shape;
-			Vertex3D newVertex = QuaternionTools.rotation(vertex, rotation);
-			vertex.setA(newVertex.getA());
-			vertex.setB(newVertex.getB());
-			}
-
-		canvas.refresh();
-		panelView.repaint();
-		this.repaint();
-		}
-
-	private void rotateWithMatrix(Shape3D shape, Matrix rotation)
-		{
-		if (shape instanceof Vector3D)
-			{
-			Vector3D vector = (Vector3D)shape;
-			vector.set(MatrixTools.rotate(vector, rotation));
-			}
-		else if (shape instanceof Point3D)
-			{
-			Point3D point = (Point3D)shape;
-			point.set(MatrixTools.rotate(point, rotation));
-			}
-
-		canvas.refresh();
-		panelView.repaint();
-		}
+	//	private void rotateWithQuaternion(Shape3D shape, Quaternion rotation)
+	//		{
+	//		canvas.rotate(buttonRotate);
+	//		canvas.refresh();
+	//		panelView.repaint();
+	//		this.repaint();
+	//		}
+	//
+	//	private void rotateWithMatrix(Shape3D shape, Matrix rotation)
+	//		{
+	//		if (shape instanceof Vector3D)
+	//			{
+	//			Vector3D vector = (Vector3D)shape;
+	//			vector.set(MatrixTools.rotate(vector, rotation));
+	//			}
+	//		else if (shape instanceof Point3D)
+	//			{
+	//			Point3D point = (Point3D)shape;
+	//			point.set(MatrixTools.rotate(point, rotation));
+	//			}
+	//
+	//		canvas.refresh();
+	//		panelView.repaint();
+	//		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

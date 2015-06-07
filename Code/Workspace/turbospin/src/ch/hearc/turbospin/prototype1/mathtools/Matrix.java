@@ -21,6 +21,7 @@ public class Matrix implements RotationItem
 				matrix[i][j] = src.matrix[i][j];
 				}
 			}
+		setEulers(0.0, 0.0, 0.0);
 		}
 
 	public Matrix(int M, int N)
@@ -29,6 +30,7 @@ public class Matrix implements RotationItem
 		this.rows = M;
 		this.columns = N;
 		init();
+		setEulers(0.0, 0.0, 0.0);
 		}
 
 	public Matrix(int M)
@@ -37,6 +39,7 @@ public class Matrix implements RotationItem
 		this.rows = M;
 		this.columns = M;
 		init();
+		setEulers(0.0, 0.0, 0.0);
 		}
 
 	public Matrix(double[][] tab)
@@ -52,6 +55,7 @@ public class Matrix implements RotationItem
 				matrix[i][j] = tab[i][j];
 				}
 			}
+		setEulers(0.0, 0.0, 0.0);
 		}
 
 	/*------------------------------------------------------------------*\
@@ -205,6 +209,13 @@ public class Matrix implements RotationItem
 		matrix[i][j] = value;
 		}
 
+	public void setEulers(double alpha, double beta, double gamma)
+		{
+		this.alpha = alpha;
+		this.beta = beta;
+		this.gamma = gamma;
+		}
+
 	/*------------------------------*\
 	|*				Get				*|
 	\*------------------------------*/
@@ -223,9 +234,25 @@ public class Matrix implements RotationItem
 		return matrix[i][j];
 		}
 
+	public double getAlpha()
+		{
+		return alpha;
+		}
+
+	public double getBeta()
+		{
+		return beta;
+		}
+
+	public double getGamma()
+		{
+		return gamma;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+
 	private Matrix subMatrix(int row, int column)
 		{
 
@@ -265,4 +292,8 @@ public class Matrix implements RotationItem
 	private double[][] matrix;
 	private int rows;
 	private int columns;
+
+	private double alpha;
+	private double beta;
+	private double gamma;
 	}
