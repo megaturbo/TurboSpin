@@ -1,22 +1,23 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels;
 
-import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.media.j3d.Shape3D;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -90,36 +91,76 @@ public class JPanelHandling extends JPanel
 		initComponents();
 
 		// Layout
-		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-		setLayout(boxLayout);
+		setLayout(new GridBagLayout());
+		
+		// Titles labels
+		JLabel addObject = new JLabel("Ajouter un objet");
+		JLabel addRotation = new JLabel("Créer une rotation");
+		Font titleFont = new Font(addObject.getFont().getFontName(), Font.PLAIN, 20);
+		addObject.setFont(titleFont);
+		addRotation.setFont(titleFont);
+		
+		Insets defaultInsets = new Insets(0, 0, 0, 0);
+		Insets topbotInsets = new Insets(10, 0, 10, 0);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = topbotInsets;
+		c.gridwidth = 6;
+		add(addObject, c);
 
-		// JComponent : add
-		add(buttonAddVector);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonAddPoint);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		/*button for future use -> implementing lines
-		 * add(buttonAddLine);
-		add(Box.createRigidArea(new Dimension(0, 5)));*/
-		add(buttonAddVertex);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(listShapesPane);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonRemoveObjectFromList);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.insets = defaultInsets;
+		c.gridwidth = 2;
+		add(buttonAddVector, c);
+		
+		c.gridx = 2;
+		c.gridy = 1;
+		add(buttonAddPoint, c);
+		
+		c.gridx = 4;
+		c.gridy = 1;
+		add(buttonAddVertex, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 6;
+		c.insets = topbotInsets;	// Top and Bottom padding
+		add(listShapesPane, c);
 
-		add(Box.createVerticalStrut(30));
+		c.gridy = 3;
+		c.insets = defaultInsets;
+		add(buttonRemoveObjectFromList, c);
+		
+		c.gridy = 4;
+		c.insets = topbotInsets;	// Reset padding
+		add(new JSeparator(), c);
+		
+		c.gridy = 5;
+		add(addRotation, c);
+		
+		c.gridy = 6;
+		c.gridwidth = 3;
+		c.insets = defaultInsets;
+		add(buttonAddQuaternion, c);
+		
+		c.gridx = 3;
+		add(buttonAddMatrix, c);
 
-		add(radioButtonMatrix);
-		add(Box.createVerticalStrut(-5));
-		add(radioButtonQuaternion);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonAddRotation);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonRotate);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(listRotationsPane);
-		add(Box.createRigidArea(new Dimension(0, 5)));
-		add(buttonRemoveRotationFromList);
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 6;
+		add(listRotationsPane, c);
+		
+		c.gridy = 8;
+		add(buttonRotate, c);
+		
+		c.gridy = 9;
+		add(buttonRemoveRotationFromList, c);
 		}
 
 	private void control()
@@ -129,29 +170,23 @@ public class JPanelHandling extends JPanel
 
 	private void initComponents()
 		{
-		buttonAddVector = new JButton("Add vector");
+		buttonAddVector = new JButton("Vecteur");
 		/*button for future use -> implementing lines
 		 * buttonAddLine = new JButton("Add line");*/
-		buttonAddVertex = new JButton("Add vertex");
-		buttonAddPoint = new JButton("Add points");
-		buttonRemoveObjectFromList = new JButton("Remove selected object");
+		buttonAddVertex = new JButton("Segment");
+		buttonAddPoint = new JButton("Point");
+		buttonRemoveObjectFromList = new JButton("Supprimer élément sélectionné");
 		shapesModel = new DefaultListModel<Shape3D>();
 		listShapes = new JList<Shape3D>(shapesModel);
 		listShapesPane = new JScrollPane(listShapes);
 
-		buttonAddRotation = new JButton("Add rotation item");
-		buttonRotate = new JButton("Rotate selected item");
-		buttonRemoveRotationFromList = new JButton("Remove selected item");
+		buttonAddMatrix = new JButton("Matrice");
+		buttonAddQuaternion = new JButton("Quaternion");
+		buttonRotate = new JButton("Effectuer la rotation sur l'objet sélectionné");
+		buttonRemoveRotationFromList = new JButton("Supprimer élément sélectionné");
 		rotationModel = new DefaultListModel<RotationItem>();
 		listRotation = new JList<RotationItem>(rotationModel);
 		listRotationsPane = new JScrollPane(listRotation);
-
-		buttonGroupRadio = new ButtonGroup();
-		radioButtonMatrix = new JRadioButton("Rotate using matrices");
-		radioButtonMatrix.setSelected(true);
-		radioButtonQuaternion = new JRadioButton("Rotate using quaternions");
-		buttonGroupRadio.add(radioButtonMatrix);
-		buttonGroupRadio.add(radioButtonQuaternion);
 		}
 
 	private void initListeners()
@@ -220,15 +255,8 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent a)
 					{
-					try
-						{
-						addShape3D(JPanelInputsFactory.showPoint3DInput());
-						canvas.setSelected(shapes.get(shapes.size() - 1));
-						}
-					catch (UserIsAnIdiotException e)
-						{
-						// NOP
-						}
+					addShape3D(new Vector3D(3, 2, 1));
+					addRotation(QuaternionTools.createRotationQuaternion(1, new Vector3D(1, 0, 0)));
 					}
 			});
 
@@ -308,38 +336,33 @@ public class JPanelHandling extends JPanel
 					}
 			});
 
-		buttonAddRotation.addActionListener(new ActionListener()
-			{
-
+		buttonAddMatrix.addActionListener(new ActionListener()
+			{				
 				@Override
-				public void actionPerformed(ActionEvent a)
-					{
-					if (radioButtonQuaternion.isSelected())
-						{
-						try
-							{
-							addRotation(JPanelInputsFactory.showQuaternionInput());
-							listRotation.setSelectedValue(rotationModel.firstElement(), true);
-							canvas.setSelected(rotationModel.firstElement());
-							}
-						catch (UserIsAnIdiotException e)
-							{
-							// NOP
-							}
-						}
-					else if (radioButtonMatrix.isSelected())
-						{
-						try
-							{
-							addRotation(JPanelInputsFactory.showMatrixInput());
-							}
-						catch (UserIsAnIdiotException e)
-							{
-							// NOP
-							}
-						}
+				public void actionPerformed(ActionEvent e) {
+					try {
+						addRotation(JPanelInputsFactory.showMatrixInput());
+						listRotation.setSelectedValue(rotationModel.firstElement(), true);
+						canvas.setSelected(rotationModel.firstElement());
+					} catch (UserIsAnIdiotException e1) {
+						e1.printStackTrace();
 					}
+				}
 			});
+		
+		buttonAddQuaternion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					addRotation(JPanelInputsFactory.showQuaternionInput());
+					listRotation.setSelectedValue(rotationModel.firstElement(), true);
+					canvas.setSelected(rotationModel.firstElement());
+				} catch (UserIsAnIdiotException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		buttonRotate.addActionListener(new ActionListener()
 			{
@@ -433,14 +456,12 @@ public class JPanelHandling extends JPanel
 	private JButton buttonRemoveObjectFromList;
 
 	// rotations
-	private JButton buttonAddRotation;
+	private JButton buttonAddMatrix;
+	private JButton buttonAddQuaternion;
 	private JButton buttonRemoveRotationFromList;
 	private JList<RotationItem> listRotation;
 	private DefaultListModel<RotationItem> rotationModel;
 	private JScrollPane listRotationsPane;
 
 	private JButton buttonRotate;
-	private ButtonGroup buttonGroupRadio;
-	private JRadioButton radioButtonQuaternion;
-	private JRadioButton radioButtonMatrix;
 	}

@@ -1,10 +1,16 @@
 
 package ch.hearc.turbospin.prototype1.main.jframe.jpanels.inputs;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.media.j3d.Shape3D;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import ch.hearc.turbospin.prototype1.exceptions.UserIsAnIdiotException;
@@ -209,15 +215,64 @@ public class JPanelInputsFactory
 		JTextField aField = new JTextField(5);
 		JTextField bField = new JTextField(5);
 		JTextField cField = new JTextField(5);
+		aField.setText("0");
+		aField.requestFocusInWindow();
+		bField.setText("0");
+		cField.setText("0");
 
-		panel.add(new JLabel("Veuillez insÃ©rer 3 angles pour crï¿½er une matrice."));
+		ButtonGroup buttonGroupRadio = new ButtonGroup();
+		JRadioButton radioButtonDegrees = new JRadioButton("Degrés");
+		radioButtonDegrees.setSelected(true);
+		JRadioButton radioButtonRadians = new JRadioButton("Radians");
+		buttonGroupRadio.add(radioButtonDegrees);
+		buttonGroupRadio.add(radioButtonRadians);
 
-		panel.add(new JLabel(Hexacodes.ALPHA_LOWER));
-		panel.add(aField);
-		panel.add(new JLabel(Hexacodes.BETA_LOWER));
-		panel.add(bField);
-		panel.add(new JLabel(Hexacodes.GAMMA_LOWER));
-		panel.add(cField);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		GridBagConstraints co = new GridBagConstraints();
+		panel.setLayout(gridBagLayout);
+
+		co.fill = GridBagConstraints.HORIZONTAL;
+		co.gridx = 0;
+		co.gridy = 0;
+		co.gridwidth = 6;
+		co.insets = new Insets(0, 0, 20, 0);
+		panel.add(new JLabel("Veuillez insérer 3 angles pour créer une matrice."), co);
+
+		co.gridx = 0;
+		co.gridy = 1;
+		co.insets = new Insets(0, 0, 0, 50);
+		co.gridwidth = 1;
+		panel.add(radioButtonDegrees, co);
+
+		co.gridx = 0;
+		co.gridy = 2;
+		panel.add(radioButtonRadians, co);
+		co.insets = new Insets(0, 0, 0, 0);
+
+		co.gridx = 4;
+		co.gridy = 1;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel(Hexacodes.ALPHA_LOWER + ":"),co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(aField, co);
+
+
+		co.gridx = 4;
+		co.gridy = 2;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel(Hexacodes.BETA_LOWER+ ":"),co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(bField, co);
+
+		co.gridx = 4;
+		co.gridy = 3;
+		co.insets = new Insets(0, 0, 0, 20);
+		panel.add(new JLabel(Hexacodes.GAMMA_LOWER+ ":"), co);
+		co.insets = new Insets(0, 0, 0, 30);
+		co.gridx = 5;
+		panel.add(cField, co);
 
 		int result = JOptionPane.showConfirmDialog(null, panel, "Entrez les angles", JOptionPane.OK_CANCEL_OPTION);
 		aField.requestFocus();
@@ -237,6 +292,12 @@ public class JPanelInputsFactory
 			catch (NumberFormatException e)
 				{
 				throw new UserIsAnIdiotException("Not enough information");
+				}
+			if(radioButtonDegrees.isSelected())
+				{
+				a = a * Math.PI/180;
+				b = b * Math.PI/180;
+				c = c * Math.PI/180;
 				}
 			return MatrixTools.createRotationMatrix(a, b, c);
 			}
