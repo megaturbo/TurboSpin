@@ -71,8 +71,6 @@ public class TurboCanvas extends Canvas3D
 			paraBG.addChild(para[i]);
 			}
 		quaternionAxis = new Vertex3D(new Point3D(), new Point3D(), TurboColors.LIGHTGRAY, 2);
-		addShape(trail);
-		addShape(trailLines);
 		addShape(quaternionAxis);
 
 		// Universe
@@ -82,6 +80,7 @@ public class TurboCanvas extends Canvas3D
 		// Groups capabilities
 		shapesBG.setCapability(BranchGroup.ALLOW_DETACH);
 		paraBG.setCapability(BranchGroup.ALLOW_DETACH);
+		trailBG.setCapability(BranchGroup.ALLOW_DETACH);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_EXTEND);
 		mainTG.setCapability(Group.ALLOW_CHILDREN_WRITE);
 		mainTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -275,7 +274,7 @@ public class TurboCanvas extends Canvas3D
 		Color3f[] colors = new Color3f[(int)theta + 2];
 		Arrays.fill(colors, TurboColors.PINK);
 		lsa.setColors(0, colors);
-		trailLines = new Shape3D(lsa);
+		Shape3D trailLines = new Shape3D(lsa);
 
 		// polygons
 		Point3d[] points = new Point3d[2 * pointsInit.length];
@@ -303,21 +302,20 @@ public class TurboCanvas extends Canvas3D
 		TransparencyAttributes ta = new TransparencyAttributes(TransparencyAttributes.NICEST, 0.5f);
 		ap.setTransparencyAttributes(ta);
 
-		trail = new Shape3D(polygons, ap);
-		addShape(trail);
-		addShape(trailLines);
+		Shape3D trail = new Shape3D(polygons, ap);
+		paraBG.detach();
+		paraBG.addChild(trail);
+		paraBG.addChild(trailLines);
+		mainTG.addChild(paraBG);
 		refresh();
 		}
 
 	public void removeTrail()
 		{
-		shapesBG.detach();
 		quaternionAxis.set(new Point3D(), new Point3D());
-		shapesBG.removeChild(trail);
-		shapesBG.removeChild(trailLines);
-		trail = null;
-		trailLines = null;
-		mainTG.addChild(shapesBG);
+		paraBG.detach();
+		paraBG.removeAllChildren();
+		mainTG.addChild(paraBG);
 		refresh();
 		}
 
@@ -410,7 +408,7 @@ public class TurboCanvas extends Canvas3D
 						{
 						try
 							{
-							Thread.sleep(1000 / 60);
+							Thread.sleep(1000 / 27);
 							}
 						catch (InterruptedException e)
 							{
@@ -489,12 +487,11 @@ public class TurboCanvas extends Canvas3D
 	private BranchGroup mainBG = new BranchGroup();
 	private BranchGroup shapesBG = new BranchGroup();
 	private BranchGroup paraBG = new BranchGroup();
+	private BranchGroup trailBG = new BranchGroup();
 	private TransformGroup mainTG = new TransformGroup();
 	private SimpleUniverse universe;
 	private Shape3D selectedShape;
 	private RotationItem selectedRotation;
-	private Shape3D trail;
-	private Shape3D trailLines;
 	private Vertex3D quaternionAxis;
 	private Vertex3D[] para;
 	private boolean isRunning = false;

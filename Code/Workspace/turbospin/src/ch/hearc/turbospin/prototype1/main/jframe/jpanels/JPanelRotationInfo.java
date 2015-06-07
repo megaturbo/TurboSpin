@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ch.hearc.turbospin.prototype1.main.jframe.JFrameMain;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelMatrix;
 import ch.hearc.turbospin.prototype1.main.jframe.jpanels.rotationinfo.JPanelQuaternion;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
@@ -21,8 +22,9 @@ public class JPanelRotationInfo extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelRotationInfo()
+	public JPanelRotationInfo(JFrameMain parent)
 		{
+		this.parent = parent;
 		//Instantiate visualizable quaternion/matrix
 		matrix = new Matrix(3);
 		quaternion = new Quaternion();
@@ -35,6 +37,11 @@ public class JPanelRotationInfo extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	public void refreshCanvas()
+		{
+		parent.refreshCanvas();
+		}
+
 	public void refresh(Quaternion quaternion)
 		{
 		panelQuaternion.refresh(quaternion);
@@ -77,7 +84,7 @@ public class JPanelRotationInfo extends JPanel
 
 	private void geometry()
 		{
-		panelQuaternion = new JPanelQuaternion(quaternion);
+		panelQuaternion = new JPanelQuaternion(this, quaternion);
 		panelMatrix = new JPanelMatrix(matrix, new Matrix(3), new Matrix(3), new Matrix(3));
 
 		// Layout : Specification
@@ -127,6 +134,7 @@ public class JPanelRotationInfo extends JPanel
 	public JPanelQuaternion panelQuaternion;
 
 	//inputs
+	private JFrameMain parent;
 	private Quaternion quaternion;
 	private Matrix matrix;
 

@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
 
 public class JPanelQuaternion extends JPanel
@@ -20,8 +21,9 @@ public class JPanelQuaternion extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelQuaternion(Quaternion quaternion)
+	public JPanelQuaternion(JPanelRotationInfo parent, Quaternion quaternion)
 		{
+		this.parent = parent;
 		geometry();
 		control();
 		appearance();
@@ -33,8 +35,14 @@ public class JPanelQuaternion extends JPanel
 	public void refresh(Quaternion quaternion)
 		{
 		this.quaternion = quaternion;
+		this.panelSettingsQuaternion.updateQuaternion(quaternion);
 		repaint();
 		}
+
+	public void refreshCanvas() {
+		parent.refreshCanvas();
+		repaint();
+	}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -69,7 +77,8 @@ public class JPanelQuaternion extends JPanel
 		}
 	private void geometry()
 		{
-		//rien
+		panelSettingsQuaternion = new JPanelSettingsQuaternion(this, quaternion);
+		add(panelSettingsQuaternion);
 		}
 
 	private void control()
@@ -90,6 +99,8 @@ public class JPanelQuaternion extends JPanel
 
 	// Tools
 	// Inputs
+	private JPanelRotationInfo parent;
 	private Quaternion quaternion;
+	private JPanelSettingsQuaternion panelSettingsQuaternion;
 
 	}
