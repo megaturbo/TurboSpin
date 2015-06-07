@@ -60,6 +60,7 @@ public class JPanelHandling extends JPanel
 		{
 		shapes.add(shape);
 		canvas.addShape(shape);
+		canvas.setSelected(shape);
 		shapesModel.addElement(shape);
 		panelView.repaint();
 		}
@@ -92,20 +93,20 @@ public class JPanelHandling extends JPanel
 
 		// Layout
 		setLayout(new GridBagLayout());
-		
+
 		// Titles labels
 		JLabel addObject = new JLabel("Ajouter un objet");
 		JLabel addRotation = new JLabel("Créer une rotation");
 		Font titleFont = new Font(addObject.getFont().getFontName(), Font.PLAIN, 20);
 		addObject.setFont(titleFont);
 		addRotation.setFont(titleFont);
-		
+
 		Insets defaultInsets = new Insets(0, 0, 0, 0);
 		Insets topbotInsets = new Insets(10, 0, 10, 0);
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		c.insets = topbotInsets;
@@ -117,15 +118,15 @@ public class JPanelHandling extends JPanel
 		c.insets = defaultInsets;
 		c.gridwidth = 2;
 		add(buttonAddVector, c);
-		
+
 		c.gridx = 2;
 		c.gridy = 1;
 		add(buttonAddPoint, c);
-		
+
 		c.gridx = 4;
 		c.gridy = 1;
 		add(buttonAddVertex, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 6;
@@ -135,19 +136,19 @@ public class JPanelHandling extends JPanel
 		c.gridy = 3;
 		c.insets = defaultInsets;
 		add(buttonRemoveObjectFromList, c);
-		
+
 		c.gridy = 4;
 		c.insets = topbotInsets;	// Reset padding
 		add(new JSeparator(), c);
-		
+
 		c.gridy = 5;
 		add(addRotation, c);
-		
+
 		c.gridy = 6;
 		c.gridwidth = 3;
 		c.insets = defaultInsets;
 		add(buttonAddQuaternion, c);
-		
+
 		c.gridx = 3;
 		add(buttonAddMatrix, c);
 
@@ -155,10 +156,10 @@ public class JPanelHandling extends JPanel
 		c.gridy = 7;
 		c.gridwidth = 6;
 		add(listRotationsPane, c);
-		
+
 		c.gridy = 8;
 		add(buttonRotate, c);
-		
+
 		c.gridy = 9;
 		add(buttonRemoveRotationFromList, c);
 		}
@@ -201,7 +202,6 @@ public class JPanelHandling extends JPanel
 						{
 						addShape3D(JPanelInputsFactory.showVector3DInput());
 						listShapes.setSelectedValue(shapes.get(shapes.size() - 1), true);
-						canvas.setSelected(shapes.get(shapes.size() - 1));
 						}
 					catch (UserIsAnIdiotException e)
 						{
@@ -239,7 +239,6 @@ public class JPanelHandling extends JPanel
 					try
 						{
 						addShape3D(JPanelInputsFactory.showVertexInput());
-						canvas.setSelected(shapes.get(shapes.size() - 1));
 						}
 					catch (UserIsAnIdiotException e)
 						{
@@ -337,7 +336,7 @@ public class JPanelHandling extends JPanel
 			});
 
 		buttonAddMatrix.addActionListener(new ActionListener()
-			{				
+			{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -349,9 +348,9 @@ public class JPanelHandling extends JPanel
 					}
 				}
 			});
-		
+
 		buttonAddQuaternion.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -397,8 +396,9 @@ public class JPanelHandling extends JPanel
 		{
 		if (shape instanceof Vector3D)
 			{
-			Vector3D vector = (Vector3D)shape;
-			vector.set(QuaternionTools.rotation(vector, rotation));
+//			Vector3D vector = (Vector3D)shape;
+//			vector.set(QuaternionTools.rotation(vector, rotation));
+			canvas.rotate();
 			}
 		else if (shape instanceof Point3D)
 			{
