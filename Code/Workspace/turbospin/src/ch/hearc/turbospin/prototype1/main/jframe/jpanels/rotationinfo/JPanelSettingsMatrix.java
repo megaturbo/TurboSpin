@@ -11,18 +11,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
-import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
-import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
+import ch.hearc.turbospin.prototype1.mathtools.Matrix;
+import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
 
-public class JPanelSettingsQuaternion extends JPanel
+public class JPanelSettingsMatrix extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelSettingsQuaternion(JPanelQuaternion parent)
+	public JPanelSettingsMatrix(JPanelMatrix parent)
 		{
 		this.parent = parent;
 
@@ -34,16 +33,26 @@ public class JPanelSettingsQuaternion extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-	public void updateQuaternion(Quaternion quaternion)
+	public void updateMatrix(Matrix matrix, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
 		{
-		this.quaternion = quaternion;
-		Vector3D vector = QuaternionTools.getAxis(quaternion);
-		double theta = QuaternionTools.getAngle(quaternion);
+		this.matrix = matrix;
+		this.matrixRz = matrixRz;
+		this.matrixRy = matrixRy;
+		this.matrixRx = matrixRx;
 
-		updateSlider(sliderTheta, theta * 1000.0);
-		updateSlider(sliderX, vector.getA() * 1000.0);
-		updateSlider(sliderY, vector.getB() * 1000.0);
-		updateSlider(sliderZ, vector.getC() * 1000.0);
+
+		double a = MatrixTools.getAlpha(matrixRz);
+		double b = MatrixTools.getBeta(matrixRy);
+		double c = MatrixTools.getGamma(matrixRx);
+
+		sliderX.setEnabled(true);
+		sliderY.setEnabled(true);
+		sliderZ.setEnabled(true);
+
+		updateSlider(sliderZ, a * 1000.0);
+		updateSlider(sliderY, b * 1000.0);
+		updateSlider(sliderX, c * 1000.0);
+
 		}
 
 	private void updateSlider(JSlider slider, double value) {
@@ -54,14 +63,18 @@ public class JPanelSettingsQuaternion extends JPanel
 		slider.setValue(intVal);
 	}
 
-	private void sliderChangedRecalculateTheQuaternion()
+	private void sliderChangedRecalculateTheMatrix()
 		{
-		double theta = sliderTheta.getValue() / 1000.0;
-		double x = sliderX.getValue() / 1000.0;
-		double y = sliderY.getValue() / 1000.0;
-		double z = sliderZ.getValue() / 1000.0;
+		double a = sliderZ.getValue() / 1000.0;
+		double b = sliderY.getValue() / 1000.0;
+		double c = sliderX.getValue() / 1000.0;
 
-		quaternion.set(QuaternionTools.createRotationQuaternion(theta, new Vector3D(x, y, z)));
+		matrixRx.set(MatrixTools.createRotationRxMatrix(c));
+		matrixRy.set(MatrixTools.createRotationRyMatrix(b));
+		matrixRz.set(MatrixTools.createRotationRzMatrix(a));
+		matrix.set(MatrixTools.createRotationMatrix(a, b, c));
+
+		System.out.println("rx gamma: " + MatrixTools.getGamma(matrix));
 
 		parent.refreshCanvas();
 		}
@@ -80,23 +93,24 @@ public class JPanelSettingsQuaternion extends JPanel
 
 	private void updateLabels()
 		{
-		labelTheta.setText(Hexacodes.THETA_LOWER + " = " + sliderTheta.getValue() / 1000.0);
-		labelX.setText("X = " + sliderX.getValue() / 1000.0);
-		labelY.setText("Y = " + sliderY.getValue() / 1000.0);
-		labelZ.setText("Z = " + sliderZ.getValue() / 1000.0);
+		labelAlpha.setText(Hexacodes.ALPHA_LOWER + " = " + sliderZ.getValue() / 1000.0);
+		labelBeta.setText(Hexacodes.BETA_LOWER + " = " + sliderY.getValue() / 1000.0);
+		labelGamma.setText(Hexacodes.GAMMA_LOWER + " = " + sliderX.getValue() / 1000.0);
 		}
 
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		labelTheta = new JLabel();
-		labelX = new JLabel();
-		labelY = new JLabel();
-		labelZ = new JLabel();
-		sliderTheta = new JSlider();
-		sliderX = new JSlider();
-		sliderY = new JSlider();
+		labelAlpha = new JLabel();
+		labelBeta = new JLabel();
+		labelGamma = new JLabel();
 		sliderZ = new JSlider();
+		sliderY = new JSlider();
+		sliderX = new JSlider();
+		sliderX.setEnabled(false);
+		sliderY.setEnabled(false);
+		sliderZ.setEnabled(false);
+		updateLabels();
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -104,29 +118,22 @@ public class JPanelSettingsQuaternion extends JPanel
 
 		c.gridx = 0;
 		c.gridy = 0;
-		add(labelTheta, c);
+		add(labelAlpha, c);
 
 		c.gridy = 1;
-		add(sliderTheta, c);
-
-		c.gridy = 2;
-		add(labelX, c);
-
-		c.gridy = 3;
-		add(sliderX, c);
-
-		c.gridy = 4;
-		add(labelY, c);
-
-		c.gridy = 5;
-		add(sliderY, c);
-
-		c.gridy = 6;
-		add(labelZ, c);
-
-		c.gridy = 7;
 		add(sliderZ, c);
 
+		c.gridy = 2;
+		add(labelBeta, c);
+
+		c.gridy = 3;
+		add(sliderY, c);
+
+		c.gridy = 4;
+		add(labelGamma, c);
+
+		c.gridy = 5;
+		add(sliderX, c);
 		}
 
 	private void control()
@@ -138,14 +145,13 @@ public class JPanelSettingsQuaternion extends JPanel
 				public void stateChanged(ChangeEvent arg0)
 					{
 					updateLabels();
-					sliderChangedRecalculateTheQuaternion();
+					sliderChangedRecalculateTheMatrix();
 					}
 			};
 
-		sliderTheta.addChangeListener(changeListener);
-		sliderX.addChangeListener(changeListener);
-		sliderY.addChangeListener(changeListener);
 		sliderZ.addChangeListener(changeListener);
+		sliderY.addChangeListener(changeListener);
+		sliderX.addChangeListener(changeListener);
 		}
 
 	private void appearance()
@@ -158,17 +164,18 @@ public class JPanelSettingsQuaternion extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Inputs
-	private JPanelQuaternion parent;
-	private Quaternion quaternion;
+	private JPanelMatrix parent;
+	private Matrix matrixRz;
+	private Matrix matrixRy;
+	private Matrix matrixRx;
+	private Matrix matrix;
 
 	// Tools
-	private JLabel labelTheta;
-	private JLabel labelX;
-	private JLabel labelY;
-	private JLabel labelZ;
-	private JSlider sliderTheta;
-	private JSlider sliderX;
-	private JSlider sliderY;
+	private JLabel labelAlpha;
+	private JLabel labelBeta;
+	private JLabel labelGamma;
 	private JSlider sliderZ;
+	private JSlider sliderY;
+	private JSlider sliderX;
 
 	}

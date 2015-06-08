@@ -28,10 +28,8 @@ import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelView;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
-import ch.hearc.turbospin.prototype1.mathtools.Vector3D;
 import ch.hearc.turbospin.prototype1.mathtools.Vertex3D;
 import ch.hearc.turbospin.prototype1.quaternion.Quaternion;
-import ch.hearc.turbospin.prototype1.quaternion.QuaternionTools;
 import ch.hearc.turbospin.prototype1.tridimensional.TurboCanvas;
 
 public class JPanelHandling extends JPanel
@@ -317,8 +315,14 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent a)
 					{
-					addShape3D(new Vector3D(3, 2, 1));
-					addRotation(QuaternionTools.createRotationQuaternion(1, new Vector3D(1, 0, 0)));
+					try
+						{
+						addShape3D(JPanelInputsFactory.showPoint3DInput());
+						}
+					catch (UserIsAnIdiotException e)
+						{
+						e.printStackTrace();
+						}
 					}
 			});
 
