@@ -372,6 +372,7 @@ public class JPanelHandling extends JPanel
 							{
 							panelInfo.displayMatrix();
 							panelInfo.refresh((Matrix)listRotation.getSelectedValue());
+							canvas.setSelected(listRotation.getSelectedValue());
 							}
 						else if (listRotation.getSelectedValue() instanceof Quaternion)
 							{

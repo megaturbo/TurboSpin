@@ -47,7 +47,6 @@ public class TurboCanvas extends Canvas3D
 	public TurboCanvas(GraphicsConfiguration arg0)
 		{
 		super(arg0);
-
 		//parallepipedusorz init
 		para = new Vertex3D[12];
 		// colored vertices
@@ -191,6 +190,7 @@ public class TurboCanvas extends Canvas3D
 					}
 				}
 			}
+		refresh();
 		}
 
 	public void addShape(Shape3D shape)
@@ -198,6 +198,7 @@ public class TurboCanvas extends Canvas3D
 		shapesBG.detach();
 		shapesBG.addChild(shape);
 		mainTG.addChild(shapesBG);
+		refresh();
 		}
 
 	public void removeShape(Shape3D shape)
@@ -308,7 +309,6 @@ public class TurboCanvas extends Canvas3D
 		trailBG.addChild(trail);
 		trailBG.addChild(trailLines);
 		mainTG.addChild(trailBG);
-		refresh();
 		}
 
 	public void removeTrail()
@@ -357,7 +357,7 @@ public class TurboCanvas extends Canvas3D
 								e.printStackTrace();
 								}
 							createTrail();
-							buttonRotate.setEnabled(true);
+//							buttonRotate.setEnabled(true);
 							isRunning = false;
 							refresh();
 							}
@@ -384,7 +384,7 @@ public class TurboCanvas extends Canvas3D
 								e.printStackTrace();
 								}
 							createTrail();
-							buttonRotate.setEnabled(true);
+//							buttonRotate.setEnabled(true);
 							isRunning = false;
 							refresh();
 							}
@@ -396,7 +396,7 @@ public class TurboCanvas extends Canvas3D
 
 	private Thread rotate(JButton buttonRotate, Quaternion q)
 		{
-		buttonRotate.setEnabled(false);
+//		buttonRotate.setEnabled(false);
 		return new Thread(new Runnable()
 			{
 
