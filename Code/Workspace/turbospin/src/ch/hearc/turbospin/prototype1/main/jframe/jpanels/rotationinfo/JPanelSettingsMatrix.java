@@ -74,8 +74,6 @@ public class JPanelSettingsMatrix extends JPanel
 		matrixRz.set(MatrixTools.createRotationRzMatrix(a));
 		matrix.set(MatrixTools.createRotationMatrix(a, b, c));
 
-		System.out.println("rx gamma: " + MatrixTools.getGamma(matrix));
-
 		parent.refreshCanvas();
 		}
 

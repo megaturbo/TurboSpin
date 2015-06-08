@@ -73,11 +73,11 @@ public class JPanelMatrix extends JPanel
 		}
 
 	public void refreshCanvas() {
-	System.out.println("before: " + alpha);
+
 		this.alpha = MatrixTools.getAlpha(this.matrixRotation);
 		this.beta = MatrixTools.getBeta(this.matrixRotation);
 		this.gamma = MatrixTools.getGamma(this.matrixRotation);
-		System.out.println("after: " + alpha);
+
 
 		parent.refreshCanvas();
 		repaint();
