@@ -370,12 +370,12 @@ public class TurboCanvas extends Canvas3D
 						else if (selectedRotation instanceof Matrix)
 							{
 							Matrix matrix = (Matrix)selectedRotation;
-							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 0.1));
+							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(1.0, 0.0, 0.0));
 							Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
-							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(0.1, 0.0, 0.0));
-							Thread thread1 = rotate(q3);
+							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(0.0, 0.0, 1.0));
+							Thread thread1 = rotate(q1);
 							Thread thread2 = rotate(q2);
-							Thread thread3 = rotate(q1);
+							Thread thread3 = rotate(q3);
 							try
 								{
 								thread1.start();
