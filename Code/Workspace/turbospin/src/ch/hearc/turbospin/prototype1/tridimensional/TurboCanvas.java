@@ -29,6 +29,7 @@ import com.sun.j3d.utils.behaviors.mouse.MouseZoom;
 import com.sun.j3d.utils.geometry.GeometryInfo;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.views.JPanelMain2D;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.mathtools.Point3D;
 import ch.hearc.turbospin.prototype1.mathtools.RotationItem;
@@ -145,6 +146,11 @@ public class TurboCanvas extends Canvas3D
 			}
 		}
 
+	public void setPanelMain2D(JPanelMain2D panel)
+		{
+		this.panel = panel;
+		}
+
 	public void createTrail()
 		{
 		removeTrail();
@@ -227,6 +233,10 @@ public class TurboCanvas extends Canvas3D
 		{
 		addParallelepiped();
 		repaint();
+//		if(panel != null)
+//			{
+//				panel.repaint();
+//				}
 		}
 
 	public void setSelected(Shape3D shape)
@@ -420,6 +430,7 @@ public class TurboCanvas extends Canvas3D
 							// NOP
 							}
 						slowRotate();
+//						panel.repaint();
 						refresh();
 						addParallelepiped();
 						}
@@ -500,4 +511,5 @@ public class TurboCanvas extends Canvas3D
 	private Vertex3D quaternionAxis;
 	private Vertex3D[] para;
 	private boolean isRunning = false;
+	private JPanelMain2D panel;
 	}
