@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ch.hearc.turbospin.prototype1.main.jframe.jpanels.JPanelRotationInfo;
 import ch.hearc.turbospin.prototype1.main.jframe.utils.Hexacodes;
 import ch.hearc.turbospin.prototype1.mathtools.Matrix;
 import ch.hearc.turbospin.prototype1.matrix.MatrixTools;
@@ -25,8 +26,10 @@ public class JPanelMatrix extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelMatrix(Matrix matrix, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
+	public JPanelMatrix(JPanelRotationInfo parent, Matrix matrix, Matrix matrixRz, Matrix matrixRy, Matrix matrixRx)
 		{
+		this.parent = parent;
+
 		this.matrixRotation = matrix;
 		this.matrixRx = matrixRx;
 		this.matrixRy = matrixRy;
@@ -48,6 +51,9 @@ public class JPanelMatrix extends JPanel
 		this.alpha = Math.acos(matrixRz.getValue(0, 0));
 		this.beta = Math.acos(matrixRy.getValue(0, 0));
 		this.gamma = Math.acos(matrixRx.getValue(1, 1));
+
+		panelSettings.updateMatrix(matrixRotation, matrixRz, matrixRy, matrixRx);
+
 		repaint();
 		}
 
@@ -60,8 +66,23 @@ public class JPanelMatrix extends JPanel
 		this.matrixRx = MatrixTools.createRotationRxMatrix(gamma);
 		this.matrixRy = MatrixTools.createRotationRyMatrix(beta);
 		this.matrixRz = MatrixTools.createRotationRzMatrix(alpha);
+
+		panelSettings.updateMatrix(matrixRotation, matrixRz, matrixRy, matrixRx);
+
 		repaint();
 		}
+
+	public void refreshCanvas() {
+	System.out.println("before: " + alpha);
+		this.alpha = MatrixTools.getAlpha(this.matrixRotation);
+		this.beta = MatrixTools.getBeta(this.matrixRotation);
+		this.gamma = MatrixTools.getGamma(this.matrixRotation);
+		System.out.println("after: " + alpha);
+
+		parent.refreshCanvas();
+		repaint();
+	}
+
 
 	@Override
 	protected void paintComponent(Graphics g)
@@ -148,10 +169,11 @@ public class JPanelMatrix extends JPanel
 	private void geometry()
 		{
 			// JComponent : Instanciation
+		panelSettings = new JPanelSettingsMatrix(this);
 
 			// Layout : Specification
 			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
+			FlowLayout flowlayout = new FlowLayout(FlowLayout.RIGHT);
 			setLayout(flowlayout);
 
 			// flowlayout.setHgap(20);
@@ -159,7 +181,7 @@ public class JPanelMatrix extends JPanel
 			}
 
 		// JComponent : add
-
+			add(panelSettings);
 		}
 
 	private void control()
@@ -178,8 +200,10 @@ public class JPanelMatrix extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
+	private JPanelSettingsMatrix panelSettings;
 
 	// inputs
+	private JPanelRotationInfo parent;
 	private Matrix matrixRotation;
 	private Matrix matrixRz;
 	private Matrix matrixRy;

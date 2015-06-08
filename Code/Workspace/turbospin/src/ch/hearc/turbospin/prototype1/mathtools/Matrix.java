@@ -61,6 +61,20 @@ public class Matrix implements RotationItem
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+	public void set(Matrix src)
+		{
+		for(int i = 0; i < src.getColumns(); i++)
+			{
+			for(int j = 0; j < src.getRows(); j++)
+				{
+				matrix[j][i] = src.matrix[j][i];
+				}
+			}
+		this.alpha = src.alpha;
+		this.beta = src.beta;
+		this.gamma = src.gamma;
+		}
+
 	public Matrix add(Matrix toAdd)
 		{
 		try

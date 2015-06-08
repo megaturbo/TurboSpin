@@ -85,7 +85,7 @@ public class JPanelRotationInfo extends JPanel
 	private void geometry()
 		{
 		panelQuaternion = new JPanelQuaternion(this, quaternion);
-		panelMatrix = new JPanelMatrix(matrix, new Matrix(3), new Matrix(3), new Matrix(3));
+		panelMatrix = new JPanelMatrix(this, matrix, new Matrix(3), new Matrix(3), new Matrix(3));
 
 		// Layout : Specification
 

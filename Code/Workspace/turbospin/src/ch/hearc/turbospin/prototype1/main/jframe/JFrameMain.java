@@ -74,6 +74,7 @@ public class JFrameMain extends JFrame
 
 	private void appearance()
 		{
+		setTitle("Matrix Lite");
 		setSize(1200, 900);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
