@@ -41,6 +41,7 @@ public class JPanelView extends JPanel
 		// JComponent : Instanciation
 		panel3D = new JPanel3D(canvas);
 		panelMain2D = new JPanelMain2D(shapes);
+		canvas.setPanelMain2D(panelMain2D);
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel3D, panelMain2D);
 
@@ -63,7 +64,8 @@ public class JPanelView extends JPanel
 				@Override
 				public void componentResized(ComponentEvent e)
 					{
-					splitPane.setDividerLocation(1.0 - getHeight() / (3.0 * getWidth()));
+					//					splitPane.setDividerLocation(1.0 - getHeight() / (3.0 * getWidth()));
+					splitPane.setDividerLocation(getWidth());
 					}
 
 			});
