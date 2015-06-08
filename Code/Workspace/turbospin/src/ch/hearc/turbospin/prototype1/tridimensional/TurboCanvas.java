@@ -329,9 +329,9 @@ public class TurboCanvas extends Canvas3D
 
 	private void createTrail(Matrix matrix, Vector3D shape)
 		{
-		Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(1.0, 0.0, 0.0));
+		Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(1.0, 0.0, 0.0));
 		Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
-		Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 1.0));
+		Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(0.0, 0.0, 1.0));
 		Vector3D tmp1 = QuaternionTools.rotation(shape, q1);
 		Vector3D tmp2 = QuaternionTools.rotation(tmp1, q2);
 		createTrail(q1, shape, TurboColors.RED);
@@ -370,12 +370,12 @@ public class TurboCanvas extends Canvas3D
 						else if (selectedRotation instanceof Matrix)
 							{
 							Matrix matrix = (Matrix)selectedRotation;
-							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(1.0, 0.0, 0.0));
+							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 0.1));
 							Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
-							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 1.0));
-							Thread thread1 = rotate(q1);
+							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(0.1, 0.0, 0.0));
+							Thread thread1 = rotate(q3);
 							Thread thread2 = rotate(q2);
-							Thread thread3 = rotate(q3);
+							Thread thread3 = rotate(q1);
 							try
 								{
 								thread1.start();
