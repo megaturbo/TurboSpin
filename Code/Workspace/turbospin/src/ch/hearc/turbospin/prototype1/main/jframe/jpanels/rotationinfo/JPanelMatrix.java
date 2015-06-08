@@ -175,9 +175,6 @@ public class JPanelMatrix extends JPanel
 			{
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.RIGHT);
 			setLayout(flowlayout);
-
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
 			}
 
 		// JComponent : add

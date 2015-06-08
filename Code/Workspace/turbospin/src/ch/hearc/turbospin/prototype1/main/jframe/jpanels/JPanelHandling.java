@@ -321,7 +321,7 @@ public class JPanelHandling extends JPanel
 						}
 					catch (UserIsAnIdiotException e)
 						{
-						e.printStackTrace();
+						// NOP
 						}
 					}
 			});
@@ -353,6 +353,10 @@ public class JPanelHandling extends JPanel
 					if (!listRotation.isSelectionEmpty())
 						{
 						removeRotation(listRotation.getSelectedValue());
+						if (rotationModel.isEmpty())
+							{
+							canvas.unselectRotation();
+							}
 						}
 					}
 			});
@@ -420,7 +424,7 @@ public class JPanelHandling extends JPanel
 						}
 					catch (UserIsAnIdiotException e1)
 						{
-						e1.printStackTrace();
+						// NOP
 						}
 					}
 			});
@@ -450,7 +454,7 @@ public class JPanelHandling extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
-					canvas.rotate(buttonRotate);
+					canvas.rotate();
 					}
 			});
 
@@ -462,31 +466,6 @@ public class JPanelHandling extends JPanel
 		buttonRemoveShapeFromList.setEnabled(false);
 		buttonRemoveRotationFromList.setEnabled(false);
 		}
-
-	//	private void rotateWithQuaternion(Shape3D shape, Quaternion rotation)
-	//		{
-	//		canvas.rotate(buttonRotate);
-	//		canvas.refresh();
-	//		panelView.repaint();
-	//		this.repaint();
-	//		}
-	//
-	//	private void rotateWithMatrix(Shape3D shape, Matrix rotation)
-	//		{
-	//		if (shape instanceof Vector3D)
-	//			{
-	//			Vector3D vector = (Vector3D)shape;
-	//			vector.set(MatrixTools.rotate(vector, rotation));
-	//			}
-	//		else if (shape instanceof Point3D)
-	//			{
-	//			Point3D point = (Point3D)shape;
-	//			point.set(MatrixTools.rotate(point, rotation));
-	//			}
-	//
-	//		canvas.refresh();
-	//		panelView.repaint();
-	//		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

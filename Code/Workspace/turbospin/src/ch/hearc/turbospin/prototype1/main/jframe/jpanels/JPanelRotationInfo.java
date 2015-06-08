@@ -88,12 +88,8 @@ public class JPanelRotationInfo extends JPanel
 		panelMatrix = new JPanelMatrix(this, matrix, new Matrix(3), new Matrix(3), new Matrix(3));
 
 		// Layout : Specification
-
 		BoxLayout boxlayout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		setLayout(boxlayout);
-
-		// flowlayout.setHgap(20);
-		// flowlayout.setVgap(20);
 
 		// JComponent : add
 		add(panelMatrix);

@@ -19,7 +19,6 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
 import javax.media.j3d.TriangleArray;
-import javax.swing.JButton;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -99,6 +98,7 @@ public class TurboCanvas extends Canvas3D
 
 		// Faster rendering
 		//				 mainBG.compile(); //this makes everything crash, for some reason
+		paraBG.compile();
 
 		universe.addBranchGraph(mainBG);
 		}
@@ -243,6 +243,13 @@ public class TurboCanvas extends Canvas3D
 		this.refresh();
 		}
 
+	public void unselectRotation()
+		{
+		this.selectedRotation = null;
+		removeTrail();
+		this.refresh();
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -332,7 +339,7 @@ public class TurboCanvas extends Canvas3D
 		createTrail(q3, tmp2, TurboColors.BLUE);
 		}
 
-	public void rotate(JButton buttonRotate)
+	public void rotate()
 		{
 		if (!isRunning)
 			{
@@ -346,7 +353,7 @@ public class TurboCanvas extends Canvas3D
 
 						if (selectedRotation instanceof Quaternion)
 							{
-							Thread thread = rotate(buttonRotate, (Quaternion)selectedRotation);
+							Thread thread = rotate((Quaternion)selectedRotation);
 							thread.start();
 							try
 								{
@@ -357,7 +364,6 @@ public class TurboCanvas extends Canvas3D
 								e.printStackTrace();
 								}
 							createTrail();
-//							buttonRotate.setEnabled(true);
 							isRunning = false;
 							refresh();
 							}
@@ -367,9 +373,9 @@ public class TurboCanvas extends Canvas3D
 							Quaternion q1 = QuaternionTools.createRotationQuaternion(matrix.getAlpha(), new Vector3D(1.0, 0.0, 0.0));
 							Quaternion q2 = QuaternionTools.createRotationQuaternion(matrix.getBeta(), new Vector3D(0.0, 1.0, 0.0));
 							Quaternion q3 = QuaternionTools.createRotationQuaternion(matrix.getGamma(), new Vector3D(0.0, 0.0, 1.0));
-							Thread thread1 = rotate(buttonRotate, q1);
-							Thread thread2 = rotate(buttonRotate, q2);
-							Thread thread3 = rotate(buttonRotate, q3);
+							Thread thread1 = rotate(q1);
+							Thread thread2 = rotate(q2);
+							Thread thread3 = rotate(q3);
 							try
 								{
 								thread1.start();
@@ -384,7 +390,6 @@ public class TurboCanvas extends Canvas3D
 								e.printStackTrace();
 								}
 							createTrail();
-//							buttonRotate.setEnabled(true);
 							isRunning = false;
 							refresh();
 							}
@@ -394,9 +399,8 @@ public class TurboCanvas extends Canvas3D
 			}
 		}
 
-	private Thread rotate(JButton buttonRotate, Quaternion q)
+	private Thread rotate(Quaternion q)
 		{
-//		buttonRotate.setEnabled(false);
 		return new Thread(new Runnable()
 			{
 

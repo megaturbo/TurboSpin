@@ -34,9 +34,7 @@ public class JPanel3D extends JPanel
 
 	private void geometry()
 		{
-		// JComponent : Instanciation
 		// Layout : Specification
-
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
 
